@@ -10,10 +10,10 @@ namespace ThucTapCoSo
     {
         static protected string[,] adminUserNameAndPassword = new string[10, 2];
         private static List<Customer> customersCollection = new List<Customer>();
-
         static void Main()
         {
-            int countNumOfUsers = 1;
+			Console.OutputEncoding = Encoding.Unicode;
+			int countNumOfUsers = 1;
             RolesAndPermissions r1 = new RolesAndPermissions();
             Flight f1 = new Flight();
             FlightReservation bookingAndReserving = new FlightReservation();
@@ -366,7 +366,8 @@ namespace ThucTapCoSo
 
         static void DisplayMainMenu()
         {
-            Console.WriteLine("\n\n\t\t(a) Press 0 to Exit.");
+			Console.OutputEncoding = Encoding.Unicode;
+			Console.WriteLine("\n\n\t\t(a) Press 0 to Exit.");
             Console.WriteLine("\t\t(b) Press 1 to Login as admin.");
             Console.WriteLine("\t\t(c) Press 2 to Register as admin.");
             Console.WriteLine("\t\t(d) Press 3 to Login as Passenger.");
@@ -377,7 +378,8 @@ namespace ThucTapCoSo
 
         static void ManualInstructions()
         {
-            Console.WriteLine($"\n\n{new string(' ', 50)} +++++++++++++++++ Welcome to BAV Airlines User Manual +++++++++++++++++");
+			Console.OutputEncoding = Encoding.Unicode;
+			Console.WriteLine($"\n\n{new string(' ', 50)} +++++++++++++++++ Welcome to BAV Airlines User Manual +++++++++++++++++");
             Console.WriteLine("\n\n\t\t(a) Press 1 to display Admin Manual.");
             Console.WriteLine("\t\t(b) Press 2 to display User Manual.");
             Console.Write("\nEnter the desired option :    ");
@@ -428,8 +430,9 @@ namespace ThucTapCoSo
 
 		}
 		static void WelcomeScreen(int option)
-    {
-        string artWork;
+        {
+			Console.OutputEncoding = Encoding.Unicode;
+			string artWork;
 
         if (option == 1)
         {
@@ -462,7 +465,8 @@ namespace ThucTapCoSo
     }
         static void PrintArtWork(int option)
         {
-            string artWork;
+			Console.OutputEncoding = Encoding.Unicode;
+			string artWork;
 
             if (option == 4)
             {

@@ -14,7 +14,8 @@ namespace ThucTapCoSo
 
         public void DisplayMeasurementInstructions()
         {
-            string symbols = "+---------------------------+";
+			Console.OutputEncoding = Encoding.Unicode;
+			string symbols = "+---------------------------+";
             Console.WriteLine($"\n\n {symbols,-100}\n {symbols,-100}");
             Console.WriteLine($"\n {symbols,-100}\n");
             Console.WriteLine("\n\t\t1. Distance between the destinations are based upon the Airports Coordinates(Latitudes && Longitudes) based in those cities\n");

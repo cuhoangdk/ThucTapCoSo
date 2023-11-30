@@ -140,7 +140,8 @@ namespace ThucTapCoSo
 
         public void DeleteFlight(string flightNumber)
         {
-            Flight foundFlight = null;
+			Console.OutputEncoding = Encoding.Unicode;
+			Flight foundFlight = null;
 
             foreach (Flight flight in flightList)
             {
@@ -191,7 +192,8 @@ namespace ThucTapCoSo
 
         public void DisplayFlightSchedule()
         {
-            Console.WriteLine();
+			Console.OutputEncoding = Encoding.Unicode;
+			Console.WriteLine();
             Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
             Console.Write("| Num  | FLIGHT SCHEDULE\t\t\t   | FLIGHT NO | Available Seats  | \tFROM ====>>       | \t====>> TO\t   | \t    ARRIVAL TIME       | FLIGHT TIME |  GATE  |   DISTANCE(MILES/KMS)  |\n");
             Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");

@@ -52,7 +52,8 @@ namespace ThucTapCoSo
         // Method to register a new customer
         public void AddNewCustomer()
         {
-            Console.WriteLine($"\n\n\n{new string(' ', 60)} ++++++++++++++ Welcome to the Customer Registration Portal ++++++++++++++");
+			Console.OutputEncoding = Encoding.Unicode;
+			Console.WriteLine($"\n\n\n{new string(' ', 60)} ++++++++++++++ Welcome to the Customer Registration Portal ++++++++++++++");
             Console.Write("Enter your name :\t");
             string name = Console.ReadLine();
             Console.Write("Enter your email address :\t");
@@ -80,6 +81,7 @@ namespace ThucTapCoSo
 
         public void SearchUser(string ID)
         {
+			Console.OutputEncoding = Encoding.Unicode;
 			//fix code
 			bool isFound = false;
 			if (customerCollection.Count > 0)
@@ -128,7 +130,8 @@ namespace ThucTapCoSo
         }
         public void EditUserInfo(string ID)
         {
-            bool isFound = false;
+			Console.OutputEncoding = Encoding.Unicode;
+			bool isFound = false;
             Console.WriteLine();
 
             foreach (Customer c in customerCollection)
@@ -165,7 +168,8 @@ namespace ThucTapCoSo
 
         public void DeleteUser(string ID)
         {
-            bool isFound = false;
+			Console.OutputEncoding = Encoding.Unicode;
+			bool isFound = false;
 
             foreach (Customer customer in customerCollection)
             {
@@ -187,7 +191,8 @@ namespace ThucTapCoSo
 
         public void DisplayCustomersData(bool showHeader)
         {
-            if (showHeader)
+			Console.OutputEncoding = Encoding.Unicode;
+			if (showHeader)
             {
                 DisplayArtWork(3);
             }
@@ -205,7 +210,8 @@ namespace ThucTapCoSo
         }
         void DisplayHeader()
         {
-            Console.WriteLine();
+			Console.OutputEncoding = Encoding.Unicode;
+			Console.WriteLine();
             Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
             Console.WriteLine($"{new string(' ', 10)}| SerialNum  |   UserID   | Passenger Names                  | Age     | EmailID\t\t       | Home Address\t\t\t     | Phone Number\t       |");
             Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
@@ -241,7 +247,8 @@ namespace ThucTapCoSo
 
         public void DisplayArtWork(int option)
         {
-            string artWork = "";
+			Console.OutputEncoding = Encoding.Unicode;
+			string artWork = "";
             if (option == 1)
             {
                 artWork = @"                                       

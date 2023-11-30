@@ -14,7 +14,8 @@ namespace ThucTapCoSo
 
         public void BookFlight(string flightNo, int numOfTickets, string userID)
         {
-            bool isFound = false;
+			Console.OutputEncoding = Encoding.Unicode;
+			bool isFound = false;
             foreach (Flight f1 in flight.FlightList)
             {
                 if (flightNo.Equals(f1.FlightNumber, StringComparison.OrdinalIgnoreCase))
@@ -59,7 +60,8 @@ namespace ThucTapCoSo
 
         public void CancelFlight(string userID)
         {
-            string flightNum = "";
+			Console.OutputEncoding = Encoding.Unicode;
+			string flightNum = "";
             DisplayFlightsRegisteredByOneUser(userID);
             Console.WriteLine("Enter the Flight Number of the Flight you want to cancel:");
             flightNum = Console.ReadLine();
@@ -151,7 +153,8 @@ namespace ThucTapCoSo
 
         string FlightStatus(Flight flight)
         {
-            bool isFlightAvailable = false;
+			Console.OutputEncoding = Encoding.Unicode;
+			bool isFlightAvailable = false;
             foreach (Flight list in flight.FlightList)
             {
                 if (list.FlightNumber.Equals(flight.FlightNumber, StringComparison.OrdinalIgnoreCase))
@@ -170,6 +173,7 @@ namespace ThucTapCoSo
         }
         public void DisplayFlightsRegisteredByOneUser(string userID)
         {
+			Console.OutputEncoding = Encoding.Unicode;
 			bool flightsFound = false; // Flag to check if any flights are found for the given user            
 			Console.WriteLine();
 			Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
@@ -211,7 +215,8 @@ namespace ThucTapCoSo
 
         public void DisplayHeaderForUsers(Flight flight, List<Customer> customers)
         {
-            Console.WriteLine($"\n{new string('+', 65)} Displaying Registered Customers for Flight No. \"{flight.FlightNumber,-6}\" {new string('+', 10)}\n");
+			Console.OutputEncoding = Encoding.Unicode;
+			Console.WriteLine($"\n{new string('+', 65)} Displaying Registered Customers for Flight No. \"{flight.FlightNumber,-6}\" {new string('+', 10)}\n");
             Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");
             Console.WriteLine($"{new string(' ', 10)}| SerialNum  |   UserID   | Passenger Names                  | Age     | EmailID\t\t       | Home Address\t\t\t     | Phone Number\t       | Booked Tickets |");
             Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");
@@ -265,7 +270,8 @@ namespace ThucTapCoSo
         }
         public void DisplayArtWork(int option)
         {
-            string artWork = string.Empty;
+			Console.OutputEncoding = Encoding.Unicode;
+			string artWork = string.Empty;
 
             if (option == 1)
             {
