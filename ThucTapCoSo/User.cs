@@ -28,13 +28,13 @@ namespace ThucTapCoSo
             //fix code
 			while (!int.TryParse(Console.ReadLine(), out desiredOption))
 			{
-				Console.Write("Invalid input. Please enter a valid integer: ");
+				Console.Write("Invalid input. Please enter a valid number: ");
 			}			         
             while (desiredOption < 0 || desiredOption > 8)
             {
 				while (!int.TryParse(Console.ReadLine(), out desiredOption))
 				{
-					Console.Write("Invalid input. Please enter a valid integer: ");
+					Console.Write("Invalid input. Please enter a valid number: ");
 				}
 				Console.Write("ERROR!! Please enter value between 0 - 4. Enter the value again :\t");
                 desiredOption = Convert.ToInt32(Console.ReadLine());
@@ -94,7 +94,7 @@ namespace ThucTapCoSo
                             //fix code
 							while (!int.TryParse(Console.ReadLine(), out desiredOption))
 							{
-								Console.Write("Invalid input. Please enter a valid integer: ");
+								Console.Write("Invalid input. Please enter a valid number: ");
 							}
 
 							/*If 1 is entered by the privileged user, then add a new customer......*/
@@ -265,10 +265,18 @@ namespace ThucTapCoSo
                                 Console.Write("\nEnter the desired flight number to book :\t ");
                                 string flightToBeBooked = Console.ReadLine();
                                 Console.Write($"Enter the Number of tickets for {flightToBeBooked} flight :   ");
-                                int numOfTickets = int.Parse(Console.ReadLine());
-                                while (numOfTickets > 10)
+                                int numOfTickets;
+								while (!int.TryParse(Console.ReadLine(), out numOfTickets))
+								{
+									Console.Write("Invalid input. Please enter a valid number: ");
+								}
+								while (numOfTickets > 10)
                                 {
-                                    Console.Write("ERROR!! You can't book more than 10 tickets at a time for single flight....Enter number of tickets again : ");
+									while (!int.TryParse(Console.ReadLine(), out numOfTickets))
+									{
+										Console.Write("Invalid input. Please enter a valid number: ");
+									}
+									Console.Write("ERROR!! You can't book more than 10 tickets at a time for single flight....Enter number of tickets again : ");
                                     numOfTickets = int.Parse(Console.ReadLine());
                                 }
                                 bookingAndReserving.BookFlight(flightToBeBooked, numOfTickets, result[1]);
@@ -340,13 +348,13 @@ namespace ThucTapCoSo
                 DisplayMainMenu();
 				while (!int.TryParse(Console.ReadLine(), out desiredOption))
 				{
-					Console.Write("Invalid input. Please enter a valid integer: ");
+					Console.Write("Invalid input. Please enter a valid number: ");
 				}
 				while (desiredOption < 0 || desiredOption > 8)
                 {
 					while (!int.TryParse(Console.ReadLine(), out desiredOption))
 					{
-						Console.Write("Invalid input. Please enter a valid integer: ");
+						Console.Write("Invalid input. Please enter a valid number: ");
 					}
 					Console.Write("ERROR!! Please enter value between 0 - 4. Enter the value again :\t");
                     desiredOption = Convert.ToInt32(Console.ReadLine());
@@ -377,13 +385,13 @@ namespace ThucTapCoSo
             int choice;
 			while (!int.TryParse(Console.ReadLine(), out choice))
 			{
-				Console.Write("Invalid input. Please enter a valid integer: ");
+				Console.Write("Invalid input. Please enter a valid number: ");
 			}
 			while (choice < 1 || choice > 2)
             {
 				while (!int.TryParse(Console.ReadLine(), out choice))
 				{
-					Console.Write("Invalid input. Please enter a valid integer: ");
+					Console.Write("Invalid input. Please enter a valid number: ");
 				}
 				Console.Write("ERROR!!! Invalid entry...Please enter a value either 1 or 2....Enter again....");
                 choice = Convert.ToInt32(Console.ReadLine());
