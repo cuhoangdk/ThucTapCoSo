@@ -14,10 +14,10 @@ namespace ThucTapCoSo
 
         public void DisplayMeasurementInstructions()
         {
-			Console.OutputEncoding = Encoding.Unicode;
-			string symbols = "+---------------------------+";
-            Console.WriteLine($"\n\n {symbols,-100}\n {symbols,-100}");
-            Console.WriteLine($"\n {symbols,-100}\n");
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.WriteLine("+---------------------------+");
+            Console.WriteLine("| SOME IMPORTANT GUIDELINES |");
+            Console.WriteLine("+---------------------------+");
             Console.WriteLine("\n\t\t1. Distance between the destinations are based upon the Airports Coordinates(Latitudes && Longitudes) based in those cities\n");
             Console.WriteLine("\t\t2. Actual Distance of the flight may vary from this approximation as Airlines may define their on Travel Policy that may restrict the planes to fly through specific regions...\n");
             Console.WriteLine("\t\t3. Flight Time depends upon several factors such as Ground Speed(GS), AirCraft Design, Flight Altitude and Weather. Ground Speed for these calculations is 450 Knots...\n");
