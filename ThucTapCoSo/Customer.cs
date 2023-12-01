@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,6 +74,18 @@ namespace ThucTapCoSo
             Console.Write("Nhập tuổi của bạn :\t");
             int age = int.Parse(Console.ReadLine());
             customerCollection.Add(new Customer(name, email, password, phone, address, age));
+
+            //Lấy vị trí hiện tại
+            string datatxtFolder = Path.Combine(Directory.GetCurrentDirectory(), "datatxt");
+
+            string filePath = Path.Combine(datatxtFolder, "Customer.txt");
+
+            //Mỗi khi thêm khách thì ghi thông tin khách vào file Customer.txt
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                writer.WriteLine($"{name};{email};{password};{phone};{address};{age}");
+            }
+
         }
         private string ToString(int i)
         {
