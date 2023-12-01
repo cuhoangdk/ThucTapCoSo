@@ -87,7 +87,7 @@ namespace ThucTapCoSo
                 else
                 {
                     // Xử lý trường hợp không thể chuyển đổi thành công
-                    Console.WriteLine("Error converting coordinates for flight " + (i + 1));
+                    Console.WriteLine("Lỗi chuyển đổi tọa độ cho chuyến bay " + (i + 1));
                 }
             }
         }
