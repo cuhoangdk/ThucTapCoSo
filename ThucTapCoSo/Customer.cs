@@ -35,12 +35,10 @@ namespace ThucTapCoSo
             this.address = null;
             this.age = 0;
         }
-        public Customer(string name, string email, string password, string phone, string address, int age)
-        {
-            RandomGenerator random = new RandomGenerator();
-            random.RandomIDGen();
+        public Customer(string userID,string name, string email, string password, string phone, string address, int age)
+        { 
             this.name = name;
-            this.userID = random.GetRandomNumber();
+            this.userID = userID;
             this.email = email;
             this.password = password;
             this.phone = phone;
@@ -50,10 +48,45 @@ namespace ThucTapCoSo
             this.numOfTicketsBookedByUser = new List<int>();
         }
 
-        // Method to register a new customer
+        // Method to register a new 
+        public void AddCustomerWithFile()
+        {
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
+            //Lấy vị trí hiện tại
+            string datatxtFolder = Path.Combine(Directory.GetCurrentDirectory(), "datatxt");
+
+            string filePath = Path.Combine(datatxtFolder, "Customer.txt");
+
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                string line;
+                while( (line = reader.ReadLine()) != null)
+                {
+                    string[] data = line.Split(';');
+                    if(data.Length == 7)
+                    {
+                        string userID = data[0];
+                        string name = data[1];
+                        string email = data[2];
+                        string password = data[3];
+                        string phone = data[4];
+                        string address = data[5];
+                        int age = int.Parse(data[6]);
+                        customerCollection.Add(new Customer(userID, name, email, password, phone, address, age));
+                    }
+                }
+            }
+        }
         public void AddNewCustomer()
         {
-			Console.OutputEncoding = Encoding.Unicode;
+            RandomGenerator random = new RandomGenerator();
+            random.RandomIDGen();
+            string userID = random.GetRandomNumber();
+
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
+
             Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ Chào mừng bạn đến với Cổng đăng ký của Khách hàng ++++++++++++++");
             Console.Write("Nhập tên của bạn :\t");
             string name = Console.ReadLine();
@@ -73,7 +106,7 @@ namespace ThucTapCoSo
             string address = Console.ReadLine();
             Console.Write("Nhập tuổi của bạn :\t");
             int age = int.Parse(Console.ReadLine());
-            customerCollection.Add(new Customer(name, email, password, phone, address, age));
+            customerCollection.Add(new Customer(userID, name, email, password, phone, address, age));
 
             //Lấy vị trí hiện tại
             string datatxtFolder = Path.Combine(Directory.GetCurrentDirectory(), "datatxt");
@@ -81,9 +114,10 @@ namespace ThucTapCoSo
             string filePath = Path.Combine(datatxtFolder, "Customer.txt");
 
             //Mỗi khi thêm khách thì ghi thông tin khách vào file Customer.txt
+            //true là dùng để ghi tiếp theo vào file .txt, StreamWriter(filePath): là dùng để ghi đè lên file cũ 
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
-                writer.WriteLine($"{name};{email};{password};{phone};{address};{age}");
+                writer.WriteLine($"{userID};{name};{email};{password};{phone};{address};{age}");
             }
 
         }
@@ -145,9 +179,43 @@ namespace ThucTapCoSo
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			bool isFound = false;
+
+            string datatxtFolder = Path.Combine(Directory.GetCurrentDirectory(), "datatxt");
+            string filePath = Path.Combine(datatxtFolder, "Customer.txt");
+
             Console.WriteLine();
 
-            foreach (Customer c in customerCollection)
+                string[] line= File.ReadAllLines(filePath);
+
+                for(int i=0; i< line.Length; i++)
+                {
+                    string[] data = line[i].Split(';');
+                    
+                    if (data.Length == 7 && ID.Equals(data[0]))
+                    {
+                            isFound = true;
+                            Console.Write("Nhập tên mới của Hành khách:\t");
+                            data[1] = Console.ReadLine();
+
+                            Console.Write($"Nhập địa chỉ email mới của Hành khách {data[1]}:\t");
+                            data[2] = Console.ReadLine();
+
+                            Console.Write($"Nhập số điện thoại mới của Hành khách {data[1]}:\t");
+                            data[3] = Console.ReadLine();
+
+                            Console.Write($"Nhập địa chỉ mới của Hành khách {data[1]}:\t");
+                            data[4] = Console.ReadLine();
+
+                            Console.Write($"Nhập tuổi mới của Hành khách {data[1]}:\t");
+                            data[5] = Console.ReadLine();
+
+                        line[i] = string.Join(";", data);
+
+                    }
+                }
+            
+
+            /*foreach (Customer c in customerCollection)
             {
                 if (ID.Equals(c.userID))
                 {
@@ -171,11 +239,16 @@ namespace ThucTapCoSo
                     DisplayCustomersData(false);
                     break;
                 }
-            }
+            }*/
 
             if (!isFound)
             {
                 Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID  {ID} ...!!!"); //FIX
+            }
+            else
+            {
+                File.WriteAllLines(filePath, line);
+                Console.WriteLine("Cập nhật thông tin thành công!");
             }
         }
 
@@ -212,14 +285,28 @@ namespace ThucTapCoSo
 
             DisplayHeader();
 
-            int i = 0;
+            string datatxtFolder = Path.Combine(Directory.GetCurrentDirectory(), "datatxt");
+            string filePath = Path.Combine(datatxtFolder, "Customer.txt");
 
+            string[] lines = File.ReadAllLines(filePath);
+            for(int i = 0; i < lines.Length; i++)
+            {
+                string[] data = lines[i].Split(';');
+                if(data.Length == 7)
+                {
+                    Customer customer = new Customer(data[0], data[1], data[2], data[3], data[4], data[5], int.Parse(data[6]));
+                    Console.WriteLine(customer.ToString(i + 1));
+                    Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
+                }
+            }
+
+            /*int j = 0;
             foreach (Customer c in customerCollection)
             {
-                i++;
-                Console.WriteLine(c.ToString(i));
+                j++;
+                Console.WriteLine(c.ToString(j));
                 Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
-            }
+            }*/
         }
         void DisplayHeader()
         {

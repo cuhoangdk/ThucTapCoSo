@@ -15,10 +15,13 @@ namespace ThucTapCoSo
 			Console.OutputEncoding = Encoding.Unicode;
 			int countNumOfUsers = 1;
             RolesAndPermissions r1 = new RolesAndPermissions();
+
             Flight f1 = new Flight();
             FlightReservation bookingAndReserving = new FlightReservation();
-            Customer c1 = new Customer();
             f1.FlightScheduler();
+
+            Customer c1 = new Customer();
+            c1.AddCustomerWithFile();       //..bin/Debug/datatxt/Customer.txt
             Console.WriteLine();
             WelcomeScreen(1);
             Console.WriteLine("\n\t\t\t\t\t+++++++++++++ Chào mừng bạn đến với Star AirLines +++++++++++++\n\nĐể tiếp tục, vui lòng nhập một giá trị.");
