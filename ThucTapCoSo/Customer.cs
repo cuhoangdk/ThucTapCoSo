@@ -71,12 +71,16 @@ namespace ThucTapCoSo
             Console.Write("Nhập địa chỉ của bạn :\t");
             string address = Console.ReadLine();
             Console.Write("Nhập tuổi của bạn :\t");
-            int age = int.Parse(Console.ReadLine());
-            customerCollection.Add(new Customer(name, email, password, phone, address, age));
+            int age;
+			while (!int.TryParse(Console.ReadLine(), out age) || age < 0)
+			{
+				Console.Write("Số tuổi không hợp lệ vui lòng nhập lại: ");
+			}
+			customerCollection.Add(new Customer(name, email, password, phone, address, age));
         }
         private string ToString(int i)
         {
-            return string.Format("{0,10}| {1,-10} | {2,-10} | {3,-32} | {4,-7} | {5,-27} | {6,-35} | {7,-23} |", "", i, RandomIDDisplay(userID), name, age, email, address, phone);
+            return string.Format("{0,10}| {1,-10} | {2,-11} | {3,-32} | {4,-7} | {5,-27} | {6,-35} | {7,-23} |", "", i, RandomIDDisplay(userID), name, age, email, address, phone);
         }
 
         public void SearchUser(string ID)
@@ -101,7 +105,7 @@ namespace ThucTapCoSo
 				if (isFound)
 				{
 					Console.WriteLine(customerWithTheID.ToString(1));
-					Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
+					Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
 				}
 				else
 				{
@@ -153,7 +157,10 @@ namespace ThucTapCoSo
                     c.address = Console.ReadLine();
 
                     Console.Write($"Nhập tuổi mới của Hành khách {c.name}:\t");
-                    c.age = Convert.ToInt32(Console.ReadLine());
+					while (!int.TryParse(Console.ReadLine(), out c.age)||c.age<0)
+					{
+						Console.Write("Số tuổi không hợp lệ vui lòng nhập lại: ");
+					}				
 
                     DisplayCustomersData(false);
                     break;
@@ -205,16 +212,16 @@ namespace ThucTapCoSo
             {
                 i++;
                 Console.WriteLine(c.ToString(i));
-                Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
+                Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
             }
         }
         void DisplayHeader()
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			Console.WriteLine();
-            Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
-            Console.WriteLine($"{new string(' ', 10)}| SerialNum  |   UserID   | Passenger Names                  | Age     | EmailID\t\t       | Home Address\t\t\t     | Phone Number\t       |");
-            Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
+            Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
+            Console.WriteLine($"{new string(' ', 10)}| Số Seri    |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email\t\t\t| Địa chỉ     \t\t\t      | Số điện thoại           |");
+            Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
         }
 
         public string RandomIDDisplay(string randomID)
