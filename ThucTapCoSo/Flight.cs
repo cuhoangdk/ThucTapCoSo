@@ -53,24 +53,41 @@ namespace ThucTapCoSo
         public void FlightScheduler()
         {
             int numOfFlights = 15;
-            RandomGenerator r1 = new RandomGenerator();			
-			for (int i = 0; i < numOfFlights; i++)
+            RandomGenerator r1 = new RandomGenerator();
+
+            for (int i = 0; i < numOfFlights; i++)
             {
                 string[][] chosenDestinations = r1.RandomDestinations();
-                string[] distanceBetweenTheCities = CalculateDistance(double.Parse(chosenDestinations[0][1]), double.Parse(chosenDestinations[0][2]), double.Parse(chosenDestinations[1][1]), double.Parse(chosenDestinations[1][2]));
-                string flightSchedule = CreateNewFlightsAndTime();
-                string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
-                int numOfSeatsInTheFlight = r1.RandomNumOfSeats();
-                string gate = r1.RandomFlightNumbGen(1, 30);
-				flightList.Add(new Flight(
-		            flightSchedule,
-		            flightNumber,
-		            numOfSeatsInTheFlight,
-		            chosenDestinations,
-		            distanceBetweenTheCities,
-		            gate.ToUpper()
-	            ));
-			}
+
+                double latitude1, longitude1, latitude2, longitude2;
+
+                if (double.TryParse(chosenDestinations[0][1], out latitude1) &&
+                    double.TryParse(chosenDestinations[0][2], out longitude1) &&
+                    double.TryParse(chosenDestinations[1][1], out latitude2) &&
+                    double.TryParse(chosenDestinations[1][2], out longitude2))
+                {
+                    string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
+
+                    string flightSchedule = CreateNewFlightsAndTime();
+                    string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
+                    int numOfSeatsInTheFlight = r1.RandomNumOfSeats();
+                    string gate = r1.RandomFlightNumbGen(1, 30);
+
+                    flightList.Add(new Flight(
+                        flightSchedule,
+                        flightNumber,
+                        numOfSeatsInTheFlight,
+                        chosenDestinations,
+                        distanceBetweenTheCities,
+                        gate.ToUpper()
+                    ));
+                }
+                else
+                {
+                    // Xử lý trường hợp không thể chuyển đổi thành công
+                    Console.WriteLine("Error converting coordinates for flight " + (i + 1));
+                }
+            }
         }
         public void AddNewCustomerToFlight(Customer customer)
         {
