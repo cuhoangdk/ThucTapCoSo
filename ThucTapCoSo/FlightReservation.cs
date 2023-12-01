@@ -50,11 +50,12 @@ namespace ThucTapCoSo
             }
             if (!isFound)
             {
-                Console.WriteLine($"Invalid Flight Number...! No flight with the ID \"{flightNo}\" was found...");
+                Console.WriteLine($"Flight Number không hợp lệ...! Không tìm thấy chuyến bay với ID \"{flightNo}\"...");
+
             }
             else
             {
-                Console.WriteLine($"\n {new string(' ', 50)} You've booked {numOfTickets} tickets for Flight \"{flightNo.ToUpper()}\"...");
+                Console.WriteLine($"\n {new string(' ', 30)} Bạn đã đặt {numOfTickets} vé cho Chuyến bay \"{flightNo.ToUpper()}\"...");
             }
         }
 
@@ -63,9 +64,10 @@ namespace ThucTapCoSo
 			Console.OutputEncoding = Encoding.Unicode;
 			string flightNum = "";
             DisplayFlightsRegisteredByOneUser(userID);
-            Console.WriteLine("Enter the Flight Number of the Flight you want to cancel:");
+            Console.WriteLine("Nhập Flight Number của chuyến bay bạn muốn hủy:");
+
             flightNum = Console.ReadLine();
-            Console.WriteLine("Enter the number of tickets to cancel:");
+            Console.WriteLine("Nhập số lượng vé muốn hủy:");
             int numOfTickets = Convert.ToInt32(Console.ReadLine());
 
             bool isFound = false;
@@ -76,8 +78,8 @@ namespace ThucTapCoSo
                 {
                     if (customer.flightsRegisteredByUser.Count != 0)
                     {
-						Console.WriteLine($"++++++++++++++ Here is the list of all the Flights registered by you ++++++++++++++".PadLeft(50));
-						DisplayFlightsRegisteredByOneUser(userID);
+                        Console.WriteLine($"{new string(' ', 30)}++++++++++++++ Đây là danh sách tất cả các chuyến bay bạn đã đăng ký ++++++++++++++");
+                        DisplayFlightsRegisteredByOneUser(userID);
 
                         foreach (Flight flight in customer.flightsRegisteredByUser)
                         {
@@ -88,7 +90,7 @@ namespace ThucTapCoSo
 
                                 while (numOfTickets > numOfTicketsForFlight)
                                 {
-                                    Console.Write($"ERROR!!! Number of tickets cannot be greater than {numOfTicketsForFlight} for this flight. Please enter the number of tickets again:");
+                                    Console.Write($"LỖI!!! Số vé không thể lớn hơn {numOfTicketsForFlight} cho chuyến bay này. Vui lòng nhập lại số lượng vé:");
                                     numOfTickets = Convert.ToInt32(Console.ReadLine());
                                 }
 
@@ -114,12 +116,12 @@ namespace ThucTapCoSo
                     }
                     else
                     {
-                        Console.WriteLine($"No Flight Has been Registered by you with ID \"{flightNum.ToUpper()}\".....");
+                        Console.WriteLine($"Bạn chưa đăng ký chuyến bay nào với ID \"{flightNum.ToUpper()}\".....");
                     }
 
                     if (!isFound)
                     {
-                        Console.WriteLine($"ERROR!!! Couldn't find Flight with ID \"{flightNum.ToUpper()}\".....");
+                        Console.WriteLine($"LỖI!!! Không thể tìm thấy chuyến bay với ID \"{flightNum.ToUpper()}\".....");
                     }
                 }
             }
@@ -163,7 +165,7 @@ namespace ThucTapCoSo
                     break;
                 }
             }
-            return isFlightAvailable ? "As Per Schedule" : "   Cancelled   ";
+            return isFlightAvailable ? "Theo Lịch Trình" : "   Hủy Bỏ   ";
         }
         public string ToString(int serialNum, Flight flight, Customer customer)
         {
@@ -203,9 +205,9 @@ namespace ThucTapCoSo
 
 			if (!flightsFound)
 			{
-				Console.WriteLine($"No flights registered for the user with ID {userID}.");
-			}
-		}
+                Console.WriteLine($"Không có chuyến bay được đăng ký cho người dùng với ID {userID}.");
+            }
+        }
         public string ToString(int serialNum, Customer customer, int index)
         {
             return string.Format("          | {0,-10} | {1,-10} | {2,-32} | {3,-7} | {4,-27} | {5,-35} | {6,-23} |       {7,-7}  |", (serialNum + 1), customer.RandomIDDisplay(customer.GetUserID()), customer.GetName(),
@@ -216,7 +218,7 @@ namespace ThucTapCoSo
         public void DisplayHeaderForUsers(Flight flight, List<Customer> customers)
         {
 			Console.OutputEncoding = Encoding.Unicode;
-			Console.WriteLine($"\n{new string('+', 65)} Displaying Registered Customers for Flight No. \"{flight.FlightNumber,-6}\" {new string('+', 10)}\n");
+            Console.WriteLine($"\n{new string('+', 30)} Hiển thị Khách hàng đã đăng ký cho Chuyến bay số \"{flight.FlightNumber,-6}\" {new string('+', 30)}\n");
             Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");
             Console.WriteLine($"{new string(' ', 10)}| SerialNum  |   UserID   | Passenger Names                  | Age     | EmailID\t\t       | Home Address\t\t\t     | Phone Number\t       | Booked Tickets |");
             Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");

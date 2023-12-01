@@ -8,16 +8,16 @@ namespace ThucTapCoSo
 {
     internal class RolesAndPermissions : User
     {
-        // Fields inherited from the User class may need to be defined here.
+        // Có thể cần định nghĩa lại các trường được kế thừa từ lớp User ở đây.
 
         // ************************************************************ Behaviours/Methods ************************************************************
 
-        /**
-         * Checks if the admin with specified credentials is registered or not.
-         * @param username of the imaginary admin
-         * @param password of the imaginary admin
-         * @return -1 if admin not found, else index of the admin in the array.
-         */
+        /// <summary>
+        /// Kiểm tra xem người quản trị có đăng ký với thông tin đăng nhập cụ thể không.
+        /// </summary>
+        /// <param name="username">Tên người quản trị ảo</param>
+        /// <param name="password">Mật khẩu của người quản trị ảo</param>
+        /// <returns>-1 nếu không tìm thấy người quản trị, ngược lại trả về chỉ mục của người quản trị trong mảng.</returns>
         public int IsPrivilegedUserOrNot(string username, string password)
         {
             int isFound = -1;
