@@ -21,7 +21,7 @@ namespace ThucTapCoSo
             f1.FlightScheduler();
             Console.WriteLine();
             WelcomeScreen(1);
-            Console.WriteLine("\n\t\t\t\t\t+++++++++++++ Welcome to BAV AirLines +++++++++++++\n\nTo Further Proceed, Please enter a value.");
+            Console.WriteLine("\n\t\t\t\t\t+++++++++++++ Welcome to Star AirLines +++++++++++++\n\nTo Further Proceed, Please enter a value.");
             Console.WriteLine("\n***** Default Username && Password is root-root ***** Using Default Credentials will restrict you to just view the list of Passengers....\n");
             DisplayMainMenu();
             int desiredOption;
@@ -323,7 +323,7 @@ namespace ThucTapCoSo
                                 bookingAndReserving.DisplayArtWork(7);
                                 if (desiredChoice != 0)
                                 {
-                                    Console.WriteLine("Invalid Choice...Looks like you're Robot...Entering values randomly...You've Have to login again...");
+                                    Console.WriteLine("Lựa chọn không hợp lệ... Dường như bạn là Robot... Nhập giá trị ngẫu nhiên... Bạn phải đăng nhập lại...");
                                 }
                                 desiredChoice = 0;
                             }
@@ -332,7 +332,7 @@ namespace ThucTapCoSo
                     }
                     else
                     {
-                        Console.WriteLine($"\n{" ",20}ERROR!!! Unable to login Cannot find user with the entered credentials.... Try Creating New Credentials or get yourself register by pressing 4....", "");
+                        Console.WriteLine($"\n{" ",20}LỖI!!! Không thể đăng nhập. Không thể tìm thấy người dùng với thông tin đăng nhập đã nhập.... Hãy Tạo Thông Tin Mới hoặc đăng ký bằng cách nhấn 4....", "");
                     }
                 }
                 else if (desiredOption == 4)
@@ -367,68 +367,71 @@ namespace ThucTapCoSo
         static void DisplayMainMenu()
         {
 			Console.OutputEncoding = Encoding.Unicode;
-			Console.WriteLine("\n\n\t\t(a) Press 0 to Exit.");
-            Console.WriteLine("\t\t(b) Press 1 to Login as admin.");
-            Console.WriteLine("\t\t(c) Press 2 to Register as admin.");
-            Console.WriteLine("\t\t(d) Press 3 to Login as Passenger.");
-            Console.WriteLine("\t\t(e) Press 4 to Register as Passenger.");
-            Console.WriteLine("\t\t(f) Press 5 to Display the User Manual.");
-            Console.Write("\t\tEnter the desired option:    ");
+            Console.WriteLine("\n\n\t\t(a) Nhấn 0 để Thoát.");
+            Console.WriteLine("\t\t(b) Nhấn 1 để Đăng nhập như quản trị viên.");
+            Console.WriteLine("\t\t(c) Nhấn 2 để Đăng ký như quản trị viên.");
+            Console.WriteLine("\t\t(d) Nhấn 3 để Đăng nhập như hành khách.");
+            Console.WriteLine("\t\t(e) Nhấn 4 để Đăng ký như hành khách.");
+            Console.WriteLine("\t\t(f) Nhấn 5 để Hiển thị Hướng dẫn sử dụng.");
+            Console.Write("\t\tNhập tùy chọn mong muốn:    ");
+
         }
 
         static void ManualInstructions()
         {
 			Console.OutputEncoding = Encoding.Unicode;
-			Console.WriteLine($"\n\n{new string(' ', 50)} +++++++++++++++++ Welcome to BAV Airlines User Manual +++++++++++++++++");
-            Console.WriteLine("\n\n\t\t(a) Press 1 to display Admin Manual.");
-            Console.WriteLine("\t\t(b) Press 2 to display User Manual.");
-            Console.Write("\nEnter the desired option :    ");
+			Console.WriteLine($"\n\n{new string(' ', 50)} +++++++++++++++++ Chào mừng bạn đến với Hướng dẫn sử dụng của Star Airlines +++++++++++++++++");
+            Console.WriteLine("\n\n\t\t(a) Nhấn phím 1 để hiển thị Hướng dẫn quản trị.");
+            Console.WriteLine("\t\t(b) Nhấn 2 để hiển thị Hướng dẫn sử dụng.");
+            Console.Write("\nNhập tùy chọn mong muốn:   ");
             //fix code
             int choice;
 			while (!int.TryParse(Console.ReadLine(), out choice))
 			{
-				Console.Write("Invalid input. Please enter a valid number: ");
+				Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
 			}
 			while (choice < 1 || choice > 2)
             {
 				while (!int.TryParse(Console.ReadLine(), out choice))
 				{
-					Console.Write("Invalid input. Please enter a valid number: ");
+					Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
 				}
-				Console.Write("ERROR!!! Invalid entry...Please enter a value either 1 or 2....Enter again....");
+				Console.Write("LỖI!!! Mục nhập không hợp lệ...Vui lòng nhập giá trị 1 hoặc 2....Nhập lại....  ");
                 choice = Convert.ToInt32(Console.ReadLine());
             }
 			if (choice == 1)
 			{
-				Console.WriteLine("\n\n(1) Admin have the access to all users data...Admin can delete, update, add and can perform search for any customer...\n");
-				Console.WriteLine("(2) In order to access the admin module, you've to get yourself register by pressing 2, when the main menu gets displayed...\n");
-				Console.WriteLine("(3) Provide the required details i.e., name, email, id...Once you've registered yourself, press 1 to login as an admin... \n");
-				Console.WriteLine("(4) Once you've logged in, 2nd layer menu will be displayed on the screen...From here on, you can select from a variety of options...\n");
-				Console.WriteLine("(5) Pressing \"1\" will add a new Passenger, provide the program with required details to add the passenger...\n");
-				Console.WriteLine("(6) Pressing \"2\" will search for any passenger, given the admin(you) provides the ID from the table printing above....  \n");
-				Console.WriteLine("(7) Pressing \"3\" will let you update any passenger's data given the user ID provided to the program...\n");
-				Console.WriteLine("(8) Pressing \"4\" will let you delete any passenger given its ID provided...\n");
-				Console.WriteLine("(9) Pressing \"5\" will let you display all registered passengers...\n");
-				Console.WriteLine("(10) Pressing \"6\" will let you display all registered passengers...After selecting, the program will ask if you want to display passengers for all flights(Y/y) or a specific flight(N/n)\n");
-				Console.WriteLine("(11) Pressing \"7\" will let you delete any flight given its flight number provided...\n");
-				Console.WriteLine("(11) Pressing \"0\" will make you log out of the program...You can log in again anytime you want during the program execution....\n");
-			}
-			else
-			{
-				Console.WriteLine("\n\n(1) Local user has the access to its data only...He/She won't be able to change/update other users' data...\n");
-				Console.WriteLine("(2) In order to access local users benefits, you've to get yourself registered by pressing 4 when the main menu gets displayed...\n");
-				Console.WriteLine("(3) Provide the details asked by the program to add you to the users list...Once you've registered yourself, press \"3\" to log in as a passenger...\n");
-				Console.WriteLine("(4) Once you've logged in, the 3rd layer menu will be displayed...From here on, you embarked on the journey to fly with us...\n");
-				Console.WriteLine("(5) Pressing \"1\" will display available/scheduled list of flights...To get yourself booked for a flight, enter the flight number and number of tickets for the flight...Max num of tickets at a time is 10 ...\n");
-				Console.WriteLine("(7) Pressing \"2\" will let you update your own data...You won't be able to update others' data... \n");
-				Console.WriteLine("(8) Pressing \"3\" will delete your account... \n");
-				Console.WriteLine("(9) Pressing \"4\" will display a randomly designed flight schedule for this runtime...\n");
-				Console.WriteLine("(10) Pressing \"5\" will let you cancel any flight registered by you...\n");
-				Console.WriteLine("(11) Pressing \"6\" will display all flights registered by you...\n");
-				Console.WriteLine("(12) Pressing \"0\" will make you log out of the program...You can log in back at any time with your credentials...for this particular runtime... \n");
-			}
+                Console.WriteLine("\n\n(1) Quản trị viên có quyền truy cập vào dữ liệu của tất cả người dùng... Quản trị viên có thể xóa, cập nhật, thêm và thực hiện tìm kiếm cho bất kỳ khách hàng nào...\n");
+                Console.WriteLine("(2) Để truy cập vào mô-đun quản trị, bạn phải đăng ký bằng cách nhấn 2, khi menu chính hiển thị...\n");
+                Console.WriteLine("(3) Cung cấp các thông tin cần thiết như tên, email, id... Sau khi bạn đã đăng ký, nhấn 1 để đăng nhập như một quản trị viên... \n");
+                Console.WriteLine("(4) Khi bạn đã đăng nhập, menu lớp 2 sẽ được hiển thị trên màn hình... Từ đây, bạn có thể chọn từ nhiều tùy chọn...\n");
+                Console.WriteLine("(5) Nhấn \"1\" sẽ thêm một hành khách mới, cung cấp chi tiết cần thiết để thêm hành khách...\n");
+                Console.WriteLine("(6) Nhấn \"2\" sẽ tìm kiếm bất kỳ hành khách nào, miễn là quản trị viên (bạn) cung cấp ID từ bảng in ở trên....  \n");
+                Console.WriteLine("(7) Nhấn \"3\" sẽ cho phép bạn cập nhật bất kỳ dữ liệu hành khách nào, miễn là ID người dùng được cung cấp cho chương trình...\n");
+                Console.WriteLine("(8) Nhấn \"4\" sẽ cho phép bạn xóa bất kỳ hành khách nào, miễn là ID được cung cấp...\n");
+                Console.WriteLine("(9) Nhấn \"5\" sẽ cho phép bạn hiển thị tất cả hành khách đã đăng ký...\n");
+                Console.WriteLine("(10) Nhấn \"6\" sẽ cho phép bạn hiển thị tất cả hành khách đã đăng ký... Sau khi chọn, chương trình sẽ hỏi bạn có muốn hiển thị hành khách cho tất cả các chuyến bay (Y/y) hay một chuyến bay cụ thể (N/n)\n");
+                Console.WriteLine("(11) Nhấn \"7\" sẽ cho phép bạn xóa bất kỳ chuyến bay nào, miễn là số hiệu chuyến bay được cung cấp...\n");
+                Console.WriteLine("(11) Nhấn \"0\" sẽ khiến bạn đăng xuất khỏi chương trình... Bạn có thể đăng nhập lại bất cứ lúc nào trong quá trình thực hiện chương trình....\n");
 
-		}
+            }
+            else
+			{
+                Console.WriteLine("\n\n(1) Người dùng cục bộ chỉ có quyền truy cập vào dữ liệu của mình... Anh/Chị sẽ không thể thay đổi/cập nhật dữ liệu của người dùng khác...\n");
+                Console.WriteLine("(2) Để truy cập vào các ưu đãi của người dùng cục bộ, bạn phải đăng ký bằng cách nhấn 4 khi menu chính hiển thị...\n");
+                Console.WriteLine("(3) Cung cấp thông tin được yêu cầu bởi chương trình để thêm bạn vào danh sách người dùng... Sau khi bạn đã đăng ký, nhấn \"3\" để đăng nhập như một hành khách...\n");
+                Console.WriteLine("(4) Sau khi bạn đã đăng nhập, menu lớp 3 sẽ được hiển thị... Từ đây, bạn bắt đầu cuộc hành trình để bay với chúng tôi...\n");
+                Console.WriteLine("(5) Nhấn \"1\" sẽ hiển thị danh sách các chuyến bay có sẵn/lên lịch... Để đặt chỗ cho mình trên một chuyến bay, nhập số hiệu chuyến bay và số vé cho chuyến bay... Số vé tối đa mỗi lần là 10 ...\n");
+                Console.WriteLine("(7) Nhấn \"2\" sẽ cho phép bạn cập nhật dữ liệu của chính bạn... Bạn sẽ không thể cập nhật dữ liệu của người khác... \n");
+                Console.WriteLine("(8) Nhấn \"3\" sẽ xóa tài khoản của bạn... \n");
+                Console.WriteLine("(9) Nhấn \"4\" sẽ hiển thị một lịch trình chuyến bay được thiết kế ngẫu nhiên cho chạy...\n");
+                Console.WriteLine("(10) Nhấn \"5\" sẽ cho phép bạn hủy bỏ bất kỳ chuyến bay nào đã đăng ký bởi bạn...\n");
+                Console.WriteLine("(11) Nhấn \"6\" sẽ hiển thị tất cả chuyến bay đã đăng ký bởi bạn...\n");
+                Console.WriteLine("(12) Nhấn \"0\" sẽ khiến bạn đăng xuất khỏi chương trình... Bạn có thể đăng nhập lại bất cứ lúc nào với thông tin đăng nhập của mình... cho chạy này cụ thể... \n");
+
+            }
+
+        }
 		static void WelcomeScreen(int option)
         {
 			Console.OutputEncoding = Encoding.Unicode;
@@ -437,12 +440,14 @@ namespace ThucTapCoSo
         if (option == 1)
         {
             artWork = @"
-            ███████ ████████  █████  ██████       █████  ██ ██████  ██      ██ ███    ██ ███████ ███████ 
-            ██         ██    ██   ██ ██   ██     ██   ██ ██ ██   ██ ██      ██ ████   ██ ██      ██      
-            ███████    ██    ███████ ██████      ███████ ██ ██████  ██      ██ ██ ██  ██ █████   ███████ 
-                 ██    ██    ██   ██ ██   ██     ██   ██ ██ ██   ██ ██      ██ ██  ██ ██ ██           ██ 
-            ███████    ██    ██   ██ ██   ██     ██   ██ ██ ██   ██ ███████ ██ ██   ████ ███████ ███████ 
-";
+            ███████╗████████╗ █████╗ ██████╗      █████╗ ██╗██████╗ ██╗     ██╗███╗   ██╗███████╗███████╗
+            ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗    ██╔══██╗██║██╔══██╗██║     ██║████╗  ██║██╔════╝██╔════╝
+            ███████╗   ██║   ███████║██████╔╝    ███████║██║██████╔╝██║     ██║██╔██╗ ██║█████╗  ███████╗
+            ╚════██║   ██║   ██╔══██║██╔══██╗    ██╔══██║██║██╔══██╗██║     ██║██║╚██╗██║██╔══╝  ╚════██║
+            ███████║   ██║   ██║  ██║██║  ██║    ██║  ██║██║██║  ██║███████╗██║██║ ╚████║███████╗███████║
+            ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
+                                                                                             
+            ";
 
         }
         else
@@ -467,54 +472,43 @@ namespace ThucTapCoSo
             if (option == 4)
             {
                 artWork = @"
-               _____                 _                                               _                                 
-              / ____|               | |                                             (_)                                
-             | |       _   _   ___  | |_    ___    _ __ ___     ___   _ __     ___   _    __ _   _ __    _   _   _ __  
-             | |      | | | | / __| | __|  / _ \  | '_ ` _ \   / _ \ | '__|   / __| | |  / _` | | '_ \  | | | | | '_ \ 
-             | |____  | |_| | \__ \ | |_  | (_) | | | | | | | |  __/ | |      \__ \ | | | (_| | | | | | | |_| | | |_) |
-              \_____|  \__,_| |___/  \__|  \___/  |_| |_| |_|  \___| |_|      |___/ |_|  \__, | |_| |_|  \__,_| | .__/ 
-                                                                                          __/ |                 | |    
-                                                                                         |___/                  |_|                                                                                                    
+                 ██████ ██    ██ ███████ ████████  ██████  ███    ███ ███████ ██████      ███████ ██  ██████  ███    ██ ██    ██ ██████  
+                ██      ██    ██ ██         ██    ██    ██ ████  ████ ██      ██   ██     ██      ██ ██       ████   ██ ██    ██ ██   ██ 
+                ██      ██    ██ ███████    ██    ██    ██ ██ ████ ██ █████   ██████      ███████ ██ ██   ███ ██ ██  ██ ██    ██ ██████  
+                ██      ██    ██      ██    ██    ██    ██ ██  ██  ██ ██      ██   ██          ██ ██ ██    ██ ██  ██ ██ ██    ██ ██      
+                 ██████  ██████  ███████    ██     ██████  ██      ██ ███████ ██   ██     ███████ ██  ██████  ██   ████  ██████  ██      
+
                     ";
             }
             else if (option == 3)
             {
                 artWork = @"
-               _____                 _                                         _                   _         
-              / ____|               | |                                       | |                 (_)        
-             | |       _   _   ___  | |_    ___    _ __ ___     ___   _ __    | |   ___     __ _   _   _ __  
-             | |      | | | | / __| | __|  / _ \  | '_ ` _ \   / _ \ | '__|   | |  / _ \   / _` | | | | '_ \ 
-             | |____  | |_| | \__ \ | |_  | (_) | | | | | | | |  __/ | |      | | | (_) | | (_| | | | | | | |
-              \_____|  \__,_| |___/  \__|  \___/  |_| |_| |_|  \___| |_|      |_|  \___/   \__, | |_| |_| |_|
-                                                                                            __/ |            
-                                                                                           |___/             
-                                                                                                                      
+                 ██████ ██    ██ ███████ ████████  ██████  ███    ███ ███████ ██████      ██       ██████   ██████  ██ ███    ██ 
+                ██      ██    ██ ██         ██    ██    ██ ████  ████ ██      ██   ██     ██      ██    ██ ██       ██ ████   ██ 
+                ██      ██    ██ ███████    ██    ██    ██ ██ ████ ██ █████   ██████      ██      ██    ██ ██   ███ ██ ██ ██  ██ 
+                ██      ██    ██      ██    ██    ██    ██ ██  ██  ██ ██      ██   ██     ██      ██    ██ ██    ██ ██ ██  ██ ██ 
+                 ██████  ██████  ███████    ██     ██████  ██      ██ ███████ ██   ██     ███████  ██████   ██████  ██ ██   ████ 
+                                                                                                                 
                     ";
             }
             else if (option == 2)
             {
                 artWork = @"
-                             _               _                   _                                 
-                 /\         | |             (_)                 (_)                                
-                /  \      __| |  _ __ ___    _   _ __      ___   _    __ _   _ __    _   _   _ __  
-               / /\ \    / _` | | '_ ` _ \  | | | '_ \    / __| | |  / _` | | '_ \  | | | | | '_ \ 
-              / ____ \  | (_| | | | | | | | | | | | | |   \__ \ | | | (_| | | | | | | |_| | | |_) |
-             /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|   |___/ |_|  \__, | |_| |_|  \__,_| | .__/ 
-                                                                      __/ |                 | |    
-                                                                     |___/                  |_|                                                                                 
+                 █████  ██████  ███    ███ ██ ███    ██     ███████ ██  ██████  ███    ██ ██    ██ ██████  
+                ██   ██ ██   ██ ████  ████ ██ ████   ██     ██      ██ ██       ████   ██ ██    ██ ██   ██ 
+                ███████ ██   ██ ██ ████ ██ ██ ██ ██  ██     ███████ ██ ██   ███ ██ ██  ██ ██    ██ ██████  
+                ██   ██ ██   ██ ██  ██  ██ ██ ██  ██ ██          ██ ██ ██    ██ ██  ██ ██ ██    ██ ██      
+                ██   ██ ██████  ██      ██ ██ ██   ████     ███████ ██  ██████  ██   ████  ██████  ██      
                         ";
             }
             else
             {
                 artWork = @"
-                             _               _             _                   _         
-                 /\         | |             (_)           | |                 (_)        
-                /  \      __| |  _ __ ___    _   _ __     | |   ___     __ _   _   _ __  
-               / /\ \    / _` | | '_ ` _ \  | | | '_ \    | |  / _ \   / _` | | | | '_ \ 
-              / ____ \  | (_| | | | | | | | | | | | | |   | | | (_) | | (_| | | | | | | |
-             /_/    \_\  \__,_| |_| |_| |_| |_| |_| |_|   |_|  \___/   \__, | |_| |_| |_|
-                                                                        __/ |            
-                                                                       |___/                                                                                          
+                 █████  ██████  ███    ███ ██ ███    ██     ██       ██████   ██████  ██ ███    ██ 
+                ██   ██ ██   ██ ████  ████ ██ ████   ██     ██      ██    ██ ██       ██ ████   ██ 
+                ███████ ██   ██ ██ ████ ██ ██ ██ ██  ██     ██      ██    ██ ██   ███ ██ ██ ██  ██ 
+                ██   ██ ██   ██ ██  ██  ██ ██ ██  ██ ██     ██      ██    ██ ██    ██ ██ ██  ██ ██ 
+                ██   ██ ██████  ██      ██ ██ ██   ████     ███████  ██████   ██████  ██ ██   ████                                                                                                                                 
                     ";
             }
 
