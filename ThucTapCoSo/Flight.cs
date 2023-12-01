@@ -87,7 +87,7 @@ namespace ThucTapCoSo
                 else
                 {
                     // Xử lý trường hợp không thể chuyển đổi thành công
-                    Console.WriteLine("Error converting coordinates for flight " + (i + 1));
+                    Console.WriteLine("Lỗi chuyển đổi tọa độ cho chuyến bay " + (i + 1));
                 }
             }
         }
@@ -213,9 +213,9 @@ namespace ThucTapCoSo
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			Console.WriteLine();
-            Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
-            Console.Write("| Num  | FLIGHT SCHEDULE\t\t\t   | FLIGHT NO | Available Seats  | \tFROM ====>>       | \t====>> TO\t   | \t    ARRIVAL TIME       | FLIGHT TIME |  GATE  |   DISTANCE(MILES/KMS)  |\n");
-            Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
+            Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
+            Console.Write("| STT  | Lịch chuyến bay\t\t\t   |Mã chuyến bay| Số ghế trống     | \tTỪ ====>>           | \t====>> ĐẾN\t     | \t   THỜI GIAN HẠ CÁNH     |THỜI GIAN BAY|  CỔNG  | QUÃNG ĐƯỜNG(MILES/KMS) |\n");
+            Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
 
             int i = 0;
 
@@ -223,14 +223,14 @@ namespace ThucTapCoSo
             {
                 i++;
                 Console.WriteLine(f1.ToString(i));
-                Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
+                Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
             }
         }
 
 
         public override string ToString(int i)
         {
-            return $"| {i,-5}| {flightSchedule,-41} | {flightNumber,-9} | \t{numOfSeatsInTheFlight,-9} | {fromWhichCity,-21} | {toWhichCity,-22} | {FetchArrivalTime(),-10}  |   {flightTime,-6}Hrs |  {gate,-4}  |  {distanceInMiles,-8} / {distanceInKm,-11}|";
+            return $"| {i,-5}| {flightSchedule,-41} | {flightNumber,-11} | \t{numOfSeatsInTheFlight,-11} | {fromWhichCity,-21} | {toWhichCity,-22} | {FetchArrivalTime(),-10}  |   {flightTime,-6}Hrs |  {gate,-4}  |  {distanceInMiles,-8} / {distanceInKm,-11}|";
         }
 		Random random = new Random();
 		public string CreateNewFlightsAndTime()

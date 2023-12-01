@@ -171,7 +171,7 @@ namespace ThucTapCoSo
                     break;
                 }
             }
-            return isFlightAvailable ? "Theo Lịch Trình" : "   Hủy Bỏ   ";
+            return isFlightAvailable ? "Theo Lịch Trình" : "   Hủy Bỏ      ";
         }
         public string ToString(int serialNum, Flight flight, Customer customer)
         {
@@ -185,7 +185,7 @@ namespace ThucTapCoSo
 			bool flightsFound = false; // Flag to check if any flights are found for the given user            
 			Console.WriteLine();
 			Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+-----------------+\n");
-			Console.WriteLine("| STT  | LỊCH BAY\t\t\t\t   | MÃ CHUYẾN |  Số vé đã đặt    | \tTừ ====>>         | \t====>> Đến\t   | \t    THỜI GIAN ĐẾN        |THỜI GIAN BAY|  CỔNG  |  TRẠNG THÁI     |");
+			Console.WriteLine("| STT  | LỊCH BAY\t\t\t\t   | MÃ CHUYẾN |  Số vé đã đặt    | \tTừ ====>>         | \t====>> Đến\t   | \t    THỜI GIAN HẠ CÁNH    |THỜI GIAN BAY|  CỔNG  |  TRẠNG THÁI     |");
 			Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+-----------------+\n");
             
 

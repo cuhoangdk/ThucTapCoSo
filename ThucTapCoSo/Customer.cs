@@ -220,7 +220,7 @@ namespace ThucTapCoSo
 			Console.OutputEncoding = Encoding.Unicode;
 			Console.WriteLine();
             Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
-            Console.WriteLine($"{new string(' ', 10)}| Số Seri    |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email\t\t\t| Địa chỉ     \t\t\t      | Số điện thoại           |");
+            Console.WriteLine($"{new string(' ', 10)}| STT        |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email\t\t\t| Địa chỉ     \t\t\t      | Số điện thoại           |");
             Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
         }
 
