@@ -12,7 +12,7 @@ namespace ThucTapCoSo
 		// ************************************************************ Fields ************************************************************
 		private string randomNum;
 
-        /* City name is at the 0-index, its latitude is on the 1-index, and longitude on the 2-index */
+        /* Tên thành phố nằm ở chỉ số 0, vĩ độ của thành phố ở chỉ số 1 và kinh độ ở chỉ số 2 */
         private static readonly string[][] destinations =
         {
         new[] {"Karachi", "24.871940", "66.988060"},
@@ -76,14 +76,14 @@ namespace ThucTapCoSo
 
         // ************************************************************ Behaviours/Methods ************************************************************
 
-        /* Generates Random ID for the Customers.... */
+        /* Tạo ID ngẫu nhiên cho khách hàng (Customer).... */
         public void RandomIDGen()
         {            
             string randomID = rand.Next(20000, 1000000).ToString();
             SetRandomNum(randomID);
         }
 
-        /* This method sets the destinations for each of the flights from the above destinations randomly..... */
+        /* Phương thức này đặt các điểm đến cho mỗi chuyến bay từ các điểm đến trên theo cách ngẫu nhiên..... */
         public string[][] RandomDestinations()
         {            
             int randomCity1 = rand.Next(destinations.Length);
@@ -109,14 +109,14 @@ namespace ThucTapCoSo
             return chosenDestinations;
         }
 
-        /* Generates the Random Number of Seats for each flight */
+        /* Tạo số ghế ngẫu nhiên cho mỗi chuyến bay */
         public int RandomNumOfSeats()
         {            
             int numOfSeats = rand.Next(75, 500);
             return numOfSeats;
         }
 
-        /* Generates the Unique Flight Number.... */
+        /* Tạo Số hiệu (Flight Number) chuyến bay duy nhất.... */
 
         public string RandomFlightNumbGen(int uptoHowManyLettersRequired, int divisible)
         {            
@@ -128,7 +128,7 @@ namespace ThucTapCoSo
             return randomAlphabets;
         }
 
-        // ************************************************************ Setters & Getters ************************************************************
+        //************************************************************ Setters & Getters ************************************************************
 
         public void SetRandomNum(string randomNum)
         {

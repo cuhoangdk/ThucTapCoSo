@@ -53,24 +53,24 @@ namespace ThucTapCoSo
         public void AddNewCustomer()
         {
 			Console.OutputEncoding = Encoding.Unicode;
-			Console.WriteLine($"\n\n\n{new string(' ', 60)} ++++++++++++++ Welcome to the Customer Registration Portal ++++++++++++++");
-            Console.Write("Enter your name :\t");
+            Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ Chào mừng bạn đến với Cổng đăng ký của Khách hàng ++++++++++++++");
+            Console.Write("Nhập tên của bạn :\t");
             string name = Console.ReadLine();
-            Console.Write("Enter your email address :\t");
+            Console.Write("Nhập địa chỉ Email của bạn :\t");
             string email = Console.ReadLine();
             while (IsUniqueData(email))
             {
-                Console.WriteLine("ERROR!!! User with the same email already exists... Use a new email or login using the previous credentials....");
-                Console.Write("Enter your email address :\t");
+                Console.WriteLine("LỖI!!! Người dùng có cùng địa chỉ email đã tồn tại... Sử dụng một địa chỉ email mới hoặc đăng nhập bằng thông tin đăng nhập trước đó....");
+                Console.Write("Nhập địa chỉ Email của bạn :\t");
                 email = Console.ReadLine();
             }
-            Console.Write("Enter your Password :\t");
+            Console.Write("Nhập mật khẩu của bạn :\t");
             string password = Console.ReadLine();
-            Console.Write("Enter your Phone number :\t");
+            Console.Write("Nhập số điện thoại của bạn :\t");
             string phone = Console.ReadLine();
-            Console.Write("Enter your address :\t");
+            Console.Write("Nhập địa chỉ của bạn :\t");
             string address = Console.ReadLine();
-            Console.Write("Enter your age :\t");
+            Console.Write("Nhập tuổi của bạn :\t");
             int age = int.Parse(Console.ReadLine());
             customerCollection.Add(new Customer(name, email, password, phone, address, age));
         }
@@ -90,9 +90,9 @@ namespace ThucTapCoSo
 				foreach (Customer c in customerCollection)
 				{
 					if (ID.Equals(c.userID))
-					{											
-						Console.WriteLine($"{"Customer Found...!!! Here is the Full Record...!!!\n\n\n".PadLeft(50)}"); //FIX
-						DisplayHeader();
+					{
+                        Console.WriteLine($"{new string(' ', 10)}Khách hàng được tìm thấy...!!! Đây là Bản ghi đầy đủ...!!!\n\n\n"); //FIX
+                        DisplayHeader();
 						isFound = true;
 						customerWithTheID = c;
 						break;
@@ -104,15 +104,15 @@ namespace ThucTapCoSo
 					Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
 				}
 				else
-				{					
-					Console.WriteLine($"{"No Customer with the ID {ID} Found...!!!".PadLeft(50)}"); //FIX
-				}
-			}
+				{
+                    Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); //FIX
+                }
+            }
 			else
-			{				
-				Console.WriteLine($"{"No Customer with the ID {ID} Found...!!!".PadLeft(50)}");//FIX
-			}
-		}
+			{
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); //FIX
+            }
+        }
         public bool IsUniqueData(string emailID)
         {
             bool isUnique = false;
@@ -140,19 +140,19 @@ namespace ThucTapCoSo
                 {
                     isFound = true;
 
-                    Console.Write("Enter the new name of the Passenger:\t");
+                    Console.Write("Nhập tên mới của Hành khách:\t");
                     c.name = Console.ReadLine();
 
-                    Console.Write($"Enter the new email address of Passenger {c.name}:\t");
+                    Console.Write($"Nhập địa chỉ email mới của Hành khách {c.name}:\t");
                     c.email = Console.ReadLine();
 
-                    Console.Write($"Enter the new Phone number of Passenger {c.name}:\t");
+                    Console.Write($"Nhập số điện thoại mới của Hành khách {c.name}:\t");
                     c.phone = Console.ReadLine();
 
-                    Console.Write($"Enter the new address of Passenger {c.name}:\t");
+                    Console.Write($"Nhập địa chỉ mới của Hành khách {c.name}:\t");
                     c.address = Console.ReadLine();
 
-                    Console.Write($"Enter the new age of Passenger {c.name}:\t");
+                    Console.Write($"Nhập tuổi mới của Hành khách {c.name}:\t");
                     c.age = Convert.ToInt32(Console.ReadLine());
 
                     DisplayCustomersData(false);
@@ -162,9 +162,9 @@ namespace ThucTapCoSo
 
             if (!isFound)
             {
-                Console.WriteLine($"{"No Customer with the ID {ID} Found...!!!\n".PadLeft(50)}");//FIX
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID  {ID} ...!!!"); //FIX
             }
-		}
+        }
 
         public void DeleteUser(string ID)
         {
@@ -177,16 +177,16 @@ namespace ThucTapCoSo
                 {
                     isFound = true;
                     customerCollection.Remove(customer);
-                    Console.WriteLine($"{"Printing all Customer's Data after deleting Customer with the ID {ID}.....!!!!\n".PadLeft(50)}");//fix code
+                    Console.WriteLine($"{new string(' ', 10)}In toàn bộ dữ liệu Khách hàng sau khi xóa Khách hàng với ID {ID}.....!!!!\n");//fix code
                     DisplayCustomersData(false);
                     break;
                 }
             }
 
             if (!isFound)
-            {				
-				Console.WriteLine($"{"No Customer with the ID {ID} Found...!!!\n".PadLeft(50)}");//fix code
-			}
+            {
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); //FIX
+            }
         }
 
         public void DisplayCustomersData(bool showHeader)

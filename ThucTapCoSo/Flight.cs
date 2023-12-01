@@ -26,6 +26,8 @@ namespace ThucTapCoSo
         private static int nextFlightDay = 0;
         private static readonly List<Flight> flightList = new List<Flight>();
 
+        // ************************************************************ Behaviours/Methods ************************************************************
+
         public Flight()
         {
             this.flightSchedule = null;
@@ -175,7 +177,7 @@ namespace ThucTapCoSo
             }
             else
             {
-                Console.WriteLine("Flight with given Number not found...");
+                Console.WriteLine("Không tìm thấy Chuyến bay với số hiệu đã cho...");
             }
 
             DisplayFlightSchedule();
@@ -235,13 +237,13 @@ namespace ThucTapCoSo
         {            
             DateTime currentDate = DateTime.Now;
 
-            // Incrementing nextFlightDay, so that the next scheduled flight would be in the future, not in the present
+            // Tăng giá trị của nextFlightDay, để chuyến bay được lên lịch tiếp theo sẽ ở tương lai, không phải trong hiện tại
             nextFlightDay += (int)(random.NextDouble()*7);
             DateTime newDate = currentDate.AddDays(nextFlightDay)
                                         .AddHours((int)nextFlightDay)
                                         .AddMinutes(random.Next(0, 45));
 
-            // Round the minutes to the nearest quarter
+            // Làm tròn số phút đến phút gần nhất của một phần tư
             int mod = newDate.Minute % 15;
             if (mod < 8)
             {
@@ -269,7 +271,7 @@ namespace ThucTapCoSo
             return newDatetime;
         }
 
-        //        ************************************************************ Setters & Getters ************************************************************
+        //************************************************************ Setters & Getters ************************************************************
 
         public int NoOfSeats => numOfSeatsInTheFlight;
         public string FlightNumber => flightNumber;

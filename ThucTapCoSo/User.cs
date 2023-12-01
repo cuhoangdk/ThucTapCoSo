@@ -21,30 +21,30 @@ namespace ThucTapCoSo
             f1.FlightScheduler();
             Console.WriteLine();
             WelcomeScreen(1);
-            Console.WriteLine("\n\t\t\t\t\t+++++++++++++ Welcome to Star AirLines +++++++++++++\n\nTo Further Proceed, Please enter a value.");
-            Console.WriteLine("\n***** Default Username && Password is root-root ***** Using Default Credentials will restrict you to just view the list of Passengers....\n");
+            Console.WriteLine("\n\t\t\t\t\t+++++++++++++ Chào mừng bạn đến với Star AirLines +++++++++++++\n\nĐể tiếp tục, vui lòng nhập một giá trị.");
+            Console.WriteLine("\n***** Tên người dùng && Mật khẩu mặc định là root-root ***** Sử dụng Thông tin đăng nhập mặc định sẽ giới hạn bạn chỉ có thể xem danh sách Hành khách....\n");
             DisplayMainMenu();
             int desiredOption;
             //fix code
 			while (!int.TryParse(Console.ReadLine(), out desiredOption))
 			{
-				Console.Write("Invalid input. Please enter a valid number: ");
-			}			         
+                Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
+            }
             while (desiredOption < 0 || desiredOption > 8)
             {
 				while (!int.TryParse(Console.ReadLine(), out desiredOption))
 				{
-					Console.Write("Invalid input. Please enter a valid number: ");
-				}
-				Console.Write("ERROR!! Please enter value between 0 - 4. Enter the value again :\t");
+                    Console.Write("LỖI!! Vui lòng nhập giá trị giữa 0 - 8. Nhập giá trị lại :\t");
+                }
+                Console.Write("LỖI!! Vui lòng nhập giá trị giữa 0 - 8. Nhập giá trị lại :\t");
                 desiredOption = Convert.ToInt32(Console.ReadLine());
             }
 
             do
             {
-                /* If desiredOption is 1 then call the login method.... if default credentials are used then set the permission
-                 * level to standard/default where the user can just view the customer's data...if not found, then return -1, and if
-                 * data is found then show the user display menu for adding, updating, deleting and searching users/customers...
+                /* Nếu desiredOption là 1 thì gọi phương thức đăng nhập.... nếu sử dụng thông tin đăng nhập mặc định thì đặt quyền
+                 * mức về mức chuẩn/mặc định, nơi người dùng chỉ có thể xem dữ liệu của khách hàng... nếu không tìm thấy, trả về -1, và nếu
+                 * dữ liệu được tìm thấy thì hiển thị menu hiển thị người dùng cho việc thêm, cập nhật, xóa và tìm kiếm người dùng/khách hàng...
                  * */
                 if (desiredOption == 1)
                 {
@@ -52,47 +52,49 @@ namespace ThucTapCoSo
                     adminUserNameAndPassword[0,0] = "root";
                     adminUserNameAndPassword[0,1] = "root";
                     PrintArtWork(1);
-                    Console.Write("\nEnter the UserName to login to the Management System :     ");
+                    Console.Write("\nNhập tên người dùng để đăng nhập vào Hệ thống Quản lý :     ");
                     string username = Console.ReadLine();
-                    Console.Write("Enter the Password to login to the Management System :    ");
+                    Console.Write("\nNhập mật khẩu để đăng nhập vào Hệ thống Quản lý :     ");
                     string password = Console.ReadLine();
                     Console.WriteLine();
 
-                    /*Checking the RolesAndPermissions......*/
+                    /*Kiểm tra RolesAndPermissions......*/
                     if (r1.IsPrivilegedUserOrNot(username, password) == -1)
                     {
-                        Console.WriteLine($"\n{"", 20}ERROR!!! Unable to login Cannot find user with the entered credentials.... Try Creating New Credentials or get yourself register by pressing 4....", "");
+                        Console.WriteLine($"\n{"",20}LỖI!!! Không thể đăng nhập. Không thể tìm thấy người dùng với thông tin đăng nhập đã nhập.... Hãy Tạo Thông Tin Mới hoặc đăng ký bằng cách nhấn 4....", "");
                     }
                     else if (r1.IsPrivilegedUserOrNot(username, password) == 0)
                     {
-                        Console.WriteLine("You've standard/default privileges to access the data... You can just view customers data... Can't perform any actions on them....");
+                        Console.WriteLine("Bạn có quyền truy cập dữ liệu thông thường/mặc định... Bạn chỉ có thể xem dữ liệu của khách hàng... Không thể thực hiện bất kỳ hành động nào trên họ....");
                         c1.DisplayCustomersData(true);
                     }
                     else
-                    {						
+                    {
                         // In ra màn hình để kiểm tra						
-						Console.WriteLine($"{"",-20}Logged in Successfully as \"{username}\"..... For further Proceedings, enter a value from below....", "");
+                        Console.WriteLine($"{"",-20}Đăng nhập thành công với tên người dùng \"{username}\"..... Để tiếp tục, nhập một giá trị từ dưới đây....", "");
 
-                        /*Going to Display the CRUD operations to be performed by the privileged user.....Which includes Creating, Updating
-                         * Reading(Searching) and deleting a customer....
+                        /* Sẽ hiển thị các hoạt động CRUD mà người dùng đặc quyền có thể thực hiện..... Bao gồm Tạo, Cập nhật,
+                         * Đọc (Tìm kiếm) và xóa một khách hàng....
                          * */
+
                         do
                         {
                             Console.WriteLine($"\n\n+++++++++ 2nd Layer Menu +++++++++ Logged in as \"{username}\"\n", "", "");
 
-                            Console.WriteLine("(a) Enter 1 to add new Passenger....");
-                            Console.WriteLine("(b) Enter 2 to search a Passenger....");
-                            Console.WriteLine("(c) Enter 3 to update the Data of the Passenger....");
-                            Console.WriteLine("(d) Enter 4 to delete a Passenger....");
-                            Console.WriteLine("(e) Enter 5 to Display all Passengers....");
-                            Console.WriteLine("(f) Enter 6 to Display all flights registered by a Passenger...");
-                            Console.WriteLine("(g) Enter 7 to Display all registered Passengers in a Flight....");
-                            Console.WriteLine("(h) Enter 8 to Delete a Flight....");
-                            Console.WriteLine("(i) Enter 0 to Go back to the Main Menu/Logout....");
+                            Console.WriteLine("(a) Nhập 1 để thêm hành khách mới....");
+                            Console.WriteLine("(b) Nhập 2 để tìm kiếm một hành khách....");
+                            Console.WriteLine("(c) Nhập 3 để cập nhật dữ liệu của hành khách....");
+                            Console.WriteLine("(d) Nhập 4 để xóa một hành khách....");
+                            Console.WriteLine("(e) Nhập 5 để Hiển thị tất cả hành khách....");
+                            Console.WriteLine("(f) Nhập 6 để Hiển thị tất cả các chuyến bay đã đăng ký bởi hành khách...");
+                            Console.WriteLine("(g) Nhập 7 để Hiển thị tất cả hành khách đã đăng ký trên một chuyến bay....");
+                            Console.WriteLine("(h) Nhập 8 để Xóa một chuyến bay....");
+                            Console.WriteLine("(i) Nhập 0 để Quay lại Menu Chính/Đăng xuất....");
 
-                            Console.Write("Enter the desired Choice :   ");
+
+                            Console.Write("\nNhập tùy chọn mong muốn:   ");
                             //fix code
-							while (!int.TryParse(Console.ReadLine(), out desiredOption))
+                            while (!int.TryParse(Console.ReadLine(), out desiredOption))
 							{
 								Console.Write("Invalid input. Please enter a valid number: ");
 							}
@@ -108,19 +110,19 @@ namespace ThucTapCoSo
                                 /*If 2 is entered by the privileged user, then call the search method of the Customer class*/
                                 c1.DisplayArtWork(2);
                                 c1.DisplayCustomersData(false);
-                                Console.Write("Enter the CustomerID to Search :\t");
+                                Console.Write("Nhập CustomerID muốn tìm :\t");
                                 string customerID = Console.ReadLine();
                                 Console.WriteLine();
                                 c1.SearchUser(customerID);
                             }
                             else if (desiredOption == 3)
                             {
-                                /*If 3 is entered by the user, then call the update method of the Customer Class with required
-                                 * arguments.....
+                                /* Nếu người dùng nhập 3, sau đó gọi phương thức cập nhật của lớp Customer với các đối số cần thiết....
                                  * */
+
                                 bookingAndReserving.DisplayArtWork(2);
                                 c1.DisplayCustomersData(false);
-                                Console.Write("Enter the CustomerID to Update its Data :\t");
+                                Console.Write("Nhập CustomerID để Cập nhật Dữ liệu của khách hàng đó :\t");
                                 string customerID = Console.ReadLine();
                                 if (customersCollection.Count > 0)
                                 {
@@ -128,17 +130,15 @@ namespace ThucTapCoSo
                                 }
                                 else
                                 {
-                                    Console.WriteLine($"No Customer with the ID {customerID} Found...!!!", " ");
+                                    Console.WriteLine($"Không tìm thấy Khách hàng với ID {customerID}...!!!", " ");
                                 }
                             }
                             else if (desiredOption == 4)
                             {
-                                /*If 4 is entered, then ask the user to enter the customer id, and then delete
-                                 * that customer....
-                                 * */
+                                /*Nếu nhập 4 thì yêu cầu người dùng nhập id khách hàng rồi xóa khách hàng đó.... */
                                 bookingAndReserving.DisplayArtWork(3);
                                 c1.DisplayCustomersData(false);
-                                Console.Write("Enter the CustomerID to Delete its Data :\t");
+                                Console.Write("Nhập CustomerID của khách hàng muốn xóa :\t");
                                 string customerID = Console.ReadLine();
                                 if (customersCollection.Count > 0)
                                 {
@@ -146,12 +146,12 @@ namespace ThucTapCoSo
                                 }
                                 else
                                 {
-                                    Console.WriteLine($"{"",-50}No Customer with the ID {customerID} Found...!!!", " ");
+                                    Console.WriteLine($"{"",-50}Không tìm thấy Khách hàng với ID {customerID}...!!!", " ");
                                 }
                             }
                             else if (desiredOption == 5)
                             {
-                                /*Call the Display Method of Customer Class....*/
+                                /*Nếu nhập 5, Gọi phương thức Display của lớp Customer ....*/
                                 c1.DisplayArtWork(3);
                                 c1.DisplayCustomersData(false);
                             }
@@ -159,15 +159,16 @@ namespace ThucTapCoSo
                             {
                                 bookingAndReserving.DisplayArtWork(6);
                                 c1.DisplayCustomersData(false);
-                                Console.Write("\n\nEnter the ID of the user to display all flights registered by that user...");
+                                Console.Write("\n\nNhập ID của người dùng để hiển thị tất cả các chuyến bay đã đăng ký bởi người đó...");
                                 string id = Console.ReadLine();
                                 bookingAndReserving.DisplayFlightsRegisteredByOneUser(id);
                             }
                             else if (desiredOption == 7)
                             {
                                 c1.DisplayArtWork(4);
-                                Console.Write("Do you want to display Passengers of all flights or a specific flight.... 'Y/y' for displaying all flights and 'N/n' to look for a" +
-                                        " specific flight.... ");
+                                Console.Write("Bạn muốn hiển thị Hành khách của tất cả các chuyến bay hay một chuyến bay cụ thể.... 'Y/y' để hiển thị tất cả các chuyến bay và 'N/n' để tìm kiếm một" +
+                                                " chuyến bay cụ thể.... ");
+
                                 char choice = Console.ReadLine()[0];
                                 if ('y' == choice || 'Y' == choice)
                                 {
@@ -176,20 +177,20 @@ namespace ThucTapCoSo
                                 else if ('n' == choice || 'N' == choice)
                                 {
                                     f1.DisplayFlightSchedule();
-                                    Console.Write("Enter the Flight Number to display the list of passengers registered in that flight... ");
+                                    Console.Write("Nhập Flight Number để hiển thị danh sách hành khách đã đăng ký trong chuyến bay đó... ");
                                     string flightNum = Console.ReadLine();
                                     bookingAndReserving.DisplayRegisteredUsersForASpecificFlight(flightNum);
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Invalid Choice...No Response...!");
+                                    Console.WriteLine("Lựa chọn không hợp lệ...Không có phản hồi...!");
                                 }
                             }
                             else if (desiredOption == 8)
                             {
                                 c1.DisplayArtWork(5);
                                 f1.DisplayFlightSchedule();
-                                Console.Write("Enter the Flight Number to delete the flight : ");
+                                Console.Write("Nhập Flight Number để xóa chuyến bay : ");
                                 string flightNum = Console.ReadLine();
                                 f1.DeleteFlight(flightNum);
 
@@ -197,11 +198,11 @@ namespace ThucTapCoSo
                             else if (desiredOption == 0)
                             {
                                 bookingAndReserving.DisplayArtWork(22);
-                                Console.WriteLine("Thanks for Using BAV Airlines Ticketing System...!!!");
+                                Console.WriteLine("Cảm ơn bạn đã sử dụng Hệ thống Đặt vé của Star Airlines...!!!");
                             }
                             else
                             {
-                                Console.WriteLine("Invalid Choice...Looks like you're Robot...Entering values randomly...You've Have to login again...");
+                                Console.WriteLine("Lựa chọn không hợp lệ...Có vẻ như bạn là Robot...Đang nhập giá trị ngẫu nhiên...Bạn phải đăng nhập lại...");
                                 bookingAndReserving.DisplayArtWork(22);
                                 desiredOption = 0;
                             }
@@ -213,70 +214,71 @@ namespace ThucTapCoSo
                 else if (desiredOption == 2)
                 {
                     PrintArtWork(2);
-                    /*If desiredOption is 2, then call the registration method to register a user......*/
-                    Console.Write("\nEnter the UserName to Register :    ");
+                    /*Nếu desiredOption là 2, hãy gọi phương thức đăng ký để đăng ký người dùng......*/
+                    Console.Write("\nNhập tên người dùng để Đăng ký :    ");
                     string username = Console.ReadLine();
-                    Console.Write("Enter the Password to Register :     ");
+                    Console.Write("\nNhập mật khẩu để Đăng ký :    ");
                     string password = Console.ReadLine();
                     while (r1.IsPrivilegedUserOrNot(username, password) != -1)
                     {
-                        Console.Write("ERROR!!! Admin with same UserName already exist. Enter new UserName:   ");
+                        Console.Write("LỖI!!! Quản trị viên với cùng tên người dùng đã tồn tại. Nhập tên người dùng mới:   ");
                         username = Console.ReadLine();
-                        Console.Write("Enter the Password Again:   ");
+                        Console.Write("Nhập lại mật khẩu:   ");
                         password = Console.ReadLine();
                     }
 
-                    /*Setting the credentials entered by the user.....*/
+                    /*Thiết lập thông tin đăng nhập do người dùng nhập......*/
                     adminUserNameAndPassword[countNumOfUsers, 0] = username;
                     adminUserNameAndPassword[countNumOfUsers, 1] = password;
 
-                    /*Incrementing the numOfUsers */
+                    /*Tăng số lượng người dùng */
                     countNumOfUsers++;
                 }
                 else if (desiredOption == 3)
                 {
                     PrintArtWork(3);
-                    Console.Write("\n\nEnter the Email to Login : \t");
+                    Console.Write("\n\nNhập Email để đăng nhập: \t");
                     string userName = Console.ReadLine();
-                    Console.Write("Enter the Password : \t");
+                    Console.Write("Nhập mật khẩu : \t");
                     string password = Console.ReadLine();
                     string[] result = r1.IsPassengerRegistered(userName, password).Split('-');
 
                     if (Convert.ToInt32(result[0]) == 1)
                     {
                         int desiredChoice;
-                        Console.WriteLine($"\n\n{"",-20}Logged in Successfully as \"{userName}\"..... For further Proceedings, enter a value from below....");
+                        Console.WriteLine($"\n\n{"",-20}Đăng nhập thành công với tên người dùng \"{userName}\"..... Để tiếp tục, nhập giá trị từ dưới đây....");
                         do
                         {
                             Console.WriteLine($"\n\n{"",-60}+++++++++ 3rd Layer Menu +++++++++{"",50}Logged in as \"{userName}\"\n");
-                            Console.WriteLine("(a) Enter 1 to Book a flight....");
-                            Console.WriteLine("(b) Enter 2 to update your Data....");
-                            Console.WriteLine("(c) Enter 3 to delete your account....");
-                            Console.WriteLine("(d) Enter 4 to Display Flight Schedule....");
-                            Console.WriteLine("(e) Enter 5 to Cancel a Flight....");
-                            Console.WriteLine($"(f) Enter 6 to Display all flights registered by \"{userName}\"....");
-                            Console.WriteLine("(g) Enter 0 to Go back to the Main Menu/Logout....");
-                            Console.Write("Enter the desired Choice :   ");
+                            Console.WriteLine("(a) Nhập 1 để Đặt chỗ trên chuyến bay....");
+                            Console.WriteLine("(b) Nhập 2 để cập nhật dữ liệu của bạn....");
+                            Console.WriteLine("(c) Nhập 3 để xóa tài khoản của bạn....");
+                            Console.WriteLine("(d) Nhập 4 để Hiển thị Lịch trình chuyến bay....");
+                            Console.WriteLine("(e) Nhập 5 để Hủy chuyến bay....");
+                            Console.WriteLine($"(f) Nhập 6 để Hiển thị tất cả các chuyến bay đã đăng ký bởi \"{userName}\"....");
+                            Console.WriteLine("(g) Nhập 0 để Quay lại Menu Chính/Đăng xuất....");
+                            Console.Write("Nhập lựa chọn mong muốn :   ");
+
                             desiredChoice = Convert.ToInt32(Console.ReadLine());
                             if (desiredChoice == 1)
                             {
                                 bookingAndReserving.DisplayArtWork(1);
                                 f1.DisplayFlightSchedule();
-                                Console.Write("\nEnter the desired flight number to book :\t ");
+                                Console.Write("\nNhập số chuyến bay mong muốn để đặt chỗ :\t ");
                                 string flightToBeBooked = Console.ReadLine();
-                                Console.Write($"Enter the Number of tickets for {flightToBeBooked} flight :   ");
+                                Console.Write($"Nhập số lượng vé cho chuyến bay {flightToBeBooked} :   ");
                                 int numOfTickets;
 								while (!int.TryParse(Console.ReadLine(), out numOfTickets))
 								{
-									Console.Write("Invalid input. Please enter a valid number: ");
-								}
-								while (numOfTickets > 10)
+                                    Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
+                                }
+                                while (numOfTickets > 10)
                                 {
 									while (!int.TryParse(Console.ReadLine(), out numOfTickets))
 									{
-										Console.Write("Invalid input. Please enter a valid number: ");
-									}
-									Console.Write("ERROR!! You can't book more than 10 tickets at a time for single flight....Enter number of tickets again : ");
+                                        Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
+                                    }
+                                    Console.Write("LỖI!! Bạn không thể đặt nhiều hơn 10 vé một lần cho một chuyến bay....Nhập số lượng vé lại : ");
                                     numOfTickets = int.Parse(Console.ReadLine());
                                 }
                                 bookingAndReserving.BookFlight(flightToBeBooked, numOfTickets, result[1]);
@@ -289,17 +291,17 @@ namespace ThucTapCoSo
                             else if (desiredChoice == 3)
                             {
                                 bookingAndReserving.DisplayArtWork(3);
-                                Console.Write("Are you sure to delete your account...It's an irreversible action...Enter Y/y to confirm...");
+                                Console.Write("Bạn chắc chắn muốn xóa tài khoản của mình... Đây là một hành động không thể hoàn tác... Nhập Y/y để xác nhận...");
                                 char confirmationChar = Console.ReadLine()[0];
                                 if (confirmationChar == 'Y' || confirmationChar == 'y')
                                 {
                                     c1.DeleteUser(result[1]);
-                                    Console.WriteLine($"User {userName}'s account deleted Successfully...!!!");
+                                    Console.WriteLine($"Tài khoản của người dùng {userName} đã bị xóa thành công...!!!");
                                     desiredChoice = 0;
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Action has been cancelled...");
+                                    Console.WriteLine("Hành động đã bị hủy...");
                                 }
                             }
                             else if (desiredChoice == 4)
@@ -348,15 +350,14 @@ namespace ThucTapCoSo
                 DisplayMainMenu();
 				while (!int.TryParse(Console.ReadLine(), out desiredOption))
 				{
-					Console.Write("Invalid input. Please enter a valid number: ");
-				}
-				while (desiredOption < 0 || desiredOption > 8)
+                    Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
+                }
+                while (desiredOption < 0 || desiredOption > 8)
                 {
 					while (!int.TryParse(Console.ReadLine(), out desiredOption))
 					{
-						Console.Write("Invalid input. Please enter a valid number: ");
-					}
-					Console.Write("ERROR!! Please enter value between 0 - 4. Enter the value again :\t");
+                        Console.Write("LỖI!! Vui lòng nhập giá trị từ 0 - 7. Nhập lại giá trị :\t");
+                    }
                     desiredOption = Convert.ToInt32(Console.ReadLine());
                 }
             } while (desiredOption != 0);
@@ -394,9 +395,10 @@ namespace ThucTapCoSo
             {
 				while (!int.TryParse(Console.ReadLine(), out choice))
 				{
-					Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
-				}
-				Console.Write("LỖI!!! Mục nhập không hợp lệ...Vui lòng nhập giá trị 1 hoặc 2....Nhập lại....  ");
+                    Console.Write("LỖI!!! Mục nhập không hợp lệ...Vui lòng nhập giá trị 1 hoặc 2....Nhập lại....  ");
+                }
+                Console.Write("LỖI!!! Mục nhập không hợp lệ...Vui lòng nhập giá trị 1 hoặc 2....Nhập lại....  ");
+
                 choice = Convert.ToInt32(Console.ReadLine());
             }
 			if (choice == 1)
