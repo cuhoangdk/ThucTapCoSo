@@ -29,19 +29,10 @@ namespace ThucTapCoSo
             DisplayMainMenu();
             int desiredOption;
             //fix code
-			while (!int.TryParse(Console.ReadLine(), out desiredOption))
+			while (!int.TryParse(Console.ReadLine(), out desiredOption) || desiredOption < 0 || desiredOption > 8)
 			{
-                Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
-            }
-            while (desiredOption < 0 || desiredOption > 8)
-            {
-				while (!int.TryParse(Console.ReadLine(), out desiredOption))
-				{
-                    Console.Write("LỖI!! Vui lòng nhập giá trị giữa 0 - 8. Nhập giá trị lại :\t");
-                }
                 Console.Write("LỖI!! Vui lòng nhập giá trị giữa 0 - 8. Nhập giá trị lại :\t");
-                desiredOption = Convert.ToInt32(Console.ReadLine());
-            }
+            }            
 
             do
             {
@@ -99,7 +90,7 @@ namespace ThucTapCoSo
                             //fix code
                             while (!int.TryParse(Console.ReadLine(), out desiredOption))
 							{
-								Console.Write("Invalid input. Please enter a valid number: ");
+								Console.Write("Tuỳ chọn không hợp lệ, vui lòng nhập lại: ");
 							}
 
 							/*If 1 is entered by the privileged user, then add a new customer......*/
@@ -261,8 +252,10 @@ namespace ThucTapCoSo
                             Console.WriteLine($"(f) Nhập 6 để Hiển thị tất cả các chuyến bay đã đăng ký bởi \"{userName}\"....");
                             Console.WriteLine("(g) Nhập 0 để Quay lại Menu Chính/Đăng xuất....");
                             Console.Write("Nhập lựa chọn mong muốn :   ");
-
-                            desiredChoice = Convert.ToInt32(Console.ReadLine());
+							while (!int.TryParse(Console.ReadLine(), out desiredChoice))
+							{
+								Console.Write("Lựa chọn không hợp lệ vui lòng nhập lại:  ");
+							}							
                             if (desiredChoice == 1)
                             {
                                 bookingAndReserving.DisplayArtWork(1);
@@ -351,18 +344,10 @@ namespace ThucTapCoSo
                 }
 
                 DisplayMainMenu();
-				while (!int.TryParse(Console.ReadLine(), out desiredOption))
+				while (!int.TryParse(Console.ReadLine(), out desiredOption)|| desiredOption < 0 || desiredOption > 8)
 				{
-                    Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
-                }
-                while (desiredOption < 0 || desiredOption > 8)
-                {
-					while (!int.TryParse(Console.ReadLine(), out desiredOption))
-					{
-                        Console.Write("LỖI!! Vui lòng nhập giá trị từ 0 - 7. Nhập lại giá trị :\t");
-                    }
-                    desiredOption = Convert.ToInt32(Console.ReadLine());
-                }
+                    Console.Write("LỖI!! Vui lòng nhập giá trị từ 0 - 8. Nhập lại giá trị :\t");
+                }                
             } while (desiredOption != 0);
 
             WelcomeScreen(-1);
@@ -390,20 +375,10 @@ namespace ThucTapCoSo
             Console.Write("\nNhập tùy chọn mong muốn:   ");
             //fix code
             int choice;
-			while (!int.TryParse(Console.ReadLine(), out choice))
+			while (!int.TryParse(Console.ReadLine(), out choice)|| choice < 1 || choice > 2)
 			{
-				Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
+				Console.Write("LỖI!!! Mục nhập không hợp lệ...Vui lòng nhập giá trị 1 hoặc 2....Nhập lại....  ");
 			}
-			while (choice < 1 || choice > 2)
-            {
-				while (!int.TryParse(Console.ReadLine(), out choice))
-				{
-                    Console.Write("LỖI!!! Mục nhập không hợp lệ...Vui lòng nhập giá trị 1 hoặc 2....Nhập lại....  ");
-                }
-                Console.Write("LỖI!!! Mục nhập không hợp lệ...Vui lòng nhập giá trị 1 hoặc 2....Nhập lại....  ");
-
-                choice = Convert.ToInt32(Console.ReadLine());
-            }
 			if (choice == 1)
 			{
                 Console.WriteLine("\n\n(1) Quản trị viên có quyền truy cập vào dữ liệu của tất cả người dùng... Quản trị viên có thể xóa, cập nhật, thêm và thực hiện tìm kiếm cho bất kỳ khách hàng nào...\n");

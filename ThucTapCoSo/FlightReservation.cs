@@ -68,9 +68,12 @@ namespace ThucTapCoSo
 
             flightNum = Console.ReadLine();
             Console.WriteLine("Nhập số lượng vé muốn hủy:");
-            int numOfTickets = Convert.ToInt32(Console.ReadLine());
-
-            bool isFound = false;
+            int numOfTickets;
+			while (!int.TryParse(Console.ReadLine(), out numOfTickets))
+			{
+				Console.Write("Vui lòng nhập số vé hợp lệ:  ");
+			}
+			bool isFound = false;
             int index = 0;
             foreach (Customer customer in Customer.customerCollection)
             {
@@ -91,8 +94,11 @@ namespace ThucTapCoSo
                                 while (numOfTickets > numOfTicketsForFlight)
                                 {
                                     Console.Write($"LỖI!!! Số vé không thể lớn hơn {numOfTicketsForFlight} cho chuyến bay này. Vui lòng nhập lại số lượng vé:");
-                                    numOfTickets = Convert.ToInt32(Console.ReadLine());
-                                }
+									while (!int.TryParse(Console.ReadLine(), out numOfTickets))
+									{
+										Console.Write("Vui lòng nhập số vé hợp lệ:  ");
+									}
+								}
 
                                 int ticketsToBeReturned;
 
@@ -165,11 +171,11 @@ namespace ThucTapCoSo
                     break;
                 }
             }
-            return isFlightAvailable ? "Theo Lịch Trình" : "   Hủy Bỏ   ";
+            return isFlightAvailable ? "Theo Lịch Trình" : "   Hủy Bỏ      ";
         }
         public string ToString(int serialNum, Flight flight, Customer customer)
         {
-            return string.Format("| {0,-4} | {1,-41} | {2,-9} | \t{3,-9} | {4,-21} | {5,-22} | {6,-10}  |   {7,-6}Hrs |  {8,-4}  | {9,-10} |",
+            return string.Format("| {0,-4} | {1,-41} | {2,-9} | \t{3,-9} | {4,-21} | {5,-22} | {6,-10}    |   {7,-6}Hrs |  {8,-4}  | {9,-10} |",
                                  serialNum, flight.FlightSchedule, flight.FlightNumber, customer.numOfTicketsBookedByUser[serialNum - 1],
                                  flight.FromWhichCity, flight.ToWhichCity, flight.FetchArrivalTime(), flight.FlightTime, flight.Gate, FlightStatus(flight));
         }
@@ -178,9 +184,9 @@ namespace ThucTapCoSo
 			Console.OutputEncoding = Encoding.Unicode;
 			bool flightsFound = false; // Flag to check if any flights are found for the given user            
 			Console.WriteLine();
-			Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
-			Console.WriteLine("| Num  | FLIGHT SCHEDULE\t\t\t   | FLIGHT NO |  Booked Tickets  | \tFROM ====>>       | \t====>> TO\t   | \t    ARRIVAL TIME       | FLIGHT TIME |  GATE  |  FLIGHT STATUS  |");
-			Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
+			Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+-----------------+\n");
+			Console.WriteLine("| STT  | LỊCH BAY\t\t\t\t   | MÃ CHUYẾN |  Số vé đã đặt    | \tTừ ====>>         | \t====>> Đến\t   | \t    THỜI GIAN HẠ CÁNH    |THỜI GIAN BAY|  CỔNG  |  TRẠNG THÁI     |");
+			Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+-----------------+\n");
             
 
 			foreach (Customer customer in Customer.customerCollection)
@@ -197,7 +203,7 @@ namespace ThucTapCoSo
 						for (int i = 0; i < size; i++)
 						{
 							Console.WriteLine(ToString((i + 1), flights[i], customer));
-							Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+-----------------+\n");
+							Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+-----------------+\n");
 						}
 					}
 				}
@@ -210,7 +216,7 @@ namespace ThucTapCoSo
         }
         public string ToString(int serialNum, Customer customer, int index)
         {
-            return string.Format("          | {0,-10} | {1,-10} | {2,-32} | {3,-7} | {4,-27} | {5,-35} | {6,-23} |       {7,-7}  |", (serialNum + 1), customer.RandomIDDisplay(customer.GetUserID()), customer.GetName(),
+            return string.Format("          | {0,-10} | {1,-10}  | {2,-32} | {3,-7} | {4,-27} | {5,-35} | {6,-23} |       {7,-7}  |", (serialNum + 1), customer.RandomIDDisplay(customer.GetUserID()), customer.GetName(),
                 customer.GetAge(), customer.GetEmail(), customer.GetAddress(), customer.GetPhone(), customer.numOfTicketsBookedByUser[index]);
         }
 
@@ -219,15 +225,15 @@ namespace ThucTapCoSo
         {
 			Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine($"\n{new string('+', 30)} Hiển thị Khách hàng đã đăng ký cho Chuyến bay số \"{flight.FlightNumber,-6}\" {new string('+', 30)}\n");
-            Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");
-            Console.WriteLine($"{new string(' ', 10)}| SerialNum  |   UserID   | Passenger Names                  | Age     | EmailID\t\t       | Home Address\t\t\t     | Phone Number\t       | Booked Tickets |");
-            Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");
+            Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");
+            Console.WriteLine($"{new string(' ', 10)}| Số seri    |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email  \t\t        | Địa chỉ\t\t\t      | Số điện thoại\t        |   Số vé đã đặt |");
+            Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");
 
             int size = flight.ListOfRegisteredCustomersInAFlight.Count;
             for (int i = 0; i < size; i++)
             {
                 Console.WriteLine(ToString(i, customers[i], FlightIndex(customers[i].flightsRegisteredByUser, flight)));
-                Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");
+                Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+----------------+");
             }
         }
         public void DisplayRegisteredUsersForAllFlight()
