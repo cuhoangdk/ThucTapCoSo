@@ -13,3 +13,4 @@ Monday, 29 January 2024, 21:45 PM;GU-314;185;Frankfurt;Bangkok;10:30;H-11;4838.9
 Tuesday, 30 January 2024, 22:45 PM;TK-234;408;Hong Kong;Dubai;07:15;X-7;3207.41;5944.07
 Wednesday, 31 January 2024, 23:45 PM;DO-162;441;Sialkot;Pune;01:55;W-14;825.1;1529.09
 Friday, 02 February 2024, 00:45 AM;HB-231;108;Beijing;Madrid;11:00;T-13;4968.94;9208.58
+Tuesday, 05 December 2023, 20:00 PM;ML-427;350;Karachi;Paris;07:35;L-4;3297.47;6110.97
