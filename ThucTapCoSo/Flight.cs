@@ -14,9 +14,9 @@ namespace ThucTapCoSo
 
         private readonly string flightSchedule;
         private readonly string flightNumber;
-        private readonly string fromWhichCity;
-        private readonly string gate;
-        private readonly string toWhichCity;
+        private string fromWhichCity;
+        private string gate;
+        private string toWhichCity;
         private double distanceInMiles;
         private double distanceInKm;
         private string flightTime;
@@ -89,6 +89,82 @@ namespace ThucTapCoSo
                     // Xử lý trường hợp không thể chuyển đổi thành công
                     Console.WriteLine("Lỗi chuyển đổi tọa độ cho chuyến bay " + (i + 1));
                 }
+            }
+        }
+
+        public void AddFlight()
+        {
+                RandomGenerator r1 = new RandomGenerator();
+
+                string[][] chosenDestinations = r1.SpecificallyDestinations();
+
+                double latitude1, longitude1, latitude2, longitude2;
+
+                if (double.TryParse(chosenDestinations[0][1], out latitude1) &&
+                    double.TryParse(chosenDestinations[0][2], out longitude1) &&
+                    double.TryParse(chosenDestinations[1][1], out latitude2) &&
+                    double.TryParse(chosenDestinations[1][2], out longitude2))
+                {
+                    string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
+
+                    string flightSchedule = CreateNewFlightsAndTime();
+                    string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
+                    Console.Write("Nhập vào số ghế ngồi của chuyến bay: ");
+                    int numOfSeatsInTheFlight = int.Parse(Console.ReadLine());
+                    string gate = r1.RandomFlightNumbGen(1, 30);
+
+                    flightList.Add(new Flight(
+                        flightSchedule,
+                        flightNumber,
+                        numOfSeatsInTheFlight,
+                        chosenDestinations,
+                        distanceBetweenTheCities,
+                        gate.ToUpper()
+                    ));
+                }
+                else
+                {
+                    // Xử lý trường hợp không thể chuyển đổi thành công
+                    Console.WriteLine("Lỗi chuyển đổi tọa độ cho chuyến bay " + (flightNumber));
+                }
+        }
+        public void EditFlight(string ID)
+        {
+            bool isFound = false;
+            Console.WriteLine();
+
+            foreach (Flight f in flightList)
+            {
+                if (ID.Equals(f.flightNumber))
+                {
+                    RandomGenerator r1 = new RandomGenerator();
+                    string[][] chosenDestinations = r1.SpecificallyDestinations();
+                    double latitude1, longitude1, latitude2, longitude2;
+
+                    isFound = true;
+                    if (double.TryParse(chosenDestinations[0][1], out latitude1) &&
+                        double.TryParse(chosenDestinations[0][2], out longitude1) &&
+                        double.TryParse(chosenDestinations[1][1], out latitude2) &&
+                        double.TryParse(chosenDestinations[1][2], out longitude2))
+                    {
+                        string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
+                        f.fromWhichCity = chosenDestinations[0][0];
+                        f.toWhichCity = chosenDestinations[1][0];
+                        f.distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
+                        f.distanceInKm = double.Parse(distanceBetweenTheCities[1]); 
+                        Console.Write("Nhập số ghế mới của chuyến bay:\t");
+                        f.numOfSeatsInTheFlight = int.Parse(Console.ReadLine());
+                        Console.Write("Nhập cổng mới cho chuyến bay:\t");
+                        f.gate = Console.ReadLine();
+                        f.flightTime = CalculateFlightTime(f.distanceInMiles);
+                    }
+                    break;
+                }
+            }
+
+            if (!isFound)
+            {
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy chuyến bay với ID {ID} ...!!!"); //FIX
             }
         }
         public void AddNewCustomerToFlight(Customer customer)
@@ -232,9 +308,9 @@ namespace ThucTapCoSo
         {
             return $"| {i,-5}| {flightSchedule,-41} | {flightNumber,-11} | \t{numOfSeatsInTheFlight,-11} | {fromWhichCity,-21} | {toWhichCity,-22} | {FetchArrivalTime(),-10}  |   {flightTime,-6}Hrs |  {gate,-4}  |  {distanceInMiles,-8} / {distanceInKm,-11}|";
         }
-		Random random = new Random();
 		public string CreateNewFlightsAndTime()
-        {            
+        {
+            Random random = new Random();
             DateTime currentDate = DateTime.Now;
 
             // Tăng giá trị của nextFlightDay, để chuyến bay được lên lịch tiếp theo sẽ ở tương lai, không phải trong hiện tại

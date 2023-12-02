@@ -80,6 +80,9 @@ namespace ThucTapCoSo
                             Console.WriteLine("(f) Nhập 6 để Hiển thị tất cả các chuyến bay đã đăng ký bởi hành khách...");
                             Console.WriteLine("(g) Nhập 7 để Hiển thị tất cả hành khách đã đăng ký trên một chuyến bay....");
                             Console.WriteLine("(h) Nhập 8 để Xóa một chuyến bay....");
+                            Console.WriteLine("(h) Nhập 9 để Thêm một chuyến bay....");
+                            Console.WriteLine("(h) Nhập 10 để Chỉnh sửa một chuyến bay....");
+                            Console.WriteLine("(h) Nhập 11 để Hiển thị toàn bộ các chuyến bay....");
                             Console.WriteLine("(i) Nhập 0 để Quay lại Menu Chính/Đăng xuất....");
 
 
@@ -185,6 +188,22 @@ namespace ThucTapCoSo
                                 string flightNum = Console.ReadLine();
                                 f1.DeleteFlight(flightNum);
 
+                            }
+                            else if (desiredOption == 9)
+                            {
+                                f1.AddFlight();
+                                f1.DisplayFlightSchedule();
+                            }
+                            else if (desiredOption == 10)
+                            {
+                                f1.DisplayFlightSchedule();
+                                Console.WriteLine("Nhập vào Số hiệu chuyến bay muốn chỉnh sửa: ");
+                                string id = Console.ReadLine();
+                                f1.EditFlight(id);
+                            }
+                            else if (desiredOption == 11)
+                            {
+                                f1.DisplayFlightSchedule();
                             }
                             else if (desiredOption == 0)
                             {

@@ -108,6 +108,51 @@ namespace ThucTapCoSo
 
             return chosenDestinations;
         }
+        /* Phương thức này cho phép chọn điểm đi và điểm đến (thành phố) để tạo chuyến bay..... */
+
+        public string[][] SpecificallyDestinations()
+        {
+            Console.WriteLine("Danh sách thành phố:");
+            int columns = 3;
+            for (int i = 0; i < destinations.Length; i++)
+            {
+                Console.Write($"     {i}    {destinations[i][0],-20}");
+
+                if ((i + 1) % columns == 0)
+                {
+                    Console.WriteLine(); // Xuống dòng sau mỗi số cột
+                }
+            }
+
+
+            Console.Write("Nhập tên thành phố xuất phát: ");
+            int specCity1 = int.Parse(Console.ReadLine());
+
+            Console.Write("Nhập tên thành phố bay đến: ");
+            int specCity2 = int.Parse(Console.ReadLine());
+
+
+            string fromWhichCity = destinations[specCity1][0];
+            string fromWhichCityLat = destinations[specCity1][1];
+            string fromWhichCityLong = destinations[specCity1][2];
+
+            while (specCity2 == specCity1)
+            {
+                Console.Write("Bạn không thể nhập 2 thành phố giống nhau. ");
+                Console.Write("Nhập lại tên thành phố bay đến: ");
+                specCity2 = int.Parse(Console.ReadLine());
+            }
+
+            string toWhichCity = destinations[specCity2][0];
+            string toWhichCityLat = destinations[specCity2][1];
+            string toWhichCityLong = destinations[specCity2][2];
+
+            string[][] chosenDestinations = new string[2][];
+            chosenDestinations[0] = new string[] { fromWhichCity, fromWhichCityLat, fromWhichCityLong };
+            chosenDestinations[1] = new string[] { toWhichCity, toWhichCityLat, toWhichCityLong };
+
+            return chosenDestinations;
+        }
 
         /* Tạo số ghế ngẫu nhiên cho mỗi chuyến bay */
         public int RandomNumOfSeats()
