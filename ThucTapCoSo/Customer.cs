@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,12 +35,10 @@ namespace ThucTapCoSo
             this.address = null;
             this.age = 0;
         }
-        public Customer(string name, string email, string password, string phone, string address, int age)
+        public Customer(string userID, string name, string email, string password, string phone, string address, int age)
         {
-            RandomGenerator random = new RandomGenerator();
-            random.RandomIDGen();
             this.name = name;
-            this.userID = random.GetRandomNumber();
+            this.userID = userID;
             this.email = email;
             this.password = password;
             this.phone = phone;
@@ -49,10 +48,69 @@ namespace ThucTapCoSo
             this.numOfTicketsBookedByUser = new List<int>();
         }
 
-        // Method to register a new customer
+        // Method to register a new 
+        public void AddCustomerWithFile()
+        {
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
+
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
+            //tạo folder datatxt
+            Directory.CreateDirectory(datatxt);
+
+            //tạo đường dẫn tới file lưu
+            string filePath = Path.Combine(datatxt, "Customer.txt");
+
+            //nếu file chưa tồn tại, tạo mặc định 3 user
+            if (!File.Exists(filePath))
+            {
+                using (StreamWriter writer = File.CreateText(filePath))
+                {
+                    writer.WriteLine("239461;Nam Cu;5ber1@gmail.com;123;04958584833;Long An;20");
+                    writer.WriteLine("25651;Kha;kha@gmail.com;123;09999999999;Ha Noi;30");
+                    writer.WriteLine("224992;Hai Pham;wxrdie@gmail.com;123;099299292;Ha Loi;30");
+                }
+            }
+            //nếu file đã tồn tại, đọc dữ liệu của file
+            else
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        // Phân tách dữ liệu trong dòng sử dụng dấu chấm phẩy
+                        string[] data = line.Split(';');
+
+                        // Kiểm tra xem dữ liệu có đúng định dạng không
+                        if (data.Length == 7)
+                        {
+                            string userID = data[0];
+                            string name = data[1];
+                            string email = data[2];
+                            string password = data[3];
+                            string phone = data[4];
+                            string address = data[5];
+                            int age = int.Parse(data[6]);
+
+                            // Thêm đối tượng Customer mới vào danh sách
+                            customerCollection.Add(new Customer(userID, name, email, password, phone, address, age));
+                        }
+                    }
+                }
+            }
+        }
         public void AddNewCustomer()
         {
-			Console.OutputEncoding = Encoding.Unicode;
+            RandomGenerator random = new RandomGenerator();
+            random.RandomIDGen();
+            string userID = random.GetRandomNumber();
+
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
+
             Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ Chào mừng bạn đến với Cổng đăng ký của Khách hàng ++++++++++++++");
             Console.Write("Nhập tên của bạn :\t");
             string name = Console.ReadLine();
@@ -71,12 +129,21 @@ namespace ThucTapCoSo
             Console.Write("Nhập địa chỉ của bạn :\t");
             string address = Console.ReadLine();
             Console.Write("Nhập tuổi của bạn :\t");
-            int age;
-			while (!int.TryParse(Console.ReadLine(), out age) || age < 0)
-			{
-				Console.Write("Số tuổi không hợp lệ vui lòng nhập lại: ");
-			}
-			customerCollection.Add(new Customer(name, email, password, phone, address, age));
+            int age = int.Parse(Console.ReadLine());
+            customerCollection.Add(new Customer(userID, name, email, password, phone, address, age));
+
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePath = Path.Combine(datatxt, "Customer.txt");
+
+            //Mỗi khi thêm khách thì ghi thông tin khách vào file Customer.txt
+            //true là dùng để ghi tiếp theo vào file .txt, StreamWriter(filePath): là dùng để ghi đè lên file cũ 
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                writer.WriteLine($"{userID};{name};{email};{password};{phone};{address};{age}");
+            }
         }
         private string ToString(int i)
         {
@@ -85,35 +152,35 @@ namespace ThucTapCoSo
 
         public void SearchUser(string ID)
         {
-			Console.OutputEncoding = Encoding.Unicode;
-			//fix code
-			bool isFound = false;
-			if (customerCollection.Count > 0)
-			{
-				Customer customerWithTheID = customerCollection[0];
-				foreach (Customer c in customerCollection)
-				{
-					if (ID.Equals(c.userID))
-					{
+            Console.OutputEncoding = Encoding.Unicode;
+            //fix code
+            bool isFound = false;
+            if (customerCollection.Count > 0)
+            {
+                Customer customerWithTheID = customerCollection[0];
+                foreach (Customer c in customerCollection)
+                {
+                    if (ID.Equals(c.userID))
+                    {
                         Console.WriteLine($"{new string(' ', 10)}Khách hàng được tìm thấy...!!! Đây là Bản ghi đầy đủ...!!!\n\n\n"); //FIX
                         DisplayHeader();
-						isFound = true;
-						customerWithTheID = c;
-						break;
-					}
-				}
-				if (isFound)
-				{
-					Console.WriteLine(customerWithTheID.ToString(1));
-					Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
-				}
-				else
-				{
+                        isFound = true;
+                        customerWithTheID = c;
+                        break;
+                    }
+                }
+                if (isFound)
+                {
+                    Console.WriteLine(customerWithTheID.ToString(1));
+                    Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
+                }
+                else
+                {
                     Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); //FIX
                 }
             }
-			else
-			{
+            else
+            {
                 Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); //FIX
             }
         }
@@ -134,11 +201,48 @@ namespace ThucTapCoSo
         }
         public void EditUserInfo(string ID)
         {
-			Console.OutputEncoding = Encoding.Unicode;
-			bool isFound = false;
+            Console.OutputEncoding = Encoding.Unicode;
+            bool isFound = false;
+
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePath = Path.Combine(datatxt, "Customer.txt");
+
             Console.WriteLine();
 
-            foreach (Customer c in customerCollection)
+            string[] line = File.ReadAllLines(filePath);
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                string[] data = line[i].Split(';');
+
+                if (data.Length == 7 && ID.Equals(data[0]))
+                {
+                    isFound = true;
+
+                    //data0: userID; data1: name; data2: email; data3: pass; data4: phone; data5: address; data6: age
+                    Console.Write("Nhập tên mới của Hành khách:\t");
+                    data[1] = Console.ReadLine();
+
+                    Console.Write($"Nhập địa chỉ email mới của Hành khách {data[1]}:\t");
+                    data[2] = Console.ReadLine();
+
+                    Console.Write($"Nhập số điện thoại mới của Hành khách {data[1]}:\t");
+                    data[4] = Console.ReadLine();
+
+                    Console.Write($"Nhập địa chỉ mới của Hành khách {data[1]}:\t");
+                    data[5] = Console.ReadLine();
+
+                    Console.Write($"Nhập tuổi mới của Hành khách {data[1]}:\t");
+                    data[6] = Console.ReadLine();
+
+                    line[i] = string.Join(";", data);
+                }
+            }
+
+
+            /*foreach (Customer c in customerCollection)
             {
                 if (ID.Equals(c.userID))
                 {
@@ -165,18 +269,23 @@ namespace ThucTapCoSo
                     DisplayCustomersData(false);
                     break;
                 }
-            }
+            }*/
 
             if (!isFound)
             {
                 Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID  {ID} ...!!!"); //FIX
             }
+            else
+            {
+                File.WriteAllLines(filePath, line);
+                Console.WriteLine("Cập nhật thông tin thành công!");
+            }
         }
 
         public void DeleteUser(string ID)
         {
-			Console.OutputEncoding = Encoding.Unicode;
-			bool isFound = false;
+            Console.OutputEncoding = Encoding.Unicode;
+            bool isFound = false;
 
             foreach (Customer customer in customerCollection)
             {
@@ -198,27 +307,43 @@ namespace ThucTapCoSo
 
         public void DisplayCustomersData(bool showHeader)
         {
-			Console.OutputEncoding = Encoding.Unicode;
-			if (showHeader)
+            Console.OutputEncoding = Encoding.Unicode;
+            if (showHeader)
             {
                 DisplayArtWork(3);
             }
 
             DisplayHeader();
 
-            int i = 0;
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
 
+            string filePath = Path.Combine(datatxt, "Customer.txt");
+
+            string[] lines = File.ReadAllLines(filePath);
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string[] data = lines[i].Split(';');
+                if (data.Length == 7)
+                {
+                    Customer customer = new Customer(data[0], data[1], data[2], data[3], data[4], data[5], int.Parse(data[6]));
+                    Console.WriteLine(customer.ToString(i + 1));
+                    Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
+                }
+            }
+
+            /*int j = 0;
             foreach (Customer c in customerCollection)
             {
                 i++;
                 Console.WriteLine(c.ToString(i));
-                Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
-            }
+                Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
+            }*/
         }
         void DisplayHeader()
         {
-			Console.OutputEncoding = Encoding.Unicode;
-			Console.WriteLine();
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.WriteLine();
             Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
             Console.WriteLine($"{new string(' ', 10)}| STT        |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email\t\t\t| Địa chỉ     \t\t\t      | Số điện thoại           |");
             Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
@@ -254,8 +379,8 @@ namespace ThucTapCoSo
 
         public void DisplayArtWork(int option)
         {
-			Console.OutputEncoding = Encoding.Unicode;
-			string artWork = "";
+            Console.OutputEncoding = Encoding.Unicode;
+            string artWork = "";
             if (option == 1)
             {
                 artWork = @"                                       
