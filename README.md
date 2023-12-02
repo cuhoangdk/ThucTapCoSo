@@ -1,7 +1,7 @@
 # Thành viên
-cuhoangdk: Nguyễn Trần Việt Hoàng
-Kaasa: Nguyễn Đình Hiệu
-PCHaiLam: ̶P̶̶e̶̶r̶̶s̶̶o̶̶n̶̶a̶̶l̶ ̶C̶̶o̶̶m̶̶p̶̶u̶̶t̶̶e̶̶r̶  Phan Châu Hải Lâm
+cuhoangdk: Nguyễn Trần Việt Hoàng  
+Kaasa: Nguyễn Đình Hiệu  
+PCHaiLam: ̶Phan Châu Hải Lâm
 # Yêu cầu 
 phiên bản .NET 7.0
 # Mô tả bài toàn
