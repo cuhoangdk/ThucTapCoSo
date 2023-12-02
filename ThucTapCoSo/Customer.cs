@@ -57,14 +57,14 @@ namespace ThucTapCoSo
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             string datatxt = Path.Combine(current, "datatxt");
-            //tạo folder datatxt
+            //tạo folder datatxt nếu chưa có thì tạo folder
             Directory.CreateDirectory(datatxt);
 
             //tạo đường dẫn tới file lưu
             string filePath = Path.Combine(datatxt, "Customer.txt");
 
             //nếu file chưa tồn tại, tạo mặc định 3 user
-            if (!File.Exists(filePath))
+            /*if (!File.Exists(filePath))
             {
                 using (StreamWriter writer = File.CreateText(filePath))
                 {
@@ -72,10 +72,10 @@ namespace ThucTapCoSo
                     writer.WriteLine("25651;Kha;kha@gmail.com;123;09999999999;Ha Noi;30");
                     writer.WriteLine("224992;Hai Pham;wxrdie@gmail.com;123;099299292;Ha Loi;30");
                 }
-            }
+            }*/
             //nếu file đã tồn tại, đọc dữ liệu của file
-            else
-            {
+            //else
+            //
                 using (StreamReader reader = new StreamReader(filePath))
                 {
                     string line;
@@ -99,7 +99,7 @@ namespace ThucTapCoSo
                             customerCollection.Add(new Customer(userID, name, email, password, phone, address, age));
                         }
                     }
-                }
+                //}
             }
         }
         public void AddNewCustomer()
@@ -287,21 +287,39 @@ namespace ThucTapCoSo
             Console.OutputEncoding = Encoding.Unicode;
             bool isFound = false;
 
-            foreach (Customer customer in customerCollection)
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+            //tìm tới thư mục FlightScheduler.txt
+            string filePath = Path.Combine(datatxt, "Customer.txt");
+
+            //đọc dòng trong file txt và lưu vào list
+            List<string> lines = File.ReadAllLines(filePath).ToList();
+
+            for (int i = 0; i < lines.Count; i++)
             {
-                if (ID.Equals(customer.userID))
+                // Phân tách dữ liệu trong dòng sử dụng dấu chấm phẩy
+                string[] data = lines[i].Split(';');
+
+                if (data.Length == 7 && ID.Equals(data[0]))
                 {
+                    // Nếu ID khớp, xóa dòng từ danh sách
+                    lines.RemoveAt(i);
                     isFound = true;
-                    customerCollection.Remove(customer);
-                    Console.WriteLine($"{new string(' ', 10)}In toàn bộ dữ liệu Khách hàng sau khi xóa Khách hàng với ID {ID}.....!!!!\n");//fix code
-                    DisplayCustomersData(false);
-                    break;
+                    break; // Đã tìm thấy và xóa, không cần kiểm tra các dòng khác
                 }
             }
 
-            if (!isFound)
+            if (isFound)
             {
-                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); //FIX
+                // Ghi lại tất cả các dòng đã được cập nhật vào tệp
+                File.WriteAllLines(filePath, lines);
+                Console.WriteLine($"{new string(' ', 10)}Đã xóa Khách hàng với ID {ID}."); // FIX
+            }
+            else
+            {
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); // FIX
             }
         }
 
@@ -328,7 +346,7 @@ namespace ThucTapCoSo
                 {
                     Customer customer = new Customer(data[0], data[1], data[2], data[3], data[4], data[5], int.Parse(data[6]));
                     Console.WriteLine(customer.ToString(i + 1));
-                    Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
+                    Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
                 }
             }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -57,9 +58,17 @@ namespace ThucTapCoSo
             int numOfFlights = 15;
             RandomGenerator r1 = new RandomGenerator();
 
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+            //tìm tới thư mục FlightScheduler.txt
+            string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
+
             for (int i = 0; i < numOfFlights; i++)
             {
                 string[][] chosenDestinations = r1.RandomDestinations();
+                
 
                 double latitude1, longitude1, latitude2, longitude2;
 
@@ -69,11 +78,13 @@ namespace ThucTapCoSo
                     double.TryParse(chosenDestinations[1][2], out longitude2))
                 {
                     string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
-
+                    double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
+                    double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
                     string flightSchedule = CreateNewFlightsAndTime();
                     string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
                     int numOfSeatsInTheFlight = r1.RandomNumOfSeats();
                     string gate = r1.RandomFlightNumbGen(1, 30);
+                    string flightTime = CalculateFlightTime(distanceInMiles);
 
                     flightList.Add(new Flight(
                         flightSchedule,
@@ -83,22 +94,29 @@ namespace ThucTapCoSo
                         distanceBetweenTheCities,
                         gate.ToUpper()
                     ));
-                }
-                else
-                {
-                    // Xử lý trường hợp không thể chuyển đổi thành công
-                    Console.WriteLine("Lỗi chuyển đổi tọa độ cho chuyến bay " + (i + 1));
+
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine($"{flightSchedule};{flightNumber};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
+                    }
                 }
             }
         }
 
         public void AddFlight()
         {
-                RandomGenerator r1 = new RandomGenerator();
+            RandomGenerator r1 = new RandomGenerator();
 
-                string[][] chosenDestinations = r1.SpecificallyDestinations();
+            string[][] chosenDestinations = r1.SpecificallyDestinations();
 
-                double latitude1, longitude1, latitude2, longitude2;
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+            //tìm tới thư mục FlightScheduler.txt
+            string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
+
+            double latitude1, longitude1, latitude2, longitude2;
 
                 if (double.TryParse(chosenDestinations[0][1], out latitude1) &&
                     double.TryParse(chosenDestinations[0][2], out longitude1) &&
@@ -112,8 +130,13 @@ namespace ThucTapCoSo
                     Console.Write("Nhập vào số ghế ngồi của chuyến bay: ");
                     int numOfSeatsInTheFlight = int.Parse(Console.ReadLine());
                     string gate = r1.RandomFlightNumbGen(1, 30);
+                //
+                double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
+                double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
+                string flightTime = CalculateFlightTime(distanceInMiles);
 
-                    flightList.Add(new Flight(
+
+                flightList.Add(new Flight(
                         flightSchedule,
                         flightNumber,
                         numOfSeatsInTheFlight,
@@ -121,7 +144,11 @@ namespace ThucTapCoSo
                         distanceBetweenTheCities,
                         gate.ToUpper()
                     ));
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    writer.WriteLine($"{flightSchedule};{flightNumber};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
                 }
+            }
                 else
                 {
                     // Xử lý trường hợp không thể chuyển đổi thành công
