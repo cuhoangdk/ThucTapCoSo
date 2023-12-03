@@ -8,9 +8,9 @@ namespace ThucTapCoSo
 {
     internal class RandomGenerator
     {
-		Random rand = new Random();
 		// ************************************************************ Fields ************************************************************
-		private string randomNum;
+		Random rand = new Random();
+	    	private string randomNum;
 
         /* Tên thành phố nằm ở chỉ số 0, vĩ độ của thành phố ở chỉ số 1 và kinh độ ở chỉ số 2 */
         private static readonly string[][] destinations =
