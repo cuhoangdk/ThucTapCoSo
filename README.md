@@ -1,6 +1,6 @@
 # Thành viên
 cuhoangdk: Nguyễn Trần Việt Hoàng  
-Kaasa: Nguyễn Đình Hiệu  
+Kassa: Nguyễn Đình Hiệu  
 PCHaiLam: ̶Phan Châu Hải Lâm
 # Yêu cầu 
 phiên bản .NET 7.0
