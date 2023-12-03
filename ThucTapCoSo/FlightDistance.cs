@@ -8,6 +8,7 @@ namespace ThucTapCoSo
 {
     public abstract class FlightDistance
     {
+        private readonly string arrivalTime;
         public abstract string ToString(int i);
 
         public abstract string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2);

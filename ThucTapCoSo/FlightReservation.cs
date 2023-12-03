@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ThucTapCoSo
 {
@@ -16,6 +17,40 @@ namespace ThucTapCoSo
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			bool isFound = false;
+            /*
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+            //tìm tới thư mục 3 thư mục txt
+            string filePathCus = Path.Combine(datatxt, "Customer.txt");
+            string filePathFl = Path.Combine(datatxt, "FlightScheduler.txt");
+            string filePathCBF = Path.Combine(datatxt, "CustomerBOOLFIGHT.txt");
+            //tạo biến lưu 3 file
+            List<string> customer = File.ReadAllLines(filePathCus).ToList();
+            List<string> flight = File.ReadAllLines(filePathFl).ToList();
+            List<string> CBF = File.ReadAllLines(filePathCBF).ToList();
+
+            for(int i=0; i<flight.Count; i++)
+            {
+                string[] dataFlight = flight[i].Split(';');
+
+                if (flight.Count == 10 && dataFlight[1].Equals(flightNo))
+                {
+                    for(int j=0; j < customer.Count; j++){
+                        string[] dataCustomer = customer[j].Split(';');
+
+                        if ( customer.Count == 7 && dataCustomer[j].Equals(userID))
+                        {
+                            isFound = true;
+                            dataFlight[i] = Convert.ToString(int.Parse(dataFlight[2]) - numOfTickets);
+
+                            if()
+                        }
+                    }
+                }
+            }
+            */
             foreach (Flight f1 in flight.FlightList)
             {
                 if (flightNo.Equals(f1.FlightNumber, StringComparison.OrdinalIgnoreCase))
@@ -177,7 +212,7 @@ namespace ThucTapCoSo
         {
             return string.Format("| {0,-4} | {1,-41} | {2,-9} | \t{3,-9} | {4,-21} | {5,-22} | {6,-10}    |   {7,-6}Hrs |  {8,-4}  | {9,-10} |",
                                  serialNum, flight.FlightSchedule, flight.FlightNumber, customer.numOfTicketsBookedByUser[serialNum - 1],
-                                 flight.FromWhichCity, flight.ToWhichCity, flight.FetchArrivalTime(), flight.FlightTime, flight.Gate, FlightStatus(flight));
+                                 flight.FromWhichCity, flight.ToWhichCity, flight.FetchArrivalTime(flight.FlightSchedule, flight.FlightTime), flight.FlightTime, flight.Gate, FlightStatus(flight));
         }
         public void DisplayFlightsRegisteredByOneUser(string userID)
         {

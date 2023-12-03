@@ -18,7 +18,7 @@ namespace ThucTapCoSo
 
             Flight f1 = new Flight();
             FlightReservation bookingAndReserving = new FlightReservation();
-            //f1.FlightScheduler();
+            f1.FlightScheduler();
 
             Customer c1 = new Customer();
             c1.AddCustomerWithFile();       //..bin/Debug/datatxt/Customer.txt
