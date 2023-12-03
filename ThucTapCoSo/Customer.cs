@@ -112,9 +112,9 @@ namespace ThucTapCoSo
             Console.InputEncoding = Encoding.Unicode;
 
             Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ Chào mừng bạn đến với Cổng đăng ký của Khách hàng ++++++++++++++");
-            Console.Write("Nhập tên của bạn :\t");
+            Console.Write("Nhập tên của bạn:\t");
             string name = Console.ReadLine();
-            Console.Write("Nhập địa chỉ Email của bạn :\t");
+            Console.Write("Nhập địa chỉ Email của bạn:\t");
             string email = Console.ReadLine();
             while (IsUniqueData(email))
             {
@@ -122,15 +122,19 @@ namespace ThucTapCoSo
                 Console.Write("Nhập địa chỉ Email của bạn :\t");
                 email = Console.ReadLine();
             }
-            Console.Write("Nhập mật khẩu của bạn :\t");
+            Console.Write("Nhập mật khẩu của bạn:\t");
             string password = Console.ReadLine();
-            Console.Write("Nhập số điện thoại của bạn :\t");
+            Console.Write("Nhập số điện thoại của bạn:\t");
             string phone = Console.ReadLine();
-            Console.Write("Nhập địa chỉ của bạn :\t");
+            Console.Write("Nhập địa chỉ của bạn:\t");
             string address = Console.ReadLine();
-            Console.Write("Nhập tuổi của bạn :\t");
-            int age = int.Parse(Console.ReadLine());
-            customerCollection.Add(new Customer(userID, name, email, password, phone, address, age));
+            Console.Write("Nhập tuổi của bạn:\t");
+            int age;
+			while (!int.TryParse(Console.ReadLine(), out age) || age < 0)
+			{
+				Console.Write("Vui lòng nhập số tuổi đúng định dạng: \t");
+			}
+			customerCollection.Add(new Customer(userID, name, email, password, phone, address, age));
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -235,9 +239,14 @@ namespace ThucTapCoSo
                     data[5] = Console.ReadLine();
 
                     Console.Write($"Nhập tuổi mới của Hành khách {data[1]}:\t");
-                    data[6] = Console.ReadLine();
+                    int newAge;
+					while (!int.TryParse(Console.ReadLine(), out newAge) || newAge < 0)
+					{
+						Console.Write("Vui lòng nhập số tuổi đúng định dạng: \t");
+					}					
+					data[6] = newAge.ToString();
 
-                    line[i] = string.Join(";", data);
+					line[i] = string.Join(";", data);
                 }
             }
 

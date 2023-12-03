@@ -29,9 +29,9 @@ namespace ThucTapCoSo
             DisplayMainMenu();
             int desiredOption;
             //fix code
-			while (!int.TryParse(Console.ReadLine(), out desiredOption) || desiredOption < 0 || desiredOption > 8)
+			while (!int.TryParse(Console.ReadLine(), out desiredOption) || desiredOption < 0 || desiredOption > 5)
 			{
-                Console.Write("LỖI!! Vui lòng nhập giá trị giữa 0 - 8. Nhập giá trị lại :\t");
+                Console.Write("LỖI!! Vui lòng nhập giá trị giữa 0 - 5. Nhập giá trị lại :\t");
             }            
 
             do
@@ -363,9 +363,9 @@ namespace ThucTapCoSo
                 }
 
                 DisplayMainMenu();
-				while (!int.TryParse(Console.ReadLine(), out desiredOption)|| desiredOption < 0 || desiredOption > 8)
+				while (!int.TryParse(Console.ReadLine(), out desiredOption)|| desiredOption < 0 || desiredOption > 5)
 				{
-                    Console.Write("LỖI!! Vui lòng nhập giá trị từ 0 - 8. Nhập lại giá trị :\t");
+                    Console.Write("LỖI!! Vui lòng nhập giá trị từ 0 - 5. Nhập lại giá trị :\t");
                 }                
             } while (desiredOption != 0);
 
