@@ -380,13 +380,15 @@ namespace ThucTapCoSo
             //tìm tới thư mục FlightScheduler.txt
             string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
             List<string> lines = File.ReadAllLines(filePath).ToList();
-
+            int stt = 0;
             for (int i = 0; i < lines.Count; i++)
             {
                 string[] data = lines[i].Split(';');
                 if(data.Length == 10 && data[9]!="0")
                 {
-                    string stt = (i + 1).ToString();
+                    if (data[9] == "1") {
+                        stt++;
+                    }
                     string flightSchedule = data[0];
                     string flightNumber = data[1];
                     string numOfSeats = data[2];

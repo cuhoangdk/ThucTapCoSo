@@ -16,9 +16,9 @@ namespace ThucTapCoSo
         public void DisplayMeasurementInstructions()
         {
             Console.OutputEncoding = Encoding.Unicode;
-            Console.WriteLine("+-----------------------------+");
-            Console.WriteLine("| MỘT SỐ HƯỚNG DẪN QUAN TRỌNG |");
-            Console.WriteLine("+-----------------------------+");
+            Console.WriteLine($"{new string(' ', 40)}+-----------------------------+");
+            Console.WriteLine($"{new string(' ', 40)}| MỘT SỐ HƯỚNG DẪN QUAN TRỌNG |");
+            Console.WriteLine($"{new string(' ', 40)}+-----------------------------+");
             Console.WriteLine("\t\t1. Khoảng cách giữa các điểm đến được xác định dựa trên tọa độ của sân bay (Vĩ độ và Kinh độ) nằm ở những thành phố đó.\n");
             Console.WriteLine("\t\t2. Khoảng cách thực tế của chuyến bay có thể khác so với ước lượng này do các hãng hàng không có thể đặt ra Chính sách Du lịch của riêng họ, có thể hạn chế máy bay bay qua các khu vực cụ thể...\n");
             Console.WriteLine("\t\t3. Thời gian bay phụ thuộc vào nhiều yếu tố như Tốc độ trên mặt đất (GS), Thiết kế máy bay, Độ cao bay và Thời tiết. Tốc độ trên mặt đất cho các tính toán này là 450 Knots...\n");
