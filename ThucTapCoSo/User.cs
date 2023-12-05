@@ -280,22 +280,13 @@ namespace ThucTapCoSo
                                 bookingAndReserving.DisplayArtWork(1);
                                 f1.DisplayFlightSchedule();
                                 Console.Write("\nNhập số chuyến bay mong muốn để đặt chỗ :\t ");
-                                string flightToBeBooked = Console.ReadLine();
+                                string flightToBeBooked = Console.ReadLine().ToUpper();
                                 Console.Write($"Nhập số lượng vé cho chuyến bay {flightToBeBooked} :   ");
                                 int numOfTickets;
-								while (!int.TryParse(Console.ReadLine(), out numOfTickets))
+								while (!int.TryParse(Console.ReadLine(), out numOfTickets) || numOfTickets > 10 || numOfTickets < 1)
 								{
-                                    Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
-                                }
-                                while (numOfTickets > 10)
-                                {
-									while (!int.TryParse(Console.ReadLine(), out numOfTickets))
-									{
-                                        Console.Write("Đầu vào không hợp lệ. Vui lòng nhập một số hợp lệ:  ");
-                                    }
-                                    Console.Write("LỖI!! Bạn không thể đặt nhiều hơn 10 vé một lần cho một chuyến bay....Nhập số lượng vé lại : ");
-                                    numOfTickets = int.Parse(Console.ReadLine());
-                                }
+                                    Console.Write("LỖI!! Vui lòng nhập số lượng vé hợp lệ (ít hơn 10, nhiều hơn 0): ");
+                                }                                
                                 bookingAndReserving.BookFlight(flightToBeBooked, numOfTickets, result[1]);
                             }
                             else if (desiredChoice == 2)

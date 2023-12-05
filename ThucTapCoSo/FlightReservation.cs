@@ -111,7 +111,7 @@ namespace ThucTapCoSo
             DisplayFlightsRegisteredByOneUser(userID);
             Console.WriteLine("Nhập Flight Number của chuyến bay bạn muốn hủy:");
 
-            flightNum = Console.ReadLine();
+            flightNum = Console.ReadLine().ToUpper();
             Console.WriteLine("Nhập số lượng vé muốn hủy:");
             int numOfTickets;
 			while (!int.TryParse(Console.ReadLine(), out numOfTickets))

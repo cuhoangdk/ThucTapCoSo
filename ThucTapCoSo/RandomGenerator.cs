@@ -134,16 +134,23 @@ namespace ThucTapCoSo
                     Console.WriteLine(); // Xuống dòng sau mỗi số cột
                 }
             }
-
+            Console.WriteLine();
 
             Console.Write("Nhập tên thành phố xuất phát: ");
-            int specCity1 = int.Parse(Console.ReadLine());
+            int specCity1; 
+            while (!int.TryParse(Console.ReadLine(), out specCity1)|| specCity1 < 0 || specCity1 > destinations.Length-1)
+			{
+				Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length - 1}. Nhập giá trị lại :\t");
+			}
 
-            Console.Write("Nhập tên thành phố bay đến: ");
-            int specCity2 = int.Parse(Console.ReadLine());
+			Console.Write("Nhập tên thành phố bay đến: ");
+            int specCity2;
+			while (!int.TryParse(Console.ReadLine(), out specCity2) || specCity2 < 0 || specCity2 > destinations.Length-1)
+			{
+				Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length-1}. Nhập giá trị lại :\t");
+			}
 
-
-            string fromWhichCity = destinations[specCity1][0];
+			string fromWhichCity = destinations[specCity1][0];
             string fromWhichCityLat = destinations[specCity1][1];
             string fromWhichCityLong = destinations[specCity1][2];
 
