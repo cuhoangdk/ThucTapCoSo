@@ -170,10 +170,10 @@ namespace ThucTapCoSo
             string[] line = File.ReadAllLines(filePath);
 
             for (int i = 0; i < line.Length; i++)
-            {
+            {                
                 string[] data = line[i].Split(';');
 
-                if (ID.Equals(data[1]))
+                if (ID.Equals(data[1], StringComparison.OrdinalIgnoreCase))
                 {
                     isFound = true;
 
@@ -189,7 +189,12 @@ namespace ThucTapCoSo
                         data[8] = distanceBetweenTheCities[0];
                         data[9] = distanceBetweenTheCities[1];
                         Console.Write("Nhập số ghế mới của chuyến bay:\t");
-                        data[2] = Console.ReadLine();
+						int newNumOfSeatsInTheFlight;
+						while (!int.TryParse(Console.ReadLine(), out newNumOfSeatsInTheFlight) || newNumOfSeatsInTheFlight < 75 || newNumOfSeatsInTheFlight > 500)
+						{
+							Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 75 ghế và nhiều nhất 500 ghế). Nhập giá trị lại :\t");
+						}
+						data[2] = newNumOfSeatsInTheFlight.ToString();
                         Console.Write("Nhập cổng mới cho chuyến bay:\t");
                         data[7] = Console.ReadLine();
                         data[6] = CalculateFlightTime(double.Parse(data[8]));
