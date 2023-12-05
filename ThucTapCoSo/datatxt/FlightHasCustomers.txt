@@ -1,0 +1,4 @@
+UU-347;372141;hailam;hailam;123;0293848483;Nha Trang;20;7
+XF-94;342565;number1;num1@gmail.com;123;0977266622;Kiên Giang;19;5
+RX-150;342565;number1;num1@gmail.com;123;0977266622;Kiên Giang;19;4
+UU-347;342565;number1;num1@gmail.com;123;0977266622;Kiên Giang;19;5
