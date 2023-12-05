@@ -49,59 +49,7 @@ namespace ThucTapCoSo
         }
 
         // Method to register a new 
-        public void AddCustomerWithFile()
-        {
-            Console.OutputEncoding = Encoding.Unicode;
-            Console.InputEncoding = Encoding.Unicode;
-
-            //Lấy vị trí hiện tại
-            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            string datatxt = Path.Combine(current, "datatxt");
-            //tạo folder datatxt nếu chưa có thì tạo folder
-            Directory.CreateDirectory(datatxt);
-
-            //tạo đường dẫn tới file lưu
-            string filePath = Path.Combine(datatxt, "Customer.txt");
-
-            //nếu file chưa tồn tại, tạo mặc định 3 user
-            /*if (!File.Exists(filePath))
-            {
-                using (StreamWriter writer = File.CreateText(filePath))
-                {
-                    writer.WriteLine("239461;Nam Cu;5ber1@gmail.com;123;04958584833;Long An;20");
-                    writer.WriteLine("25651;Kha;kha@gmail.com;123;09999999999;Ha Noi;30");
-                    writer.WriteLine("224992;Hai Pham;wxrdie@gmail.com;123;099299292;Ha Loi;30");
-                }
-            }*/
-            //nếu file đã tồn tại, đọc dữ liệu của file
-            //else
-            //
-                using (StreamReader reader = new StreamReader(filePath))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        // Phân tách dữ liệu trong dòng sử dụng dấu chấm phẩy
-                        string[] data = line.Split(';');
-
-                        // Kiểm tra xem dữ liệu có đúng định dạng không
-                        if (data.Length == 7)
-                        {
-                            string userID = data[0];
-                            string name = data[1];
-                            string email = data[2];
-                            string password = data[3];
-                            string phone = data[4];
-                            string address = data[5];
-                            int age = int.Parse(data[6]);
-
-                            // Thêm đối tượng Customer mới vào danh sách
-                            customerCollection.Add(new Customer(userID, name, email, password, phone, address, age));
-                        }
-                    }
-                //}
-            }
-        }
+        
         public void AddNewCustomer()
         {
             RandomGenerator random = new RandomGenerator();
@@ -149,41 +97,31 @@ namespace ThucTapCoSo
                 writer.WriteLine($"{userID};{name};{email};{password};{phone};{address};{age}");
             }
         }
-        private string ToString(int i)
-        {
-            return string.Format("{0,10}| {1,-10} | {2,-11} | {3,-32} | {4,-7} | {5,-27} | {6,-35} | {7,-23} |", "", i, RandomIDDisplay(userID), name, age, email, address, phone);
-        }
-
         public void SearchUser(string ID)
         {
             Console.OutputEncoding = Encoding.Unicode;
             //fix code
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
+            string filePath = Path.Combine(datatxt, "Customer.txt");
+
+            string[] Customers = File.ReadAllLines(filePath);
             bool isFound = false;
-            if (customerCollection.Count > 0)
+
+            for (int i=0; i<Customers.Length; i++)
             {
-                Customer customerWithTheID = customerCollection[0];
-                foreach (Customer c in customerCollection)
+                string[] data = Customers[i].Split(';');
+                if (ID.Equals(data[0]))
                 {
-                    if (ID.Equals(c.userID))
-                    {
-                        Console.WriteLine($"{new string(' ', 10)}Khách hàng được tìm thấy...!!! Đây là Bản ghi đầy đủ...!!!\n\n\n"); //FIX
-                        DisplayHeader();
-                        isFound = true;
-                        customerWithTheID = c;
-                        break;
-                    }
-                }
-                if (isFound)
-                {
-                    Console.WriteLine(customerWithTheID.ToString(1));
-                    Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n");
-                }
-                else
-                {
-                    Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); //FIX
+                    Console.WriteLine($"{new string(' ', 10)}Khách hàng được tìm thấy...!!! Đây là Bản ghi đầy đủ...!!!\n\n\n"); //FIX
+                    DisplayHeader();
+                    isFound = true;
+                    Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[0],-13} | {data[1],-32} | {data[6],-7} | {data[2],-27} | {data[5],-30} | {data[4],-14} |");
+                    Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
+                    break;
                 }
             }
-            else
+            if(!isFound)
             {
                 Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); //FIX
             }
@@ -331,7 +269,10 @@ namespace ThucTapCoSo
                 Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); // FIX
             }
         }
-
+        private string ToString(int i)
+        {
+            return string.Format("{0,10}| {1,-10} | {2,-11} | {3,-32} | {4,-7} | {5,-27} | {6,-35} | {7,-23} |", "", i, RandomIDDisplay(userID), name, age, email, address, phone);
+        }
         public void DisplayCustomersData(bool showHeader)
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -351,12 +292,8 @@ namespace ThucTapCoSo
             for (int i = 0; i < lines.Length; i++)
             {
                 string[] data = lines[i].Split(';');
-                if (data.Length == 7)
-                {
-                    Customer customer = new Customer(data[0], data[1], data[2], data[3], data[4], data[5], int.Parse(data[6]));
-                    Console.WriteLine(customer.ToString(i + 1));
-                    Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
-                }
+                Console.WriteLine($"{new string(' ',10)}| {i+1,-5} | {data[0],-13} | {data[1],-32} | {data[6],-7} | {data[2],-27} | {data[5],-30} | {data[4],-14} |");
+                Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
             }
 
             /*int j = 0;
@@ -364,16 +301,16 @@ namespace ThucTapCoSo
             {
                 i++;
                 Console.WriteLine(c.ToString(i));
-                Console.WriteLine($"{new string(' ', 10)}+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
+                Console.WriteLine($"{new string(' ', 10)}+------------+----------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
             }*/
         }
         void DisplayHeader()
         {
             Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine();
-            Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
-            Console.WriteLine($"{new string(' ', 10)}| STT        |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email\t\t\t| Địa chỉ     \t\t\t      | Số điện thoại           |");
-            Console.WriteLine($"{new string(' ', 10)}+------------+-------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
+            Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
+            Console.WriteLine($"{new string(' ', 10)}| STT   | Mã khách hàng | Tên khách hàng                   | Tuổi    | Email\t\t\t     | Địa chỉ\t\t\t      | Số điện thoại  |");
+            Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
         }
 
         public string RandomIDDisplay(string randomID)

@@ -1,7 +1,7 @@
 Thursday, 07 December 2023, 00:30 AM;FL-129;235;Johannesburg;Stockholm;Thu, 07-12-2023 04:40 AM;04:10;S-16;2065.16;3827.21;1
 Wednesday, 13 December 2023, 06:30 AM;BY-118;302;Bhutan;Rio de Janeiro;Thu, 14-12-2023 00:55 AM;18:25;A-3;8138.86;15083.17;1
 Tuesday, 19 December 2023, 12:30 PM;ER-235;323;Pune;Yokohama;Tue, 19-12-2023 19:50 PM;07:20;O-16;3591.09;6655.11;1
-Monday, 25 December 2023, 18:30 PM;EY-88;183;Yangon;Lagos;Tue, 26-12-2023 08:25 AM;13:55;P-15;6184.55;11461.39;0
+Monday, 25 December 2023, 18:30 PM;EY-88;183;Yangon;Lagos;Tue, 26-12-2023 08:25 AM;13:55;P-15;6184.55;11461.39;1
 Monday, 01 January 2024, 00:30 AM;GR-94;186;Karachi;Hong Kong;Mon, 01-01-2024 00:55 AM;00:25;GT-3;20;4791.96;1
 Sunday, 07 January 2024, 06:30 AM;EK-305;363;Hong Kong;Gilgit Baltistan;Sun, 07-01-2024 11:25 AM;04:55;Q-8;2223.72;4121.07;1
 Saturday, 13 January 2024, 12:30 PM;FZ-157;364;Bangkok;Lagos;Sat, 13-01-2024 13:05 PM;00:35;N-13;268.81;498.17;1
@@ -9,7 +9,9 @@ Friday, 19 January 2024, 18:30 PM;QI-154;392;Tehran;Sydney;Sat, 20-01-2024 09:45
 Friday, 26 January 2024, 00:30 AM;ZY-197;230;Tehran;Riyadh;Fri, 26-01-2024 01:30 AM;01:00;Z-7;687.58;1274.25;1
 Thursday, 01 February 2024, 06:30 AM;NG-255;134;Dublin;Melbourne;Fri, 02-02-2024 02:45 AM;20:15;L-4;9278.72;17195.59;1
 Wednesday, 07 February 2024, 12:30 PM;XF-94;100;Lien Khuong;Vinh;Wed, 07-02-2024 14:00 PM;00:30;G-2;446.88;828.18;1
-Tuesday, 13 February 2024, 18:30 PM;UU-347;440;Pune;Rio de Janeiro;Wed, 14-02-2024 11:30 AM;17:00;S-8;7289.07;13508.31;1
+Tuesday, 13 February 2024, 18:30 PM;UU-347;100;Tan Son Nhat;Dubai;Wed, 14-02-2024 11:30 AM;06:05;L-5;3032.30;5619.54;1
 Tuesday, 20 February 2024, 00:30 AM;NK-376;378;Riyadh;Perth;Tue, 20-02-2024 07:30 AM;07:00;D-11;2859.22;5298.78;1
 Wednesday, 21 February 2024, 02:00 AM;RX-150;180;Lagos;Kuwait;Wed, 21-02-2024 08:30 AM;06:30;I-12;3049.58;5651.57;1
 Thursday, 07 December 2023, 15:30 PM;GL-376;95;Karachi;Mexico;Fri, 08-12-2023 09:05 AM;17:35;Q-3;7651.62;14180.2;1
+Monday, 11 December 2023, 23:45 PM;KK-299;100;Vinh;Can Tho;Tue, 12-12-2023 01:15 AM;01:30;I-5;518.81;961.47;0
+Tuesday, 05 December 2023, 19:45 PM;MQ-473;100;Can Tho;Da Nang;Tue, 05-12-2023 20:00 PM;00:15;T-9;386.87;716.97;1
