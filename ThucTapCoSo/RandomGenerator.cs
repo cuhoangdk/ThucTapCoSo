@@ -8,9 +8,9 @@ namespace ThucTapCoSo
 {
     internal class RandomGenerator
     {
-		Random rand = new Random();
 		// ************************************************************ Fields ************************************************************
-		private string randomNum;
+		Random rand = new Random();
+	    	private string randomNum;
 
         /* Tên thành phố nằm ở chỉ số 0, vĩ độ của thành phố ở chỉ số 1 và kinh độ ở chỉ số 2 */
         private static readonly string[][] destinations =
@@ -66,13 +66,24 @@ namespace ThucTapCoSo
         new[] {"Kuwait", "29.239250", "47.971575"},
         new[] {"Nairobi", "39.958361", "41.174310"},
         new[] {"Tehran", "35.696000", "51.401000"},
-        new[] {"Saint Petersburg", "60.013492", "29.722189"},
-        new[] {"Hanoi", "21.219185", "105.803967"},
+        new[] {"Saint Petersburg", "60.013492", "29.722189"},        
         new[] {"Sialkot", "32.328361", "74.215310"},
         new[] {"Berlin", "52.554316", "13.291213"},
         new[] {"Paris", "48.999560", "2.539274"},
-        new[] {"Dubai", "25.249869", "55.366483"}
-    };
+        new[] {"Dubai", "25.249869", "55.366483"},
+		new[] {"Tan Son Nhat", "10.816332", "106.664067"},
+	    new[] {"Noi Bai", "21.217854", "105.792948"},
+    	new[] {"Da Nang", "16.055667", "108.202380"},
+    	new[] {"Van Don", "21.123035", "107.415795"},
+    	new[] {"Phu Quoc", "10.162943", "103.998084"},
+    	new[] {"Cat Bi", "20.822658", "106.724718"},
+    	new[] {"Vinh", "18.727710", "105.668708"},
+    	new[] {"Phu Bai", "16.397890", "107.700093"},
+    	new[] {"Cam Ranh", "11.998309", "109.219019"},
+    	new[] {"Lien Khuong", "11.748914", "108.368293"},
+    	new[] {"Phu Cat", "13.953898", "109.048440"},
+    	new[] {"Can Tho", "10.080652", "105.712188"}
+	};
 
         // ************************************************************ Behaviours/Methods ************************************************************
 

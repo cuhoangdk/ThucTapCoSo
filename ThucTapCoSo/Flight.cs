@@ -107,7 +107,11 @@ namespace ThucTapCoSo
                     string flightSchedule = CreateNewFlightsAndTime();
                     string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
                     Console.Write("Nhập vào số ghế ngồi của chuyến bay: ");
-                    int numOfSeatsInTheFlight = int.Parse(Console.ReadLine());
+                    int numOfSeatsInTheFlight;
+				    while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlight) || numOfSeatsInTheFlight < 75 || numOfSeatsInTheFlight > 500)
+			    	{
+			    		Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 75 ghế và nhiều nhất 500 ghế). Nhập giá trị lại :\t");
+			    	}				    
                     string gate = r1.RandomFlightNumbGen(1, 30);
                 //
                 double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
