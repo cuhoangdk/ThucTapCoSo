@@ -189,7 +189,7 @@ namespace ThucTapCoSo
                                 f1.DisplayFlightSchedule();
                                 Console.Write("Nhập Flight Number để xóa chuyến bay : ");
                                 string flightNum = Console.ReadLine();
-                                f1.DeleteFlight(flightNum);
+                                f1.HiddenFlight(flightNum);
 
                             }
                             else if (desiredOption == 9)

@@ -288,7 +288,7 @@ namespace ThucTapCoSo
             }
         }
 
-        public void DeleteFlight(string flightNumber)
+        public void HiddenFlight(string flightNumber)
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			bool isFound = false;
@@ -309,7 +309,7 @@ namespace ThucTapCoSo
                 // Phân tách dữ liệu trong dòng sử dụng dấu chấm phẩy
                 string[] data = lines[i].Split(';');
 
-                if (data.Length == 10 && flightNumber.Equals(data[1]))
+                if (flightNumber.Equals(data[1]))
                 {
                     // Nếu ID khớp, gắn flag là 0 để ẩn chuyến bay
                     //lines.RemoveAt(i);
@@ -320,7 +320,6 @@ namespace ThucTapCoSo
                     break; // Đã tìm thấy và xóa, không cần kiểm tra các dòng khác
                 }
             }
-
             if (isFound)
             {
                 File.WriteAllLines(filePath, lines);
@@ -377,19 +376,17 @@ namespace ThucTapCoSo
             //tìm tới thư mục FlightScheduler.txt
             string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
             List<string> lines = File.ReadAllLines(filePath).ToList();
-
+            int stt = 1;
             for (int i = 0; i < lines.Count; i++)
             {
                 string[] data = lines[i].Split(';');
-                if(data.Length == 11 && data[10]=="1")
+                if(data[10]=="0")
                 {
-                    if (data[10] == "0")
-                    {
-                        break;
-                    }
-                    Console.WriteLine($"| {i + 1,-4} | {data[0],-41} | {data[1],-11} | {data[2],-16} | {data[3],-21} | {data[4],-22} | {data[5],-25} | {data[6],6}  Hrs | {data[7],-6} | {data[8],-9} / {data[9],-10} |");
-                    Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
+                    continue;
                 }
+                Console.WriteLine($"| {stt,-4} | {data[0],-41} | {data[1],-11} | {data[2],-16} | {data[3],-21} | {data[4],-22} | {data[5],-25} | {data[6],6}  Hrs | {data[7],-6} | {data[8],-9} / {data[9],-10} |");
+                Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
+                stt++;
             }
         }
 
