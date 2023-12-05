@@ -156,7 +156,7 @@ namespace ThucTapCoSo
             {
                 string[] data = line[i].Split(';');
 
-                if (data.Length == 10 && ID.Equals(data[1]))
+                if (ID.Equals(data[1]))
                 {
                     isFound = true;
 
@@ -175,7 +175,7 @@ namespace ThucTapCoSo
                         data[2] = Console.ReadLine();
                         Console.Write("Nhập cổng mới cho chuyến bay:\t");
                         data[7] = Console.ReadLine();
-                        data[6] = CalculateFlightTime(double.Parse(data[7]));
+                        data[6] = CalculateFlightTime(double.Parse(data[8]));
                     }
                     line[i] = string.Join(";", data);
                 }
