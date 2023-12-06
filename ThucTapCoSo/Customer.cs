@@ -83,7 +83,6 @@ namespace ThucTapCoSo
 			{
 				Console.Write("Vui lòng nhập số tuổi đúng định dạng: \t");
 			}
-			customerCollection.Add(new Customer(userID, name, email, password, phone, address, age));
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -131,9 +130,18 @@ namespace ThucTapCoSo
         {
             bool isUnique = false;
 
-            foreach (Customer c in customerCollection)
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string customerPath = Path.Combine(datatxt, "Customer.txt");
+
+            string[] line = File.ReadAllLines(customerPath);
+
+            for (int i = 0; i < line.Length; i++)
             {
-                if (emailID.Equals(c.email))
+                string[] data = line[i].Split(';');
+                if (data[2].Equals(emailID))
                 {
                     isUnique = true;
                     break;
@@ -152,33 +160,31 @@ namespace ThucTapCoSo
 
             string filePath = Path.Combine(datatxt, "Customer.txt");
 
-            Console.WriteLine();			
-			string[] line = File.ReadAllLines(filePath);            
+            Console.WriteLine();
+
+            string[] line = File.ReadAllLines(filePath);
+
             for (int i = 0; i < line.Length; i++)
             {
-				Customer c = customerCollection[i];
-				string[] data = line[i].Split(';');
+                string[] data = line[i].Split(';');
+
                 if (data.Length == 7 && ID.Equals(data[0]))
                 {
                     isFound = true;
+
                     //data0: userID; data1: name; data2: email; data3: pass; data4: phone; data5: address; data6: age
-                    string newName, newEmail, newPhone, newAddress;
                     Console.Write("Nhập tên mới của Hành khách:\t");
-                    newName = Console.ReadLine();
-                    data[1] = newName;
-                    c.name = newName;
+                    data[1] = Console.ReadLine();
+
                     Console.Write($"Nhập địa chỉ email mới của Hành khách {data[1]}:\t");
-                    newEmail= Console.ReadLine();
-                    data[2] = newEmail;
-                    c.email = newEmail;    
+                    data[2] = Console.ReadLine();
+
                     Console.Write($"Nhập số điện thoại mới của Hành khách {data[1]}:\t");
-                    newPhone= Console.ReadLine();
-                    data[4] = newPhone;
-                    c.phone = newPhone;
+                    data[4] = Console.ReadLine();
+
                     Console.Write($"Nhập địa chỉ mới của Hành khách {data[1]}:\t");
-                    newAddress= Console.ReadLine();
-                    data[5] = newAddress;
-                    c.address = newAddress;
+                    data[5] = Console.ReadLine();
+
                     Console.Write($"Nhập tuổi mới của Hành khách {data[1]}:\t");
                     int newAge;
                     while (!int.TryParse(Console.ReadLine(), out newAge) || newAge < 0)
@@ -186,12 +192,10 @@ namespace ThucTapCoSo
                         Console.Write("Vui lòng nhập số tuổi đúng định dạng: \t");
                     }
                     data[6] = newAge.ToString();
-                    c.age = newAge;
+
                     line[i] = string.Join(";", data);
-					
-                    break;
                 }
-            }            
+            }
             if (!isFound)
             {
                 Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID  {ID} ...!!!"); //FIX
@@ -203,7 +207,7 @@ namespace ThucTapCoSo
             }
         }
 
-        public void DeleteUser(string ID)
+            public void DeleteUser(string ID)
         {
             Console.OutputEncoding = Encoding.Unicode;
             bool isFound = false;
@@ -220,7 +224,6 @@ namespace ThucTapCoSo
 
             for (int i = 0; i < lines.Count; i++)
             {
-				Customer c = customerCollection[i];
 				// Phân tách dữ liệu trong dòng sử dụng dấu chấm phẩy
 				string[] data = lines[i].Split(';');
 
@@ -228,7 +231,6 @@ namespace ThucTapCoSo
                 {
                     // Nếu ID khớp, xóa dòng từ danh sách
                     lines.RemoveAt(i);
-					customerCollection.Remove(c);
 					isFound = true;					
 					break; // Đã tìm thấy và xóa, không cần kiểm tra các dòng khác
                 }

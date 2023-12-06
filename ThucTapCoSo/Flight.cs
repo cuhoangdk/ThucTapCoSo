@@ -173,7 +173,7 @@ namespace ThucTapCoSo
             {                
                 string[] data = line[i].Split(';');
 
-                if (ID.Equals(data[1], StringComparison.OrdinalIgnoreCase))
+                if (ID.Equals(data[1]))
                 {
                     isFound = true;
 

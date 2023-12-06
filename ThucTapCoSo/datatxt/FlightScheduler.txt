@@ -14,4 +14,5 @@ Tuesday, 20 February 2024, 00:30 AM;NK-376;378;Riyadh;Perth;Tue, 20-02-2024 07:3
 Wednesday, 21 February 2024, 02:00 AM;RX-150;180;Lagos;Kuwait;Wed, 21-02-2024 08:30 AM;06:30;I-12;3049.58;5651.57;1
 Thursday, 07 December 2023, 15:30 PM;GL-376;95;Karachi;Mexico;Fri, 08-12-2023 09:05 AM;17:35;Q-3;7651.62;14180.2;1
 Monday, 11 December 2023, 23:45 PM;KK-299;100;Vinh;Can Tho;Tue, 12-12-2023 01:15 AM;01:30;I-5;518.81;961.47;0
-Tuesday, 05 December 2023, 19:45 PM;MQ-473;100;Can Tho;Da Nang;Tue, 05-12-2023 20:00 PM;00:15;T-9;386.87;716.97;1
+Tuesday, 05 December 2023, 19:45 PM;MQ-473;100;Can Tho;Ankara;Tue, 05-12-2023 20:00 PM;09:00;L-2;4233.62;7845.87;1
+Monday, 11 December 2023, 03:45 AM;BB-200;148;New Delhi;Kabul;Mon, 11-12-2023 05:15 AM;01:30;X-4;540.43;1001.54;1

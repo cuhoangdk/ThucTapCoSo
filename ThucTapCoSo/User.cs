@@ -122,14 +122,7 @@ namespace ThucTapCoSo
                                 c1.DisplayCustomersData(false);
                                 Console.Write("Nhập CustomerID để Cập nhật Dữ liệu của khách hàng đó :\t");
                                 string customerID = Console.ReadLine();
-                                if (customersCollection.Count > 0)
-                                {
-                                    c1.EditUserInfo(customerID);
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"Không tìm thấy Khách hàng với ID {customerID}...!!!", " ");
-                                }
+                                c1.EditUserInfo(customerID);
                             }
                             else if (desiredOption == 4)
                             {
@@ -138,14 +131,7 @@ namespace ThucTapCoSo
                                 c1.DisplayCustomersData(false);
                                 Console.Write("Nhập CustomerID của khách hàng muốn xóa :\t");
                                 string customerID = Console.ReadLine();
-                                if (customersCollection.Count > 0)
-                                {
-                                    c1.DeleteUser(customerID);
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"{"",-50}Không tìm thấy Khách hàng với ID {customerID}...!!!", " ");
-                                }
+                                c1.DeleteUser(customerID);
                             }
                             else if (desiredOption == 5)
                             {
@@ -202,7 +188,7 @@ namespace ThucTapCoSo
                             {
                                 f1.DisplayFlightSchedule();
                                 Console.WriteLine("Nhập vào Số hiệu chuyến bay muốn chỉnh sửa: ");
-                                string id = Console.ReadLine();
+                                string id = Console.ReadLine().ToUpper();
                                 f1.EditFlight(id,username,now);
                             }
                             else if (desiredOption == 11)
