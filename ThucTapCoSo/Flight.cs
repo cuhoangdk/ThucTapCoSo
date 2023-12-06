@@ -80,8 +80,19 @@ namespace ThucTapCoSo
             }
         }
         */
+        public void FlightHistory()
+        {
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+            string flightAddPath = Path.Combine(datatxt, "FlightADD.txt");
+            string flightDeletePath = Path.Combine(datatxt, "FlightDELETE.txt");
+            string flightEditPath = Path.Combine(datatxt, "FlightEDIT.txt");
 
-        public void AddFlight()
+            
+        }
+        public void AddFlight(string idAdmin, DateTime date)
         {
             RandomGenerator r1 = new RandomGenerator();
 
@@ -92,27 +103,28 @@ namespace ThucTapCoSo
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
-            //tìm tới thư mục FlightScheduler.txt
+
+            string flightAddPath = Path.Combine(datatxt, "FlightADD.txt");
             string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
 
             double latitude1, longitude1, latitude2, longitude2;
 
-                if (double.TryParse(chosenDestinations[0][1], out latitude1) &&
+            if (double.TryParse(chosenDestinations[0][1], out latitude1) &&
                     double.TryParse(chosenDestinations[0][2], out longitude1) &&
                     double.TryParse(chosenDestinations[1][1], out latitude2) &&
                     double.TryParse(chosenDestinations[1][2], out longitude2))
-                {
-                    string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
+            {
+                string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
 
-                    string flightSchedule = CreateNewFlightsAndTime();
-                    string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
-                    Console.Write("Nhập vào số ghế ngồi của chuyến bay: ");
-                    int numOfSeatsInTheFlight;
-				    while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlight) || numOfSeatsInTheFlight < 75 || numOfSeatsInTheFlight > 500)
-			    	{
-			    		Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 75 ghế và nhiều nhất 500 ghế). Nhập giá trị lại :\t");
-			    	}				    
-                    string gate = r1.RandomFlightNumbGen(1, 30);
+                string flightSchedule = CreateNewFlightsAndTime();
+                string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
+                Console.Write("Nhập vào số ghế ngồi của chuyến bay: ");
+                int numOfSeatsInTheFlight;
+                while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlight) || numOfSeatsInTheFlight < 75 || numOfSeatsInTheFlight > 500)
+                {
+                    Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 75 ghế và nhiều nhất 500 ghế). Nhập giá trị lại :\t");
+                }
+                string gate = r1.RandomFlightNumbGen(1, 30);
                 //
                 double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
                 double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
@@ -129,16 +141,20 @@ namespace ThucTapCoSo
                     ));
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
-                    writer.WriteLine($"{flightSchedule};{flightNumber};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{FetchArrivalTime(flightSchedule,flightTime)};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm};{flag}");
+                    writer.WriteLine($"{flightSchedule};{flightNumber};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{FetchArrivalTime(flightSchedule, flightTime)};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm};{flag}");
+                }
+                using (StreamWriter writer = new StreamWriter(flightAddPath, true))
+                {
+                    writer.WriteLine($"{date};{idAdmin};{flightNumber};{flightSchedule};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{FetchArrivalTime(flightSchedule, flightTime)};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
                 }
             }
-                else
-                {
-                    // Xử lý trường hợp không thể chuyển đổi thành công
-                    Console.WriteLine("Lỗi chuyển đổi tọa độ cho chuyến bay " + (flightNumber));
-                }
+            else
+            {
+                // Xử lý trường hợp không thể chuyển đổi thành công
+                Console.WriteLine("Lỗi chuyển đổi tọa độ cho chuyến bay " + (flightNumber));
+            }
         }
-        public void EditFlight(string ID)
+        public void EditFlight(string ID, string idAdmin, DateTime date)
         {
             bool isFound = false;
             Console.WriteLine();
@@ -147,7 +163,8 @@ namespace ThucTapCoSo
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
-            //tìm tới thư mục FlightScheduler.txt
+
+            string flightEditPath = Path.Combine(datatxt, "FlightEDIT.txt");
             string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
 
             string[] line = File.ReadAllLines(filePath);
@@ -156,7 +173,7 @@ namespace ThucTapCoSo
             {                
                 string[] data = line[i].Split(';');
 
-                if (ID.Equals(data[1], StringComparison.OrdinalIgnoreCase))
+                if (ID.Equals(data[1]))
                 {
                     isFound = true;
 
@@ -181,6 +198,10 @@ namespace ThucTapCoSo
                         Console.Write("Nhập cổng mới cho chuyến bay:\t");
                         data[7] = Console.ReadLine();
                         data[6] = CalculateFlightTime(double.Parse(data[8]));
+                    }
+                    using (StreamWriter writer = new StreamWriter(flightEditPath, true))
+                    {
+                        writer.WriteLine($"{date};{idAdmin};{ID}");
                     }
                     line[i] = string.Join(";", data);
                 }
@@ -297,7 +318,7 @@ namespace ThucTapCoSo
             }
         }
 
-        public void HiddenFlight(string flightNumber)
+        public void HiddenFlight(string flightNumber, string idAdmin, DateTime date)
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			bool isFound = false;
@@ -307,8 +328,8 @@ namespace ThucTapCoSo
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
-            //tìm tới thư mục FlightScheduler.txt
             string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
+            string fileDeletePath = Path.Combine(datatxt, "FlightDELETE.txt");
 
             //đọc dòng trong file txt và lưu vào list
             List<string> lines = File.ReadAllLines(filePath).ToList();
@@ -332,6 +353,10 @@ namespace ThucTapCoSo
             if (isFound)
             {
                 File.WriteAllLines(filePath, lines);
+                using (StreamWriter writer = new StreamWriter(fileDeletePath, true))
+                {
+                    writer.WriteLine($"{date};{idAdmin};{flightNumber}");
+                }
                 Console.WriteLine($"{new string(' ', 10)}Đã xóa chuyến bay với Flight NO: {flightNumber}."); // FIX
             }
             else

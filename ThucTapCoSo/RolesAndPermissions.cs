@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +45,27 @@ namespace ThucTapCoSo
         public string IsPassengerRegistered(string email, string password)
         {
             string isFound = "0";
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string customerPath = Path.Combine(datatxt, "Customer.txt");
+
+            string[] line = File.ReadAllLines(customerPath);
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                string[] data = line[i].Split(';');
+                if (data[2].Equals(email))
+                {
+                    if (password.Equals(data[3]))
+                    {
+                        isFound = "1-" + data[0];
+                        break;
+                    }
+                }
+            }
+            /*
             foreach (Customer c in Customer.customerCollection)
             {
                 if (email.Equals(c.GetEmail()))
@@ -55,6 +77,7 @@ namespace ThucTapCoSo
                     }
                 }
             }
+            */
             return isFound;
         }
     }

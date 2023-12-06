@@ -20,36 +20,35 @@ namespace ThucTapCoSo
         public void BookFlight(string flightNo, int numOfTickets, string userID)
         {
 			Console.OutputEncoding = Encoding.Unicode;
-			bool isFound = false;
-            bool checkFlightHasCustomer = false;
-            
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
-
             //tìm tới thư mục 3 thư mục txt
             string filePathCus = Path.Combine(datatxt, "Customer.txt");
             string filePathFl = Path.Combine(datatxt, "FlightScheduler.txt");
             string filePathCBF = Path.Combine(datatxt, "CustomerBOOKFLIGHT.txt");
             string filePathFlightHasCustomers = Path.Combine(datatxt, "FlightHasCustomers.txt");
-
             //tạo biến lưu 3 file
             string[] customer = File.ReadAllLines(filePathCus);
             string[] flight = File.ReadAllLines(filePathFl);
             string[] FlightHasCustomers = File.ReadAllLines(filePathFlightHasCustomers);
-            //string[] UserHasFlights = File.ReadAllLines(filePathCBF);
+
+            bool isFound = false;
 
             for (int i=0; i<flight.Length; i++)
             {
                 string[] dataFlight = flight[i].Split(';');
-                if ( dataFlight[1].Equals(flightNo))
+                if(dataFlight[1].Equals(flightNo))
                 {
-                    for(int j=0; j < customer.Length; j++)
+                    bool checkFlightHasCustomer = false;
+
+                    for (int j=0; j < customer.Length; j++)
                     {
                         string[] dataCustomer = customer[j].Split(';');
-                        if ( dataCustomer.Length == 7 && dataCustomer[0].Equals(userID))
+                        if(dataCustomer[0].Equals(userID))
                         {
+
                             isFound = true;
                             int availableSeats = int.Parse(dataFlight[2]);
 
@@ -100,7 +99,8 @@ namespace ThucTapCoSo
             if (!isFound)
             {
                 Console.WriteLine($"Flight Number không hợp lệ...! Không tìm thấy chuyến bay với ID \"{flightNo}\"...");
-
+                //Console.WriteLine($"Flight Number không hợp lệ...! Không tìm thấy chuyến bay với ID \"{userID}\"...");
+                //Console.WriteLine($"Flight Number không hợp lệ...! Không tìm thấy chuyến bay với ID \"{numOfTickets}\"...");
             }
         }
 

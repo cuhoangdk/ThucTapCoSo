@@ -12,6 +12,7 @@ namespace ThucTapCoSo
         private static List<Customer> customersCollection = new List<Customer>();
         static void Main()
         {
+            DateTime now = DateTime.Now;
 			Console.OutputEncoding = Encoding.Unicode;
 			int countNumOfUsers = 1;
             RolesAndPermissions r1 = new RolesAndPermissions();
@@ -21,7 +22,7 @@ namespace ThucTapCoSo
             //f1.FlightScheduler();
 
             Customer c1 = new Customer();
-            c1.AddCustomerWithFile();       //..bin/Debug/datatxt/Customer.txt
+            //c1.AddCustomerWithFile();       //..bin/Debug/datatxt/Customer.txt
             Console.WriteLine();
             WelcomeScreen(1);
             Console.WriteLine("\n\t\t\t\t\t+++++++++++++ Chào mừng bạn đến với Star AirLines +++++++++++++\n\nĐể tiếp tục, vui lòng nhập một giá trị.");
@@ -121,14 +122,7 @@ namespace ThucTapCoSo
                                 c1.DisplayCustomersData(false);
                                 Console.Write("Nhập CustomerID để Cập nhật Dữ liệu của khách hàng đó :\t");
                                 string customerID = Console.ReadLine();
-                                if (customersCollection.Count > 0)
-                                {
-                                    c1.EditUserInfo(customerID);
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"Không tìm thấy Khách hàng với ID {customerID}...!!!", " ");
-                                }
+                                c1.EditUserInfo(customerID);
                             }
                             else if (desiredOption == 4)
                             {
@@ -137,14 +131,7 @@ namespace ThucTapCoSo
                                 c1.DisplayCustomersData(false);
                                 Console.Write("Nhập CustomerID của khách hàng muốn xóa :\t");
                                 string customerID = Console.ReadLine();
-                                if (customersCollection.Count > 0)
-                                {
-                                    c1.DeleteUser(customerID);
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"{"",-50}Không tìm thấy Khách hàng với ID {customerID}...!!!", " ");
-                                }
+                                c1.DeleteUser(customerID);
                             }
                             else if (desiredOption == 5)
                             {
@@ -189,20 +176,20 @@ namespace ThucTapCoSo
                                 f1.DisplayFlightSchedule();
                                 Console.Write("Nhập Flight Number để xóa chuyến bay : ");
                                 string flightNum = Console.ReadLine();
-                                f1.HiddenFlight(flightNum);
+                                f1.HiddenFlight(flightNum,username,now);
 
                             }
                             else if (desiredOption == 9)
                             {
-                                f1.AddFlight();
+                                f1.AddFlight(username,now);
                                 f1.DisplayFlightSchedule();
                             }
                             else if (desiredOption == 10)
                             {
                                 f1.DisplayFlightSchedule();
                                 Console.WriteLine("Nhập vào Số hiệu chuyến bay muốn chỉnh sửa: ");
-                                string id = Console.ReadLine();
-                                f1.EditFlight(id);
+                                string id = Console.ReadLine().ToUpper();
+                                f1.EditFlight(id,username,now);
                             }
                             else if (desiredOption == 11)
                             {
