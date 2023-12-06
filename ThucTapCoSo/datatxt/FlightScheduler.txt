@@ -2,7 +2,7 @@ Thursday, 07 December 2023, 00:30 AM;FL-129;235;Johannesburg;Stockholm;Thu, 07-1
 Wednesday, 13 December 2023, 06:30 AM;BY-118;302;Bhutan;Rio de Janeiro;Thu, 14-12-2023 00:55 AM;18:25;A-3;8138.86;15083.17;1
 Tuesday, 19 December 2023, 12:30 PM;ER-235;323;Pune;Yokohama;Tue, 19-12-2023 19:50 PM;07:20;O-16;3591.09;6655.11;1
 Monday, 25 December 2023, 18:30 PM;EY-88;183;Yangon;Lagos;Tue, 26-12-2023 08:25 AM;13:55;P-15;6184.55;11461.39;1
-Monday, 01 January 2024, 00:30 AM;GR-94;186;Karachi;Hong Kong;Mon, 01-01-2024 00:55 AM;00:25;GT-3;20;4791.96;1
+Monday, 01 January 2024, 00:30 AM;GR-94;186;Karachi;Hong Kong;Mon, 01-01-2024 00:55 AM;00:25;GT-3;20;4791.96;0
 Sunday, 07 January 2024, 06:30 AM;EK-305;363;Hong Kong;Gilgit Baltistan;Sun, 07-01-2024 11:25 AM;04:55;Q-8;2223.72;4121.07;1
 Saturday, 13 January 2024, 12:30 PM;FZ-157;364;Bangkok;Lagos;Sat, 13-01-2024 13:05 PM;00:35;N-13;268.81;498.17;1
 Friday, 19 January 2024, 18:30 PM;QI-154;392;Tehran;Sydney;Sat, 20-01-2024 09:45 AM;15:15;Y-8;6966.58;12910.67;1
@@ -15,4 +15,4 @@ Wednesday, 21 February 2024, 02:00 AM;RX-150;180;Lagos;Kuwait;Wed, 21-02-2024 08
 Thursday, 07 December 2023, 15:30 PM;GL-376;95;Karachi;Mexico;Fri, 08-12-2023 09:05 AM;17:35;Q-3;7651.62;14180.2;1
 Monday, 11 December 2023, 23:45 PM;KK-299;100;Vinh;Can Tho;Tue, 12-12-2023 01:15 AM;01:30;I-5;518.81;961.47;0
 Tuesday, 05 December 2023, 19:45 PM;MQ-473;100;Can Tho;Ankara;Tue, 05-12-2023 20:00 PM;09:00;L-2;4233.62;7845.87;1
-Monday, 11 December 2023, 03:45 AM;BB-200;143;New Delhi;Kabul;Mon, 11-12-2023 05:15 AM;01:30;X-4;540.43;1001.54;0
+Monday, 11 December 2023, 03:45 AM;BB-200;142;New Delhi;Kabul;Mon, 11-12-2023 05:15 AM;01:30;X-4;540.43;1001.54;0

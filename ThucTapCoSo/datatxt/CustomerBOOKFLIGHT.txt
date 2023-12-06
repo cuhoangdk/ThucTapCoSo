@@ -6,3 +6,4 @@
 403161;XY-474;Thursday, 07 December 2023, 22:30 PM;4;Phu Quoc;Bangkok;Thu, 07-12-2023 23:00 PM;00:30;S-13
 978729;BB-200;Monday, 11 December 2023, 03:45 AM;2;New Delhi;Kabul;Mon, 11-12-2023 05:15 AM;01:30;X-4
 165202;BB-200;Monday, 11 December 2023, 03:45 AM;5;New Delhi;Kabul;Mon, 11-12-2023 05:15 AM;01:30;X-4
+421472;BB-200;Monday, 11 December 2023, 03:45 AM;1;New Delhi;Kabul;Mon, 11-12-2023 05:15 AM;01:30;X-4

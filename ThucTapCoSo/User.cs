@@ -162,7 +162,7 @@ namespace ThucTapCoSo
                                 {
                                     f1.DisplayFlightSchedule();
                                     Console.Write("Nhập Flight Number để hiển thị danh sách hành khách đã đăng ký trong chuyến bay đó... ");
-                                    string flightNum = Console.ReadLine();
+                                    string flightNum = Console.ReadLine().ToUpper();
                                     bookingAndReserving.DisplayRegisteredUsersForASpecificFlight(flightNum);
                                 }
                                 else
