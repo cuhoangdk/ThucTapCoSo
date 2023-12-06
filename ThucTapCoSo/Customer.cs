@@ -207,7 +207,7 @@ namespace ThucTapCoSo
             }
         }
 
-            public void DeleteUser(string ID)
+        public void DeleteUser(string ID)
         {
             Console.OutputEncoding = Encoding.Unicode;
             bool isFound = false;
@@ -216,7 +216,6 @@ namespace ThucTapCoSo
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
-            //tìm tới thư mục FlightScheduler.txt
             string filePath = Path.Combine(datatxt, "Customer.txt");
 
             //đọc dòng trong file txt và lưu vào list

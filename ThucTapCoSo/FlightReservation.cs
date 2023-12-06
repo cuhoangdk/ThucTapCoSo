@@ -14,7 +14,6 @@ namespace ThucTapCoSo
     internal class FlightReservation : IDisplayClass
     {
         // Fields
-        Flight flight = new Flight();
         int flightIndexInFlightList;      
 
         public void BookFlight(string flightNo, int numOfTickets, string userID)
@@ -32,6 +31,7 @@ namespace ThucTapCoSo
             //tạo biến lưu 3 file
             string[] customer = File.ReadAllLines(filePathCus);
             string[] flight = File.ReadAllLines(filePathFl);
+            string[] CustomerBF = File.ReadAllLines(filePathCBF);
             string[] FlightHasCustomers = File.ReadAllLines(filePathFlightHasCustomers);
 
             bool isFound = false;
@@ -77,9 +77,25 @@ namespace ThucTapCoSo
                                     }
                                 }
                                 // User Has Flight
-                                using (StreamWriter write = new StreamWriter(filePathCBF, true))
+                                bool check = false;
+                                for (int h = 0; h < CustomerBF.Length; h++)
                                 {
-                                    write.WriteLine($"{dataCustomer[0]};{dataFlight[1]};{dataFlight[0]};{numOfTickets};{dataFlight[3]};{dataFlight[4]};{dataFlight[5]};{dataFlight[6]};{dataFlight[7]}");
+                                    string[] dataCBF = CustomerBF[h].Split(';');
+                                    if (userID.Equals(dataCBF[0]) && flightNo.Equals(dataCBF[1]))
+                                    {
+                                        check = true;
+                                        dataCBF[3] = Convert.ToString(int.Parse(dataCBF[3]) + numOfTickets);
+                                        CustomerBF[h] = string.Join(";", dataCBF);
+                                        File.WriteAllLines(filePathCBF, CustomerBF);
+                                        break;
+                                    }
+                                }
+                                if (!check)
+                                {
+                                    using (StreamWriter write = new StreamWriter(filePathCBF, true))
+                                    {
+                                        write.WriteLine($"{dataCustomer[0]};{dataFlight[1]};{dataFlight[0]};{numOfTickets};{dataFlight[3]};{dataFlight[4]};{dataFlight[5]};{dataFlight[6]};{dataFlight[7]}");
+                                    }
                                 }
                                 // Cập nhật số ghế trong danh sách chuyến bay
                                 flight[i] = string.Join(";", dataFlight);
@@ -103,14 +119,29 @@ namespace ThucTapCoSo
                 //Console.WriteLine($"Flight Number không hợp lệ...! Không tìm thấy chuyến bay với ID \"{numOfTickets}\"...");
             }
         }
-
         public void CancelFlight(string userID)
         {
 			Console.OutputEncoding = Encoding.Unicode;
-			string flightNum = "";
+
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePathFl = Path.Combine(datatxt, "FlightScheduler.txt");
+            string filePathCBF = Path.Combine(datatxt, "CustomerBOOKFLIGHT.txt");
+            string filePathFHC = Path.Combine(datatxt, "FlightHasCustomers.txt");
+
+            string[] flight = File.ReadAllLines(filePathFl);
+            List<string> customerBF = File.ReadAllLines(filePathCBF).ToList();
+            List<string> FlightHC = File.ReadAllLines(filePathFHC).ToList();
+
+            string flightNum = "";
+            bool isFound = false;
+
+            Console.WriteLine($"{new string(' ', 30)}++++++++++++++ Đây là danh sách tất cả các chuyến bay bạn đã đăng ký ++++++++++++++");
             DisplayFlightsRegisteredByOneUser(userID);
             Console.WriteLine("Nhập Flight Number của chuyến bay bạn muốn hủy:");
-
             flightNum = Console.ReadLine().ToUpper();
             Console.WriteLine("Nhập số lượng vé muốn hủy:");
             int numOfTickets;
@@ -118,8 +149,82 @@ namespace ThucTapCoSo
 			{
 				Console.Write("Vui lòng nhập số vé hợp lệ:  ");
 			}
-			bool isFound = false;
-            int index = 0;
+			//Customer.txt
+            for(int i=0; i<customerBF.Count; i++)
+            {
+                string[] dataCBF = customerBF[i].Split(';');
+                if (dataCBF[0].Equals(userID))
+                {
+                    if (dataCBF[1].Equals(flightNum))
+                    {
+                        isFound = true;
+                        //FlightScheduler.txt
+                        //chỉnh sửa số vé được hoàn trả
+                        for (int j = 0; j < flight.Length; j++)
+                        {
+                            string[] dataFlight = flight[j].Split(';');
+                            int numOfTicketsForFlight = int.Parse(dataCBF[3]);
+
+                            if (dataCBF[1].Equals(dataFlight[1]))
+                            {
+                                while (numOfTickets > numOfTicketsForFlight)
+                                {
+                                    Console.Write($"LỖI!!! Số vé không thể lớn hơn {numOfTicketsForFlight} cho chuyến bay này. Vui lòng nhập lại số lượng vé:");
+                                    while (!int.TryParse(Console.ReadLine(), out numOfTickets))
+                                    {
+                                        Console.Write("Vui lòng nhập số vé hợp lệ:  ");
+                                    }
+                                }
+                                int ticketsToBeReturned;
+
+                                for(int h = 0; h<FlightHC.Count; h++)
+                                {
+                                    string[] dataFHC = FlightHC[h].Split(';');
+                                    if (userID.Equals(dataFHC[1]) && flightNum.Equals(dataFHC[0]))
+                                    {
+                                        if (numOfTicketsForFlight == numOfTickets)
+                                        {
+                                            ticketsToBeReturned = int.Parse(dataFlight[2]) + numOfTicketsForFlight;
+                                            dataFlight[2] = Convert.ToString(ticketsToBeReturned);
+                                            //nếu số vé cần hủy bằng với số vé hiện có thì khách hàng đó ra khỏi 2 file
+                                            customerBF.RemoveAt(i);
+                                            FlightHC.RemoveAt(h);
+                                            Console.Write($"Đã hủy hết vé của chuyến bay {flightNum} thành công.");
+                                        }
+                                        else
+                                        {
+                                            ticketsToBeReturned = numOfTickets + int.Parse(dataFlight[2]);
+                                            //cập nhật số vé ở FHC và CBF
+                                            dataCBF[3] = Convert.ToString(numOfTicketsForFlight - numOfTickets);
+                                            dataFHC[8] = dataCBF[3];
+                                            FlightHC[h] = string.Join(";", dataFHC);
+                                            customerBF[i] = string.Join(";", dataCBF);
+
+                                            Console.Write($"Đã hủy {numOfTickets} vé của chuyến bay {flightNum} thành công.");
+                                        }
+                                        dataFlight[2] = Convert.ToString(ticketsToBeReturned);
+                                        //cập nhật số vé có trong FlightScheduler.txt
+                                        flight[j] = string.Join(";", dataFlight);
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!isFound)
+            {
+                Console.WriteLine($"LỖI!!! Không thể tìm thấy chuyến bay với ID \"{flightNum.ToUpper()}\".....");
+            }
+            else
+            {
+                File.WriteAllLines(filePathCBF, customerBF);
+                File.WriteAllLines(filePathFHC, FlightHC);
+                File.WriteAllLines(filePathFl, flight);
+            }
+            /*
             foreach (Customer customer in Customer.customerCollection)
             {
                 if (userID.Equals(customer.GetUserID()))
@@ -165,17 +270,10 @@ namespace ThucTapCoSo
                             index++;
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine($"Bạn chưa đăng ký chuyến bay nào với ID \"{flightNum.ToUpper()}\".....");
-                    }
-
-                    if (!isFound)
-                    {
-                        Console.WriteLine($"LỖI!!! Không thể tìm thấy chuyến bay với ID \"{flightNum.ToUpper()}\".....");
-                    }
+                    
                 }
             }
+            */
         }
 
         void AddNumberOfTicketsToAlreadyBookedFlight(Customer customer, int numOfTickets)
@@ -241,32 +339,6 @@ namespace ThucTapCoSo
 
             string[] UserHasFlights = File.ReadAllLines(filePathCBF);
 
-            // Sử dụng Dictionary để lưu trữ số vé theo cặp userID và flightID
-            Dictionary<string, int> userFlightTicketCounts = new Dictionary<string, int>();
-
-            //tính tổng số vé nếu user đó có đặt nhiều lần cùng 1 chuyến bay
-            for(int i=0; i < UserHasFlights.Length; i++)
-            {
-                string[] dataUserHasFlight = UserHasFlights[i].Split(';');
-                if (userID.Equals(dataUserHasFlight[0]))
-                {
-                    int numberOfTickets = int.Parse(dataUserHasFlight[3]);
-
-                    // Tạo key là sự kết hợp của userID và flightID
-                    string key = $"{userID};{dataUserHasFlight[1]}";
-
-                    // Kiểm tra xem đã có cặp userID và flightID trong Dictionary hay chưa
-                    if (userFlightTicketCounts.ContainsKey(key))
-                    {
-                        userFlightTicketCounts[key] += numberOfTickets;
-                    }
-                    else
-                    {
-                        // Nếu chưa tồn tại, thêm mới vào Dictionary
-                        userFlightTicketCounts[key] = numberOfTickets;
-                    }
-                }
-            }
             //in ra console user có những chuyến bay nào
             Console.WriteLine();
             Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+\n");
@@ -274,22 +346,18 @@ namespace ThucTapCoSo
             Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+\n");
 
             int stt = 0;
-            foreach (var entry in userFlightTicketCounts)
+
+            for (int i = 0; i < UserHasFlights.Length; i++)
             {
-                string[] ids = entry.Key.Split(';');
-                for (int i = 0; i < UserHasFlights.Length; i++)
+                string[] dataUserHasFlight = UserHasFlights[i].Split(';');
+                if (userID.Equals(dataUserHasFlight[0]))
                 {
-                    string[] dataUserHasFlight = UserHasFlights[i].Split(';');
-                        if (ids[1].Equals(dataUserHasFlight[1]))
-                        {
-                            Console.WriteLine($"|{stt + 1,-6}| {dataUserHasFlight[2],-41} | {ids[1],-9} | \t{entry.Value,-9} | {dataUserHasFlight[4],-21} | {dataUserHasFlight[5],-22} | {dataUserHasFlight[6],-27} | {dataUserHasFlight[7],-11} | {dataUserHasFlight[8],-6} | {FlightStatus(ids[1]),-17}|");
-                            Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+\n");
-                            break;
-                        }
+                    Console.WriteLine($"| {stt + 1,-5}| {dataUserHasFlight[2],-41} | {dataUserHasFlight[1],-9} | \t{dataUserHasFlight[3],-9} | {dataUserHasFlight[4],-21} | {dataUserHasFlight[5],-22} | {dataUserHasFlight[6],-27} | {dataUserHasFlight[7],-11} | {dataUserHasFlight[8],-6} | {FlightStatus(userID),-17}|");
+                    Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+\n");
+                    stt++;
                 }
-                stt++;
             }
-            
+
             if (stt == 0)
             {
                 Console.WriteLine($"Không có chuyến bay được đăng ký cho người dùng với ID {userID}.");
@@ -322,11 +390,7 @@ namespace ThucTapCoSo
             */
 
         }
-        public string ToString(int serialNum, Customer customer, int index)
-        {
-            return string.Format("          | {0,-10} | {1,-10}  | {2,-32} | {3,-7} | {4,-27} | {5,-35} | {6,-23} |       {7,-7}  |", (serialNum + 1), customer.RandomIDDisplay(customer.GetUserID()), customer.GetName(),
-                customer.GetAge(), customer.GetEmail(), customer.GetAddress(), customer.GetPhone(), customer.numOfTicketsBookedByUser[index]);
-        }
+        
         public void DisplayRegisteredUsersForAllFlight()
         {
             Console.WriteLine();
@@ -339,8 +403,8 @@ namespace ThucTapCoSo
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
-            string filePathCBF = Path.Combine(datatxt, "FlightHasCustomers.txt");
-            string[] FlightHasCustomers = File.ReadAllLines(filePathCBF);
+            string filePathFHC = Path.Combine(datatxt, "FlightHasCustomers.txt");
+            string[] FlightHasCustomers = File.ReadAllLines(filePathFHC);
 
             // Tạo Dictionary để nhóm theo tên chuyến bay
             Dictionary<string, List<string[]>> flightGroups = new Dictionary<string, List<string[]>>();
@@ -384,8 +448,8 @@ namespace ThucTapCoSo
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
-            string filePathCBF = Path.Combine(datatxt, "FlightHasCustomers.txt");
-            string[] FlightHasCustomers = File.ReadAllLines(filePathCBF);
+            string filePathFHC = Path.Combine(datatxt, "FlightHasCustomers.txt");
+            string[] FlightHasCustomers = File.ReadAllLines(filePathFHC);
             for(int i = 0; i<FlightHasCustomers.Length; i++)
             {
                 string[] data = FlightHasCustomers[i].Split(';');
