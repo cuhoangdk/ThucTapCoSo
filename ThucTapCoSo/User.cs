@@ -188,7 +188,7 @@ namespace ThucTapCoSo
                                 c1.DisplayArtWork(5);
                                 f1.DisplayFlightSchedule();
                                 Console.Write("Nhập Flight Number để xóa chuyến bay : ");
-                                string flightNum = Console.ReadLine().ToUpper();
+                                string flightNum = Console.ReadLine();
                                 f1.HiddenFlight(flightNum);
 
                             }

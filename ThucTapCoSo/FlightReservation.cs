@@ -219,7 +219,7 @@ namespace ThucTapCoSo
             for(int i=0; i<Flight.Length; i++)
             {
                 string[] dataFlight = Flight[i].Split(';');
-                if (dataFlight[1].Equals(fightNo) && dataFlight[10]=="1")
+                if (dataFlight[1].Equals(fightNo))
                 {
                     isFlightAvailable = true;
                     break;
