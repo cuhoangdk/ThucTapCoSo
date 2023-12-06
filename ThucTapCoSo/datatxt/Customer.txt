@@ -7,3 +7,4 @@
 796692;nam cu;5cu@gmail.com;123;09927747222;Hoa An;25
 978729;Huy Dê;de@gmail.com;123;0987766484;Đăk Lăk;21
 966265;num1;number1@gmail.com;123;098277473;k;20
+421472;1;1;1;1;1;1
