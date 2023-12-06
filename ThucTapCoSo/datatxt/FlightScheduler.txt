@@ -13,4 +13,4 @@ Tuesday, 13 February 2024, 18:30 PM;UU-347;440;Pune;Rio de Janeiro;Wed, 14-02-20
 Tuesday, 20 February 2024, 00:30 AM;NK-376;378;Riyadh;Perth;Tue, 20-02-2024 07:30 AM;07:00;D-11;2859.22;5298.78;1
 Wednesday, 21 February 2024, 02:00 AM;RX-150;180;Lagos;Kuwait;Wed, 21-02-2024 08:30 AM;06:30;I-12;3049.58;5651.57;1
 Thursday, 07 December 2023, 15:30 PM;GL-376;95;Karachi;Mexico;Fri, 08-12-2023 09:05 AM;17:35;Q-3;7651.62;14180.2;1
-Thursday, 07 December 2023, 22:30 PM;XY-474;119;Phu Quoc;Bangkok;Thu, 07-12-2023 23:00 PM;00:30;S-13;301.16;558.13;1
+Thursday, 07 December 2023, 22:30 PM;XY-474;99;Phu Quoc;Bangkok;Thu, 07-12-2023 23:00 PM;00:30;S-13;301.16;558.13;0

@@ -2,4 +2,4 @@
 632380;lam;lam@gmail.com;123;09982747373;Nha Trang;20
 372141;hailam;hailam;123;0293848483;Nha Trang;20
 342565;number1;num1@gmail.com;123;0977266622;Kiên Giang;19
-403161;1;1;1;1;1;1
+403161;2;2;1;2;2;2

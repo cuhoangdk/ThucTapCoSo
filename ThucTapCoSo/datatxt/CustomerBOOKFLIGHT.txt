@@ -4,3 +4,5 @@
 342565;RX-150;Wednesday, 21 February 2024, 02:00 AM;4;Lagos;Kuwait;Wed, 21-02-2024 08:30 AM;06:30;I-12
 342565;UU-347;Tuesday, 13 February 2024, 18:30 PM;5;Pune;Rio de Janeiro;Wed, 14-02-2024 11:30 AM;17:00;S-8
 403161;XY-474;Thursday, 07 December 2023, 22:30 PM;4;Phu Quoc;Bangkok;Thu, 07-12-2023 23:00 PM;00:30;S-13
+403161;XY-474;Thursday, 07 December 2023, 22:30 PM;10;Phu Quoc;Bangkok;Thu, 07-12-2023 23:00 PM;00:30;S-13
+403161;XY-474;Thursday, 07 December 2023, 22:30 PM;10;Phu Quoc;Bangkok;Thu, 07-12-2023 23:00 PM;00:30;S-13
