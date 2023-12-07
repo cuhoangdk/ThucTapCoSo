@@ -1,2 +1,5 @@
 372141;UU-347;Tuesday, 13 February 2024, 18:30 PM;5;Tan Son Nhat;Dubai;Wed, 14-02-2024 11:30 AM;06:05;L-5
 372141;XF-94;Wednesday, 07 February 2024, 12:30 PM;5;Lien Khuong;Vinh;Wed, 07-02-2024 14:00 PM;00:30;G-2
+421472;MQ-473;Tuesday, 05 December 2023, 19:45 PM;3;Can Tho;Ankara;Tue, 05-12-2023 20:00 PM;09:00;L-2
+421472;GL-376;Thursday, 07 December 2023, 15:30 PM;3;Karachi;Mexico;Fri, 08-12-2023 09:05 AM;17:35;Q-3
+421472;RX-150;Wednesday, 21 February 2024, 02:00 AM;3;Lagos;Kuwait;Wed, 21-02-2024 08:30 AM;06:30;I-12
