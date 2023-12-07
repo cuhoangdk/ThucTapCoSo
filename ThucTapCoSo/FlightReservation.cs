@@ -39,9 +39,10 @@ namespace ThucTapCoSo
             for (int i=0; i<flight.Length; i++)
             {
                 string[] dataFlight = flight[i].Split(';');
-                if(dataFlight[1].Equals(flightNo))
+                if(dataFlight[1].Equals(flightNo) && dataFlight[10] == "1")
                 {
                     bool checkFlightHasCustomer = false;
+                    isFound = true;
 
                     for (int j=0; j < customer.Length; j++)
                     {
@@ -49,7 +50,6 @@ namespace ThucTapCoSo
                         if(dataCustomer[0].Equals(userID))
                         {
 
-                            isFound = true;
                             int availableSeats = int.Parse(dataFlight[2]);
 
                             if (availableSeats >= numOfTickets)
@@ -111,6 +111,7 @@ namespace ThucTapCoSo
                         }
                     }
                 }
+
             }
             if (!isFound)
             {
@@ -352,7 +353,7 @@ namespace ThucTapCoSo
                 string[] dataUserHasFlight = UserHasFlights[i].Split(';');
                 if (userID.Equals(dataUserHasFlight[0]))
                 {
-                    Console.WriteLine($"| {stt + 1,-5}| {dataUserHasFlight[2],-41} | {dataUserHasFlight[1],-9} | \t{dataUserHasFlight[3],-9} | {dataUserHasFlight[4],-21} | {dataUserHasFlight[5],-22} | {dataUserHasFlight[6],-27} | {dataUserHasFlight[7],-11} | {dataUserHasFlight[8],-6} | {FlightStatus(userID),-17}|");
+                    Console.WriteLine($"| {stt + 1,-5}| {dataUserHasFlight[2],-41} | {dataUserHasFlight[1],-9} | \t{dataUserHasFlight[3],-9} | {dataUserHasFlight[4],-21} | {dataUserHasFlight[5],-22} | {dataUserHasFlight[6],-27} | {dataUserHasFlight[7],-11} | {dataUserHasFlight[8],-6} | {FlightStatus(dataUserHasFlight[1]),-17}|");
                     Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+\n");
                     stt++;
                 }
@@ -404,6 +405,8 @@ namespace ThucTapCoSo
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
             string filePathFHC = Path.Combine(datatxt, "FlightHasCustomers.txt");
+            string filePathFlight = Path.Combine(datatxt, "FlightScheduler.txt");
+            string[] flight = File.ReadAllLines(filePathFlight);
             string[] FlightHasCustomers = File.ReadAllLines(filePathFHC);
 
             // Tạo Dictionary để nhóm theo tên chuyến bay
@@ -430,9 +433,17 @@ namespace ThucTapCoSo
                 // In thông tin từng nhóm
                 foreach (var customerData in customerDataList)
                 {
-                    // In thông tin của mỗi khách hàng trong nhóm
-                    Console.WriteLine($"{new string(' ', 10)}| {customerData[0],-14} | {customerData[1],-11} | {customerData[2],-32} | {customerData[7],-7} | {customerData[3],-27} | {customerData[6],-30} | {customerData[5],-23} | {customerData[8],-12} |");
-                    Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                    for(int i=0; i<flight.Length; i++)
+                    {
+                        string[] dataFlight = flight[i].Split(';');
+
+                        if (customerData[0].Equals(dataFlight[1]) && dataFlight[10] == "1" )
+                        {
+                            // In thông tin của mỗi khách hàng trong nhóm
+                            Console.WriteLine($"{new string(' ', 10)}| {customerData[0],-14} | {customerData[1],-11} | {customerData[2],-32} | {customerData[7],-7} | {customerData[3],-27} | {customerData[6],-30} | {customerData[5],-23} | {customerData[8],-12} |");
+                            Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                        }
+                    }
                 }
             }
         }
@@ -450,6 +461,7 @@ namespace ThucTapCoSo
             string datatxt = Path.Combine(current, "datatxt");
             string filePathFHC = Path.Combine(datatxt, "FlightHasCustomers.txt");
             string[] FlightHasCustomers = File.ReadAllLines(filePathFHC);
+
             for(int i = 0; i<FlightHasCustomers.Length; i++)
             {
                 string[] data = FlightHasCustomers[i].Split(';');
