@@ -1,3 +1,4 @@
 UU-347;372141;hailam;hailam;123;0293848483;Nha Trang;20;5
 XF-94;372141;hailam;hailam;123;0293848483;Nha Trang;20;5
 FL-129;372141;hailam;hailam;123;0293848483;Nha Trang;20;2
+RX-150;833096;2;2;2;2;2;2;2
