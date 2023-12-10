@@ -1,6 +1,5 @@
 174642;Huan Rose;huan@gmail.com;123;0928383838;Hải Phòng;40;1
 96707;hai;hai@gmail.com;123;09863734929;Khánh Hòa;40;1
-632380;lam;lam@gmail.com;123;09982747373;Nha Trang;20;1
 372141;hailam;hailam;123;0293848483;Nha Trang;20;1
 342565;number1;num1@gmail.com;123;0977266622;Kiên Giang;19;1
 386925;lam;hailam@gmail.com;123;0987747272;Ninh Hòa;20;1
