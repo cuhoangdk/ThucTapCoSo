@@ -424,35 +424,34 @@ namespace ThucTapCoSo
             {
                 string flightName = flightGroup.Key;
                 List<string[]> customerDataList = flightGroup.Value;
-
-                Console.WriteLine();
-                Console.WriteLine($" Mã chuyến bay: {flightName}");
-                Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
-                Console.WriteLine($"{new string(' ', 10)}| STT         | Mã khách hàng | Tên khách hàng                   | Tuổi    | Email  \t\t\t   | Địa chỉ\t\t\t    | Số điện thoại\t      | Số vé đã đặt |");
-                Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
-
+                bool shouldDisplayHeader = true;
+                int stt = 0;
 
                 // In thông tin từng nhóm
                 foreach (var customerData in customerDataList)
                 {
                     if (customerData[9] == "1")
                     {
-                        int stt = 0;
                         for (int i = 0; i < flight.Length; i++)
                         {
                             string[] dataFlight = flight[i].Split(';');
 
                             if (customerData[0].Equals(dataFlight[1]) && dataFlight[10] == "1")
                             {
+                                if (shouldDisplayHeader)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine($" Mã chuyến bay: {flightName}");
+                                    Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                                    Console.WriteLine($"{new string(' ', 10)}| STT         | Mã khách hàng | Tên khách hàng                   | Tuổi    | Email  \t\t\t   | Địa chỉ\t\t\t    | Số điện thoại\t      | Số vé đã đặt |");
+                                    Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                                    shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
+                                }
                                 // In thông tin của mỗi khách hàng trong nhóm
                                 Console.WriteLine($"{new string(' ', 10)}| {stt+1,-11} | {customerData[1],-13} | {customerData[2],-32} | {customerData[7],-7} | {customerData[3],-27} | {customerData[6],-30} | {customerData[5],-23} | {customerData[8],-12} |");
                                 Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
                                 stt++;
                             }
-                        }
-                        if (stt == 0)
-                        {
-                            Console.WriteLine($"\t  Không có hành khách trong chuyến bay {customerData[0]}");
                         }
                     }
                 }
@@ -460,27 +459,52 @@ namespace ThucTapCoSo
         }
         public void DisplayRegisteredUsersForASpecificFlight(string flightNum)
         {
-            Console.WriteLine();
-            Console.WriteLine($"\n{new string('+', 30)} Hiển thị Khách hàng đã đăng ký cho Chuyến bay số \"{flightNum,-6}\" {new string('+', 30)}\n");
-            Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
-            Console.WriteLine($"{new string(' ', 10)}| Mã chuyến bay  |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email  \t\t\t    | Địa chỉ\t\t\t     | Số điện thoại\t       | Số vé đã đặt |");
-            Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
-
+            
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
             string filePathFHC = Path.Combine(datatxt, "FlightHasCustomers.txt");
+            string filePathFlight = Path.Combine(datatxt, "FlightScheduler.txt");
+
+            string[] Flight = File.ReadAllLines(filePathFlight);
             string[] FlightHasCustomers = File.ReadAllLines(filePathFHC);
 
-            for(int i = 0; i<FlightHasCustomers.Length; i++)
+            for (int j = 0; j < Flight.Length; j++)
             {
-                string[] data = FlightHasCustomers[i].Split(';');
-                if (flightNum.Equals(data[0]) && data[9] =="1")
+                string[] dataF = Flight[j].Split(';');
+                if (dataF[10] == "1" && flightNum.Equals(dataF[1]))
                 {
-                    Console.WriteLine($"{new string(' ', 10)}| {data[0],-14} | {data[1],-11} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-23} | {data[8],-12} |");
+                    Console.WriteLine();
+                    Console.WriteLine($"\n{new string('+', 30)} Hiển thị Khách hàng đã đăng ký cho Chuyến bay số \"{flightNum,-6}\" {new string('+', 30)}\n");
                     Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                    Console.WriteLine($"{new string(' ', 10)}| Mã chuyến bay  |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email  \t\t\t    | Địa chỉ\t\t\t     | Số điện thoại\t       | Số vé đã đặt |");
+                    Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                    break;
                 }
+            }
+            bool isFound = false;
+
+            for (int j = 0; j < Flight.Length; j++)
+            {
+                string[] dataF = Flight[j].Split(';');
+                if (dataF[10] == "1" && flightNum.Equals(dataF[1]))
+                {
+                    isFound = true;
+                    for (int i = 0; i < FlightHasCustomers.Length; i++)
+                    {
+                        string[] data = FlightHasCustomers[i].Split(';');
+                        if (flightNum.Equals(data[0]) && data[9] == "1")
+                        {
+                            Console.WriteLine($"{new string(' ', 10)}| {data[0],-14} | {data[1],-11} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-23} | {data[8],-12} |");
+                            Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                        }
+                    }
+                }
+            }
+            if (!isFound)
+            {
+                Console.WriteLine($"\nKhông tìm thấy chuyến bay {flightNum}");
             }
         }
         int FlightIndex(List<Flight> flightList, Flight flight)
