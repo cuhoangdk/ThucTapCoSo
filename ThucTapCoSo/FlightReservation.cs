@@ -394,9 +394,6 @@ namespace ThucTapCoSo
         {
             Console.WriteLine();
             Console.WriteLine($"\n{new string('+', 30)} Hiển thị tất cả chuyến bay đã được đăng ký\" {new string('+', 30)}\n");
-            Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
-            Console.WriteLine($"{new string(' ', 10)}| Mã chuyến bay  |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email  \t\t\t    | Địa chỉ\t\t\t     | Số điện thoại\t       | Số vé đã đặt |");
-            Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -428,18 +425,34 @@ namespace ThucTapCoSo
                 string flightName = flightGroup.Key;
                 List<string[]> customerDataList = flightGroup.Value;
 
+                Console.WriteLine();
+                Console.WriteLine($" Mã chuyến bay: {flightName}");
+                Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                Console.WriteLine($"{new string(' ', 10)}| STT         | Mã khách hàng | Tên khách hàng                   | Tuổi    | Email  \t\t\t   | Địa chỉ\t\t\t    | Số điện thoại\t      | Số vé đã đặt |");
+                Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+
+
                 // In thông tin từng nhóm
                 foreach (var customerData in customerDataList)
                 {
-                    for(int i=0; i<flight.Length; i++)
+                    if (customerData[9] == "1")
                     {
-                        string[] dataFlight = flight[i].Split(';');
-
-                        if (customerData[0].Equals(dataFlight[1]) && customerData[9] =="1" && dataFlight[10] == "1" )
+                        int stt = 0;
+                        for (int i = 0; i < flight.Length; i++)
                         {
-                            // In thông tin của mỗi khách hàng trong nhóm
-                            Console.WriteLine($"{new string(' ', 10)}| {customerData[0],-14} | {customerData[1],-11} | {customerData[2],-32} | {customerData[7],-7} | {customerData[3],-27} | {customerData[6],-30} | {customerData[5],-23} | {customerData[8],-12} |");
-                            Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                            string[] dataFlight = flight[i].Split(';');
+
+                            if (customerData[0].Equals(dataFlight[1]) && dataFlight[10] == "1")
+                            {
+                                // In thông tin của mỗi khách hàng trong nhóm
+                                Console.WriteLine($"{new string(' ', 10)}| {stt+1,-11} | {customerData[1],-13} | {customerData[2],-32} | {customerData[7],-7} | {customerData[3],-27} | {customerData[6],-30} | {customerData[5],-23} | {customerData[8],-12} |");
+                                Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                                stt++;
+                            }
+                        }
+                        if (stt == 0)
+                        {
+                            Console.WriteLine($"\t  Không có hành khách trong chuyến bay {customerData[0]}");
                         }
                     }
                 }
