@@ -115,9 +115,7 @@ namespace ThucTapCoSo
             }
             if (!isFound)
             {
-                Console.WriteLine($"Flight Number không hợp lệ...! Không tìm thấy chuyến bay với ID \"{flightNo}\"...");
-                //Console.WriteLine($"Flight Number không hợp lệ...! Không tìm thấy chuyến bay với ID \"{userID}\"...");
-                //Console.WriteLine($"Flight Number không hợp lệ...! Không tìm thấy chuyến bay với ID \"{numOfTickets}\"...");
+                Console.WriteLine($"Số hiệu không hợp lệ...! Không tìm thấy chuyến bay với ID \"{flightNo}\"...");
             }
         }
         public void CancelFlight(string userID)
@@ -142,7 +140,7 @@ namespace ThucTapCoSo
 
             Console.WriteLine($"{new string(' ', 30)}++++++++++++++ Đây là danh sách tất cả các chuyến bay bạn đã đăng ký ++++++++++++++");
             DisplayFlightsRegisteredByOneUser(userID);
-            Console.WriteLine("Nhập Flight Number của chuyến bay bạn muốn hủy:");
+            Console.WriteLine("Nhập sô hiệu của chuyến bay bạn muốn hủy:");
             flightNum = Console.ReadLine().ToUpper();
             Console.WriteLine("Nhập số lượng vé muốn hủy:");
             int numOfTickets;

@@ -1,7 +1,7 @@
 # Thành viên
 cuhoangdk: Nguyễn Trần Việt Hoàng  
 Kassa: Nguyễn Đình Hiệu  
-PCHaiLam: ̶Phan Châu Hải Lâm
+PCHaiLam: (Personal Computer)Phan Châu Hải Lâm
 # Yêu cầu 
 Phiên bản .NET 7.0
 # Mô tả bài toàn

@@ -10,7 +10,7 @@ Thursday, 01 February 2024, 06:30 AM;NG-255;134;Dublin;Melbourne;Fri, 02-02-2024
 Wednesday, 07 February 2024, 12:30 PM;XF-94;88;Lien Khuong;Vinh;Wed, 07-02-2024 14:00 PM;00:30;G-2;446.88;828.18;1
 Tuesday, 13 February 2024, 18:30 PM;UU-347;91;Tan Son Nhat;Dubai;Wed, 14-02-2024 11:30 AM;06:05;L-5;3032.30;5619.54;1
 Tuesday, 20 February 2024, 00:30 AM;NK-376;378;Riyadh;Perth;Tue, 20-02-2024 07:30 AM;07:00;D-11;2859.22;5298.78;1
-Wednesday, 21 February 2024, 02:00 AM;RX-150;177;Lagos;Kuwait;Wed, 21-02-2024 08:30 AM;06:30;I-12;3049.58;5651.57;1
+Wednesday, 21 February 2024, 02:00 AM;RX-150;175;Lagos;Kuwait;Wed, 21-02-2024 08:30 AM;06:30;I-12;3049.58;5651.57;1
 Thursday, 07 December 2023, 15:30 PM;GL-376;92;Karachi;Mexico;Fri, 08-12-2023 09:05 AM;17:35;Q-3;7651.62;14180.2;0
 Monday, 11 December 2023, 23:45 PM;KK-299;100;Vinh;Can Tho;Tue, 12-12-2023 01:15 AM;01:30;I-5;518.81;961.47;0
 Monday, 11 December 2023, 03:45 AM;BB-200;142;New Delhi;Kabul;Mon, 11-12-2023 05:15 AM;01:30;X-4;540.43;1001.54;0
