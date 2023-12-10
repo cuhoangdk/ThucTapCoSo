@@ -73,7 +73,7 @@ namespace ThucTapCoSo
                                 {
                                     using (StreamWriter write = new StreamWriter(filePathFlightHasCustomers, true))
                                     {
-                                        write.WriteLine($"{flightNo};{userID};{dataCustomer[1]};{dataCustomer[2]};{dataCustomer[3]};{dataCustomer[4]};{dataCustomer[5]};{dataCustomer[6]};{numOfTickets}");
+                                        write.WriteLine($"{flightNo};{userID};{dataCustomer[1]};{dataCustomer[2]};{dataCustomer[3]};{dataCustomer[4]};{dataCustomer[5]};{dataCustomer[6]};{numOfTickets};1");
                                     }
                                 }
                                 // User Has Flight
@@ -437,7 +437,7 @@ namespace ThucTapCoSo
                     {
                         string[] dataFlight = flight[i].Split(';');
 
-                        if (customerData[0].Equals(dataFlight[1]) && dataFlight[10] == "1" )
+                        if (customerData[0].Equals(dataFlight[1]) && customerData[9] =="1" && dataFlight[10] == "1" )
                         {
                             // In thông tin của mỗi khách hàng trong nhóm
                             Console.WriteLine($"{new string(' ', 10)}| {customerData[0],-14} | {customerData[1],-11} | {customerData[2],-32} | {customerData[7],-7} | {customerData[3],-27} | {customerData[6],-30} | {customerData[5],-23} | {customerData[8],-12} |");
@@ -465,7 +465,7 @@ namespace ThucTapCoSo
             for(int i = 0; i<FlightHasCustomers.Length; i++)
             {
                 string[] data = FlightHasCustomers[i].Split(';');
-                if (flightNum.Equals(data[0]))
+                if (flightNum.Equals(data[0]) && data[9] =="1")
                 {
                     Console.WriteLine($"{new string(' ', 10)}| {data[0],-14} | {data[1],-11} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-23} | {data[8],-12} |");
                     Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+");

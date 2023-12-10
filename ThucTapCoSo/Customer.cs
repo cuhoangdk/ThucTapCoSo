@@ -94,7 +94,7 @@ namespace ThucTapCoSo
             //true là dùng để ghi tiếp theo vào file .txt, StreamWriter(filePath): là dùng để ghi đè lên file cũ 
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
-                writer.WriteLine($"{userID};{name};{email};{password};{phone};{address};{age}");
+                writer.WriteLine($"{userID};{name};{email};{password};{phone};{address};{age};1");
             }
         }
         public void SearchUser(string ID)
@@ -111,7 +111,7 @@ namespace ThucTapCoSo
             for (int i=0; i<Customers.Length; i++)
             {
                 string[] data = Customers[i].Split(';');
-                if (ID.Equals(data[0]))
+                if (ID.Equals(data[0]) && data[7] == "1")
                 {
                     Console.WriteLine($"{new string(' ', 10)}Khách hàng được tìm thấy...!!! Đây là Bản ghi đầy đủ...!!!\n\n\n"); //FIX
                     DisplayHeader();
@@ -217,20 +217,31 @@ namespace ThucTapCoSo
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
             string filePath = Path.Combine(datatxt, "Customer.txt");
+            string filePathFHC = Path.Combine(datatxt, "FlightHasCustomers.txt");
 
-            //đọc dòng trong file txt và lưu vào list
-            List<string> lines = File.ReadAllLines(filePath).ToList();
+            string[] FlightHasCustomers = File.ReadAllLines(filePathFHC);
+            string[] Customer = File.ReadAllLines(filePath);
 
-            for (int i = 0; i < lines.Count; i++)
+            for (int i = 0; i < Customer.Length; i++)
             {
 				// Phân tách dữ liệu trong dòng sử dụng dấu chấm phẩy
-				string[] data = lines[i].Split(';');
+				string[] dataCustomer = Customer[i].Split(';');
 
-                if (data.Length == 7 && ID.Equals(data[0]))
+                if ( ID.Equals(dataCustomer[0]) && dataCustomer[7] == "1")
                 {
-                    // Nếu ID khớp, xóa dòng từ danh sách
-                    lines.RemoveAt(i);
-					isFound = true;					
+                    for(int j = 0; j<FlightHasCustomers.Length; j++)
+                    {
+                        string[] dataFHC = FlightHasCustomers[j].Split(';');
+                        if (ID.Equals(dataFHC[1]))
+                        {
+                            dataFHC[9] = "0";
+                            FlightHasCustomers[j] = string.Join(";", dataFHC);
+                            break;
+                        }
+                    }
+                    dataCustomer[7] = "0";
+                    Customer[i] = string.Join(";", dataCustomer);
+                    isFound = true;					
 					break; // Đã tìm thấy và xóa, không cần kiểm tra các dòng khác
                 }
             }
@@ -238,7 +249,8 @@ namespace ThucTapCoSo
             if (isFound)
             {
                 // Ghi lại tất cả các dòng đã được cập nhật vào tệp
-                File.WriteAllLines(filePath, lines);
+                File.WriteAllLines(filePath, Customer);
+                File.WriteAllLines(filePathFHC, FlightHasCustomers);
                 Console.WriteLine($"{new string(' ', 10)}Đã xóa Khách hàng với ID {ID}."); // FIX
             }
             else
@@ -260,19 +272,29 @@ namespace ThucTapCoSo
 
             DisplayHeader();
 
+            bool isFound = false;
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             string datatxt = Path.Combine(current, "datatxt");
 
             string filePath = Path.Combine(datatxt, "Customer.txt");
 
             string[] lines = File.ReadAllLines(filePath);
+
             for (int i = 0; i < lines.Length; i++)
             {
                 string[] data = lines[i].Split(';');
-                Console.WriteLine($"{new string(' ',10)}| {i+1,-5} | {data[0],-13} | {data[1],-32} | {data[6],-7} | {data[2],-27} | {data[5],-30} | {data[4],-14} |");
-                Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
+                if (data[7] == "1")
+                {
+                    isFound = true;
+                    Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[0],-13} | {data[1],-32} | {data[6],-7} | {data[2],-27} | {data[5],-30} | {data[4],-14} |");
+                    Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
+                }
             }
+            if (!isFound)
+            {
+                Console.WriteLine("Chưa khách hàng nào đăng kí!!!!");
 
+            }
             /*int j = 0;
             foreach (Customer c in customerCollection)
             {

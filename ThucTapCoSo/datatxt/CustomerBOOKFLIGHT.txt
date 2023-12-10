@@ -1,3 +1,4 @@
 372141;UU-347;Tuesday, 13 February 2024, 18:30 PM;5;Tan Son Nhat;Dubai;Wed, 14-02-2024 11:30 AM;06:05;L-5
 372141;XF-94;Wednesday, 07 February 2024, 12:30 PM;5;Lien Khuong;Vinh;Wed, 07-02-2024 14:00 PM;00:30;G-2
 372141;FL-129;Thursday, 07 December 2023, 00:30 AM;2;Johannesburg;Stockholm;Thu, 07-12-2023 04:40 AM;04:10;S-16
+788464;XF-94;Wednesday, 07 February 2024, 12:30 PM;2;Lien Khuong;Vinh;Wed, 07-02-2024 14:00 PM;00:30;G-2
