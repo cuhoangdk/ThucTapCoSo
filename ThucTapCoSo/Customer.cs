@@ -21,8 +21,6 @@ namespace ThucTapCoSo
         private int age;
         public List<Flight> flightsRegisteredByUser;
         public List<int> numOfTicketsBookedByUser;
-        public static readonly List<Customer> customerCollection = User.getCustomersCollection();
-
         // ************************************************************ Behaviours/Methods ************************************************************
 
         // Default constructor
@@ -258,10 +256,7 @@ namespace ThucTapCoSo
                 Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); // FIX
             }
         }
-        private string ToString(int i)
-        {
-            return string.Format("{0,10}| {1,-10} | {2,-11} | {3,-32} | {4,-7} | {5,-27} | {6,-35} | {7,-23} |", "", i, RandomIDDisplay(userID), name, age, email, address, phone);
-        }
+
         public void DisplayCustomersData(bool showHeader)
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -295,13 +290,6 @@ namespace ThucTapCoSo
                 Console.WriteLine("Chưa khách hàng nào đăng kí!!!!");
 
             }
-            /*int j = 0;
-            foreach (Customer c in customerCollection)
-            {
-                i++;
-                Console.WriteLine(c.ToString(i));
-                Console.WriteLine($"{new string(' ', 10)}+------------+----------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+");
-            }*/
         }
         void DisplayHeader()
         {

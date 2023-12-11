@@ -13,12 +13,12 @@ namespace ThucTapCoSo
 
         private readonly string flightSchedule;
         private readonly string flightNumber;
-        private string fromWhichCity;
+        private readonly string fromWhichCity;
         private string gate;
-        private string toWhichCity;
-        private double distanceInMiles;
-        private double distanceInKm;
-        private string flightTime;
+        private readonly string toWhichCity;
+        private readonly double distanceInMiles;
+        private readonly double distanceInKm;
+        private readonly string flightTime;
         public int numOfSeatsInTheFlight;
         private readonly List<Customer> listOfRegisteredCustomersInAFlight;
         private int customerIndex;
@@ -50,36 +50,7 @@ namespace ThucTapCoSo
             this.listOfRegisteredCustomersInAFlight = new List<Customer>();
             this.gate = gate;
         }
-        /*
-        public void FlightScheduler()
-        {
-            RandomGenerator r1 = new RandomGenerator();
-
-            //Lấy vị trí hiện tại
-            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            //tìm folder datatxt: nơi lưu dữ liệu
-            string datatxt = Path.Combine(current, "datatxt");
-            //tìm tới thư mục FlightScheduler.txt
-            string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
-
-            string[][] chosenDestinations = r1.RandomDestinations();
-                
-            double latitude1, longitude1, latitude2, longitude2;
-
-            if (double.TryParse(chosenDestinations[0][1], out latitude1) && double.TryParse(chosenDestinations[0][2], out longitude1) && double.TryParse(chosenDestinations[1][1], out latitude2) && double.TryParse(chosenDestinations[1][2], out longitude2))
-            {
-                string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
-                double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
-                double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
-
-                string flightSchedule = CreateNewFlightsAndTime();
-                string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
-                int numOfSeatsInTheFlight = r1.RandomNumOfSeats();
-                string gate = r1.RandomFlightNumbGen(1, 30);
-                string flightTime = CalculateFlightTime(distanceInMiles);
-            }
-        }
-        */
+        
         public void FlightHistory()
         {
             //Lấy vị trí hiện tại
@@ -107,12 +78,11 @@ namespace ThucTapCoSo
             string flightAddPath = Path.Combine(datatxt, "FlightADD.txt");
             string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
 
-            double latitude1, longitude1, latitude2, longitude2;
 
-            if (double.TryParse(chosenDestinations[0][1], out latitude1) &&
-                    double.TryParse(chosenDestinations[0][2], out longitude1) &&
-                    double.TryParse(chosenDestinations[1][1], out latitude2) &&
-                    double.TryParse(chosenDestinations[1][2], out longitude2))
+            if(double.TryParse(chosenDestinations[0][1], out double latitude1) &&
+               double.TryParse(chosenDestinations[0][2], out double longitude1) &&
+               double.TryParse(chosenDestinations[1][1], out double latitude2) &&
+               double.TryParse(chosenDestinations[1][2], out double longitude2))
             {
                 string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
 
@@ -179,9 +149,11 @@ namespace ThucTapCoSo
 
                     RandomGenerator r1 = new RandomGenerator();
                     string[][] chosenDestinations = r1.SpecificallyDestinations();
-                    double latitude1, longitude1, latitude2, longitude2;
 
-                    if (double.TryParse(chosenDestinations[0][1], out latitude1) && double.TryParse(chosenDestinations[0][2], out longitude1) && double.TryParse(chosenDestinations[1][1], out latitude2) && double.TryParse(chosenDestinations[1][2], out longitude2))
+                    if (double.TryParse(chosenDestinations[0][1], out double latitude1) && 
+                        double.TryParse(chosenDestinations[0][2], out double longitude1) && 
+                        double.TryParse(chosenDestinations[1][1], out double latitude2) && 
+                        double.TryParse(chosenDestinations[1][2], out double longitude2))
                     {
                         string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
                         data[3] = chosenDestinations[0][0];
@@ -206,35 +178,6 @@ namespace ThucTapCoSo
                     line[i] = string.Join(";", data);
                 }
             }
-            /*foreach (Flight f in flightList)
-            {
-                if (ID.Equals(f.flightNumber))
-                {
-                    RandomGenerator r1 = new RandomGenerator();
-                    string[][] chosenDestinations = r1.SpecificallyDestinations();
-                    double latitude1, longitude1, latitude2, longitude2;
-
-                    isFound = true;
-                    if (double.TryParse(chosenDestinations[0][1], out latitude1) &&
-                        double.TryParse(chosenDestinations[0][2], out longitude1) &&
-                        double.TryParse(chosenDestinations[1][1], out latitude2) &&
-                        double.TryParse(chosenDestinations[1][2], out longitude2))
-                    {
-                        string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
-                        f.fromWhichCity = chosenDestinations[0][0];
-                        f.toWhichCity = chosenDestinations[1][0];
-                        f.distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
-                        f.distanceInKm = double.Parse(distanceBetweenTheCities[1]); 
-                        Console.Write("Nhập số ghế mới của chuyến bay:\t");
-                        f.numOfSeatsInTheFlight = int.Parse(Console.ReadLine());
-                        Console.Write("Nhập cổng mới cho chuyến bay:\t");
-                        f.gate = Console.ReadLine();
-                        f.flightTime = CalculateFlightTime(f.distanceInMiles);
-                        break;
-                    }
-                }
-            }*/
-
             if (!isFound)
             {
                 Console.WriteLine($"{new string(' ', 10)}Không tìm thấy chuyến bay với ID {ID} ...!!!"); //FIX
@@ -277,7 +220,7 @@ namespace ThucTapCoSo
 
             // Sử dụng Math.Round để làm tròn thời gian
             int hours = (int)Math.Round(time);
-            int minutes = (int)((time - hours) * 60);
+            int minutes = (int)((time - hours) * 60 + 20);
 
             // Làm tròn đến đơn vị thời gian gần nhất chia hết cho 5
             int remainder = minutes % 5;
@@ -321,7 +264,7 @@ namespace ThucTapCoSo
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			bool isFound = false;
-            int flag = 1;
+            int flag;
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));

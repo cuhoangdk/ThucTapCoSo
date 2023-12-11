@@ -13,8 +13,6 @@ namespace ThucTapCoSo
 {
     internal class FlightReservation : IDisplayClass
     {
-        // Fields
-        int flightIndexInFlightList;      
 
         public void BookFlight(string flightNo, int numOfTickets, string userID)
         {
@@ -135,7 +133,7 @@ namespace ThucTapCoSo
             List<string> customerBF = File.ReadAllLines(filePathCBF).ToList();
             List<string> FlightHC = File.ReadAllLines(filePathFHC).ToList();
 
-            string flightNum = "";
+            string flightNum;
             bool isFound = false;
 
             Console.WriteLine($"{new string(' ', 30)}++++++++++++++ Đây là danh sách tất cả các chuyến bay bạn đã đăng ký ++++++++++++++");
@@ -223,82 +221,7 @@ namespace ThucTapCoSo
                 File.WriteAllLines(filePathFHC, FlightHC);
                 File.WriteAllLines(filePathFl, flight);
             }
-            /*
-            foreach (Customer customer in Customer.customerCollection)
-            {
-                if (userID.Equals(customer.GetUserID()))
-                {
-                    if (customer.flightsRegisteredByUser.Count != 0)
-                    {
-                        Console.WriteLine($"{new string(' ', 30)}++++++++++++++ Đây là danh sách tất cả các chuyến bay bạn đã đăng ký ++++++++++++++");
-                        DisplayFlightsRegisteredByOneUser(userID);
-
-                        foreach (Flight flight in customer.flightsRegisteredByUser)
-                        {
-                            if (flightNum.Equals(flight.FlightNumber, StringComparison.OrdinalIgnoreCase))
-                            {
-                                isFound = true;
-                                int numOfTicketsForFlight = customer.numOfTicketsBookedByUser[index];
-
-                                while (numOfTickets > numOfTicketsForFlight)
-                                {
-                                    Console.Write($"LỖI!!! Số vé không thể lớn hơn {numOfTicketsForFlight} cho chuyến bay này. Vui lòng nhập lại số lượng vé:");
-									while (!int.TryParse(Console.ReadLine(), out numOfTickets))
-									{
-										Console.Write("Vui lòng nhập số vé hợp lệ:  ");
-									}
-								}
-
-                                int ticketsToBeReturned;
-
-                                if (numOfTicketsForFlight == numOfTickets)
-                                {
-                                    ticketsToBeReturned = flight.NoOfSeats + numOfTicketsForFlight;
-                                    customer.numOfTicketsBookedByUser.RemoveAt(index);
-                                    customer.flightsRegisteredByUser.RemoveAt(index);
-                                }
-                                else
-                                {
-                                    ticketsToBeReturned = numOfTickets + flight.NoOfSeats;
-                                    customer.numOfTicketsBookedByUser[index] = numOfTicketsForFlight - numOfTickets;
-                                }
-
-                                flight.numOfSeatsInTheFlight = ticketsToBeReturned;
-                                break;
-                            }
-                            index++;
-                        }
-                    }
-                    
-                }
-            }
-            */
-        }
-
-        void AddNumberOfTicketsToAlreadyBookedFlight(Customer customer, int numOfTickets)
-        {
-            int newNumOfTickets = customer.GetNumOfTicketsBookedByUser()[flightIndexInFlightList] + numOfTickets;
-            customer.GetNumOfTicketsBookedByUser()[flightIndexInFlightList] = newNumOfTickets;
-        }
-
-        void AddNumberOfTicketsForNewFlight(Customer customer, int numOfTickets)
-        {
-            customer.GetNumOfTicketsBookedByUser().Add(numOfTickets);
-        }
-
-        bool IsFlightAlreadyAddedToCustomerList(List<Flight> flightList, Flight flight)
-        {
-            bool addedOrNot = false;
-            foreach (Flight flight1 in flightList)
-            {
-                if (flight1.FlightNumber.Equals(flight.FlightNumber, StringComparison.OrdinalIgnoreCase))
-                {
-                    this.flightIndexInFlightList = flightList.IndexOf(flight1);
-                    addedOrNot = true;
-                    break;
-                }
-            }
-            return addedOrNot;
+            
         }
 
         string FlightStatus(string fightNo)
@@ -361,33 +284,7 @@ namespace ThucTapCoSo
             {
                 Console.WriteLine($"Không có chuyến bay được đăng ký cho người dùng với ID {userID}.");
             }
-
-            /*
-			foreach (Customer customer in Customer.customerCollection)
-			{
-				if (userID.Equals(customer.GetUserID()))
-				{
-					List<Flight> flights = customer.GetFlightsRegisteredByUser();
-					int size = flights.Count;
-
-					if (size > 0)
-					{
-						flightsFound = true;
-
-						for (int i = 0; i < size; i++)
-						{
-							Console.WriteLine(ToString((i + 1), flights[i], customer));
-							Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+-----------------+\n");
-						}
-					}
-				}
-			}
-            if (!flightsFound)
-			{
-                Console.WriteLine($"Không có chuyến bay được đăng ký cho người dùng với ID {userID}.");
-            }
-            */
-
+            
         }
         
         public void DisplayRegisteredUsersForAllFlight()
@@ -507,23 +404,11 @@ namespace ThucTapCoSo
                 Console.WriteLine($"\nKhông tìm thấy chuyến bay {flightNum}");
             }
         }
-        int FlightIndex(List<Flight> flightList, Flight flight)
-        {
-            int index = -1;
-            for (int i = 0; i < flightList.Count; i++)
-            {
-                if (flightList[i].Equals(flight))
-                {
-                    index = i;
-                    break;
-                }
-            }
-            return index;
-        }
+
         public void DisplayArtWork(int option)
         {
 			Console.OutputEncoding = Encoding.Unicode;
-			string artWork = string.Empty;
+			string artWork;
 
             if (option == 1)
             {

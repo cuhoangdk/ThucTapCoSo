@@ -9,8 +9,6 @@ namespace ThucTapCoSo
 {
     internal class User
     {
-        static protected string[,] adminUserNameAndPassword = new string[10, 2];
-        private static List<Customer> customersCollection = new List<Customer>();
         static void Main()
         {
 			Console.OutputEncoding = Encoding.Unicode;
@@ -500,10 +498,6 @@ namespace ThucTapCoSo
             Console.WriteLine(artWork);
         }
 
-        public static List<Customer> getCustomersCollection()
-        {
-            return customersCollection;
-        }
 
     }
 

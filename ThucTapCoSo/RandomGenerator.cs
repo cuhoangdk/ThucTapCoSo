@@ -123,7 +123,7 @@ namespace ThucTapCoSo
             int columns = 3;
             for (int i = 0; i < destinations.Length; i++)
             {
-                Console.Write($"     {i}    {destinations[i][0],-20}");
+                Console.Write($"   {i}           {destinations[i][0],-30}");
 
                 if ((i + 1) % columns == 0)
                 {

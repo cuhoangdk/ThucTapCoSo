@@ -12,8 +12,6 @@ namespace ThucTapCoSo
 
         void DisplayRegisteredUsersForASpecificFlight(string flightNum);
 
-        //void DisplayHeaderForUsers(Flight flight, List<Customer> c);
-
         void DisplayFlightsRegisteredByOneUser(string userID);
 
         void DisplayArtWork(int options);
