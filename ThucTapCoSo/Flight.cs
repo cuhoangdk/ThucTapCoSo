@@ -274,19 +274,16 @@ namespace ThucTapCoSo
         {
             double groundSpeed = 450;
             double time = (distanceBetweenTheCities / groundSpeed);
-            string timeInString = $"{time:F4}";
-            string[] timeArray = timeInString.Replace('.', ':').Split(':');
-            int hours = int.Parse(timeArray[0]);
-            int minutes = int.Parse(timeArray[1])%60;
-            int modulus = minutes % 5;
 
-            if (modulus < 3)
+            // Sử dụng Math.Round để làm tròn thời gian
+            int hours = (int)Math.Round(time);
+            int minutes = (int)((time - hours) * 60);
+
+            // Làm tròn đến đơn vị thời gian gần nhất chia hết cho 5
+            int remainder = minutes % 5;
+            if (remainder > 0)
             {
-                minutes -= modulus;
-            }
-            else
-            {
-                minutes += 5 - modulus;
+                minutes += 5 - remainder;
             }
 
             if (minutes >= 60)
@@ -294,8 +291,10 @@ namespace ThucTapCoSo
                 minutes -= 60;
                 hours++;
             }
-			return $"{hours:D2}:{minutes:D2}";
-		}
+
+            return $"{hours:D2}:{minutes:D2}";
+        }
+
 
         public string FetchArrivalTime(string flightSchedule, string flightTime)
         {
