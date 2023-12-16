@@ -60,8 +60,6 @@ namespace ThucTapCoSo
             string flightAddPath = Path.Combine(datatxt, "FlightADD.txt");
             string flightDeletePath = Path.Combine(datatxt, "FlightDELETE.txt");
             string flightEditPath = Path.Combine(datatxt, "FlightEDIT.txt");
-
-            
         }
         public void AddFlight(string idAdmin, DateTime date)
         {
@@ -308,6 +306,12 @@ namespace ThucTapCoSo
             DisplayFlightSchedule();
         }
 
+        public float CalculatePrice(string mile)
+        {
+            //giá trung bình 0.1$/mile
+            float price = (float)Math.Round((double.Parse(mile) * 0.10),2);
+            return price;
+        }
 
         public override string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
@@ -338,9 +342,9 @@ namespace ThucTapCoSo
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			Console.WriteLine();
-            Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+--------+\n");
-            Console.Write("| STT  | Lịch chuyến bay\t\t\t   |Mã chuyến bay| Số ghế trống     | \tTỪ ====>>           | \t====>> ĐẾN\t     | \t   THỜI GIAN HẠ CÁNH     |THỜI GIAN BAY|  CỔNG  | QUÃNG ĐƯỜNG(MILES/KMS) | GIÁ VÉ |\n");
-            Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+--------+\n");
+            Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
+            Console.Write("| STT  | Lịch chuyến bay\t\t\t   |Mã chuyến bay| Số ghế trống     | \tTỪ ====>>           | \t====>> ĐẾN\t     | \t   THỜI GIAN HẠ CÁNH     |THỜI GIAN BAY|  CỔNG  | QUÃNG ĐƯỜNG(MILES/KMS) | GIÁ VÉ $ |\n");
+            Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
 
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
@@ -360,8 +364,8 @@ namespace ThucTapCoSo
                 {
                     continue;
                 }
-                Console.WriteLine($"| {stt,-4} | {data[0],-41} | {data[1],-11} | {data[2],-16} | {data[3],-21} | {data[4],-22} | {FetchArrivalTime(data[0],data[5]),-25} | {data[5],6}  Hrs | {data[6],-6} | {data[7],-9} / {data[8],-10} |");
-                Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
+                Console.WriteLine($"| {stt,-4} | {data[0],-41} | {data[1],-11} | {data[2],-16} | {data[3],-21} | {data[4],-22} | {FetchArrivalTime(data[0],data[5]),-25} | {data[5],6}  Hrs | {data[6],-6} | {data[7],-9} / {data[8],-10} | {CalculatePrice(data[7]),-8} |");
+                Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
                 stt++;
             }
         }
