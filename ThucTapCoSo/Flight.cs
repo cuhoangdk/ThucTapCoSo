@@ -111,11 +111,11 @@ namespace ThucTapCoSo
                     ));
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
-                    writer.WriteLine($"{flightSchedule};{flightNumber};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{FetchArrivalTime(flightSchedule, flightTime)};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm};{flag}");
+                    writer.WriteLine($"{flightSchedule};{flightNumber};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm};{flag}");
                 }
                 using (StreamWriter writer = new StreamWriter(flightAddPath, true))
                 {
-                    writer.WriteLine($"{date};{idAdmin};{flightNumber};{flightSchedule};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{FetchArrivalTime(flightSchedule, flightTime)};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
+                    writer.WriteLine($"{date};{idAdmin};{flightNumber};{flightSchedule};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
                 }
             }
             else
@@ -158,8 +158,8 @@ namespace ThucTapCoSo
                         string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
                         data[3] = chosenDestinations[0][0];
                         data[4] = chosenDestinations[1][0];
-                        data[8] = distanceBetweenTheCities[0];
-                        data[9] = distanceBetweenTheCities[1];
+                        data[7] = distanceBetweenTheCities[0];
+                        data[8] = distanceBetweenTheCities[1];
                         Console.Write("Nhập số ghế mới của chuyến bay:\t");
 						int newNumOfSeatsInTheFlight;
 						while (!int.TryParse(Console.ReadLine(), out newNumOfSeatsInTheFlight) || newNumOfSeatsInTheFlight < 75 || newNumOfSeatsInTheFlight > 500)
@@ -168,8 +168,8 @@ namespace ThucTapCoSo
 						}
 						data[2] = newNumOfSeatsInTheFlight.ToString();
                         Console.Write("Nhập cổng mới cho chuyến bay:\t");
-                        data[7] = Console.ReadLine();
-                        data[6] = CalculateFlightTime(double.Parse(data[8]));
+                        data[6] = Console.ReadLine();
+                        data[5] = CalculateFlightTime(double.Parse(data[7]));
                     }
                     using (StreamWriter writer = new StreamWriter(flightEditPath, true))
                     {
@@ -286,7 +286,7 @@ namespace ThucTapCoSo
                     // Nếu ID khớp, gắn flag là 0 để ẩn chuyến bay
                     //lines.RemoveAt(i);
                     flag = 0;
-                    data[10] = Convert.ToString(flag);
+                    data[9] = Convert.ToString(flag);
                     lines[i] = string.Join(";", data);
                     isFound = true;
                     break; // Đã tìm thấy và xóa, không cần kiểm tra các dòng khác
@@ -356,11 +356,11 @@ namespace ThucTapCoSo
             for (int i = 0; i < lines.Count; i++)
             {
                 string[] data = lines[i].Split(';');
-                if(data[10]=="0")
+                if(data[9]=="0")
                 {
                     continue;
                 }
-                Console.WriteLine($"| {stt,-4} | {data[0],-41} | {data[1],-11} | {data[2],-16} | {data[3],-21} | {data[4],-22} | {data[5],-25} | {data[6],6}  Hrs | {data[7],-6} | {data[8],-9} / {data[9],-10} |");
+                Console.WriteLine($"| {stt,-4} | {data[0],-41} | {data[1],-11} | {data[2],-16} | {data[3],-21} | {data[4],-22} | {FetchArrivalTime(data[0],data[5]),-25} | {data[5],6}  Hrs | {data[6],-6} | {data[7],-9} / {data[8],-10} |");
                 Console.Write("+------+-------------------------------------------+-------------+------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+\n");
                 stt++;
             }

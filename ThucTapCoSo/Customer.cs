@@ -232,7 +232,7 @@ namespace ThucTapCoSo
                         string[] dataFHC = FlightHasCustomers[j].Split(';');
                         if (ID.Equals(dataFHC[1]))
                         {
-                            dataFHC[9] = "0";
+                            dataFHC[3] = "0";
                             FlightHasCustomers[j] = string.Join(";", dataFHC);
                             break;
                         }
