@@ -244,7 +244,7 @@ namespace ThucTapCoSo
                     for(int i=0; i<Customer.Length; i++)
                     {
                         string[] dataC = Customer[i].Split(';');
-                        if (dataC[2].Equals(userName) && dataC[3].Equals(password) && dataC[7] == "1")
+                        if (dataC[3].Equals(userName) && dataC[4].Equals(password) && dataC[0] == "1")
                         {
                             isFound = true;
                             int desiredChoice;
@@ -270,18 +270,35 @@ namespace ThucTapCoSo
                                     f1.DisplayFlightSchedule();
                                     Console.Write("\nNhập số chuyến bay mong muốn để đặt chỗ :\t ");
                                     string flightToBeBooked = Console.ReadLine().ToUpper();
+
+                                    string ticketType;
+                                    while (true)
+                                    {
+                                        Console.WriteLine("\nNhập loại vé bạn muốn đặt (1. BSN / 2. ECO):\t");
+                                        int choose;
+
+                                        if (int.TryParse(Console.ReadLine(), out choose) && (choose == 1 || choose == 2))
+                                        {
+                                            ticketType = (choose == 1) ? "BSN" : "ECO";
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
+                                        }
+                                    }
                                     Console.Write($"Nhập số lượng vé cho chuyến bay {flightToBeBooked} :   ");
                                     int numOfTickets;
                                     while (!int.TryParse(Console.ReadLine(), out numOfTickets) || numOfTickets > 10 || numOfTickets < 1)
                                     {
                                         Console.Write("LỖI!! Vui lòng nhập số lượng vé hợp lệ (ít hơn 10, nhiều hơn 0): ");
                                     }
-                                    bookingAndReserving.BookFlight(flightToBeBooked, numOfTickets, dataC[0]);
+                                    bookingAndReserving.BookFlight(flightToBeBooked, dataC[1], numOfTickets, ticketType);
                                 }
                                 else if (desiredChoice == 2)
                                 {
                                     bookingAndReserving.DisplayArtWork(2);
-                                    c1.EditUserInfo(dataC[0]);
+                                    c1.EditUserInfo(dataC[1]);
                                 }
                                 else if (desiredChoice == 3)
                                 {
@@ -290,7 +307,7 @@ namespace ThucTapCoSo
                                     char confirmationChar = Console.ReadLine()[0];
                                     if (confirmationChar == 'Y' || confirmationChar == 'y')
                                     {
-                                        c1.DeleteUser(dataC[0]);
+                                        c1.DeleteUser(dataC[1]);
                                         Console.WriteLine($"Tài khoản của người dùng {userName} đã bị xóa thành công...!!!");
                                         desiredChoice = 0;
                                     }
@@ -308,12 +325,12 @@ namespace ThucTapCoSo
                                 else if (desiredChoice == 5)
                                 {
                                     bookingAndReserving.DisplayArtWork(5);
-                                    bookingAndReserving.CancelFlight(dataC[0]);
+                                    bookingAndReserving.CancelFlight(dataC[1]);
                                 }
                                 else if (desiredChoice == 6)
                                 {
                                     bookingAndReserving.DisplayArtWork(6);
-                                    bookingAndReserving.DisplayFlightsRegisteredByOneUser(dataC[0]);
+                                    bookingAndReserving.DisplayFlightsRegisteredByOneUser(dataC[1]);
                                 }
                                 else
                                 {

@@ -1,9 +1,3 @@
-174642;Huan Rose;huan@gmail.com;123;0928383838;Hải Phòng;40;1
-96707;hai;hai@gmail.com;123;09863734929;Khánh Hòa;40;1
-372141;hailam;hailam;123;0293848483;Nha Trang;20;1
-342565;number1;num1@gmail.com;123;0977266622;Kiên Giang;19;1
-386925;lam;hailam@gmail.com;123;0987747272;Ninh Hòa;20;1
-796692;nam cu;5cu@gmail.com;123;09927747222;Hoa An;25;1
-978729;Huy Dê;de@gmail.com;123;0987766484;Đăk Lăk;21;1
-966265;num1;number1@gmail.com;123;098277473;Nha Trang;20;1
-788464;Cuong 7 Nui;catra@gmail.com;123;098653528282;Tp.HCM;30;0
+1;978729;Huy Dê;de@gmail.com;123;0987766484;Đăk Lăk;21
+1;788464;Cường Bảy Núi;catra@gmail.com;123;0986535282;Tp.HCM;30
+1;123456;Tester;test;123;0986535282;Tp.HCM;30

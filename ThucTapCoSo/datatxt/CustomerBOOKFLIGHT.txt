@@ -1,5 +1,0 @@
-372141;UU-347;Tuesday, 13 February 2024, 18:30 PM;5;Tan Son Nhat;Dubai;06:05;L-5
-372141;XF-94;Wednesday, 07 February 2024, 12:30 PM;5;Lien Khuong;Vinh;00:30;G-2
-372141;FL-129;Thursday, 07 December 2023, 00:30 AM;2;Johannesburg;Stockholm;04:10;S-16
-788464;XF-94;Wednesday, 07 February 2024, 12:30 PM;2;Lien Khuong;Vinh;00:30;G-2
-372141;DB-452;Monday, 18 December 2023, 20:00 PM;3;Ca Mau;Con Dao;00:35;U-5

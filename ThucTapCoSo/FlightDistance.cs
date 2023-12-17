@@ -8,8 +8,6 @@ namespace ThucTapCoSo
 {
     public abstract class FlightDistance
     {
-        public abstract string ToString(int i);
-
         public abstract string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2);
 
         public void DisplayMeasurementInstructions()

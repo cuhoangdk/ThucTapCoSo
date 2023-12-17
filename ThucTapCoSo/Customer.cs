@@ -19,8 +19,8 @@ namespace ThucTapCoSo
         private readonly string password;
         private string address;
         private int age;
-        public List<Flight> flightsRegisteredByUser;
-        public List<int> numOfTicketsBookedByUser;
+        //public List<Flight> flightsRegisteredByUser;
+        //public List<int> numOfTicketsBookedByUser;
         // ************************************************************ Behaviours/Methods ************************************************************
 
         // Default constructor
@@ -43,8 +43,8 @@ namespace ThucTapCoSo
             this.phone = phone;
             this.address = address;
             this.age = age;
-            this.flightsRegisteredByUser = new List<Flight>();
-            this.numOfTicketsBookedByUser = new List<int>();
+            //this.flightsRegisteredByUser = new List<Flight>();
+            //this.numOfTicketsBookedByUser = new List<int>();
         }
 
         // Method to register a new 
@@ -57,6 +57,12 @@ namespace ThucTapCoSo
 
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
+
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePath = Path.Combine(datatxt, "Customer.txt");
 
             Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ Chào mừng bạn đến với Cổng đăng ký của Khách hàng ++++++++++++++");
             Console.Write("Nhập tên của bạn:\t");
@@ -82,17 +88,10 @@ namespace ThucTapCoSo
 				Console.Write("Vui lòng nhập số tuổi đúng định dạng: \t");
 			}
 
-            //Lấy vị trí hiện tại
-            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            string datatxt = Path.Combine(current, "datatxt");
-
-            string filePath = Path.Combine(datatxt, "Customer.txt");
-
-            //Mỗi khi thêm khách thì ghi thông tin khách vào file Customer.txt
             //true là dùng để ghi tiếp theo vào file .txt, StreamWriter(filePath): là dùng để ghi đè lên file cũ 
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
-                writer.WriteLine($"{userID};{name};{email};{password};{phone};{address};{age};1");
+                writer.WriteLine($"1;{userID};{name};{email};{password};{phone};{address};{age}");
             }
         }
         public void SearchUser(string ID)
@@ -109,12 +108,12 @@ namespace ThucTapCoSo
             for (int i=0; i<Customers.Length; i++)
             {
                 string[] data = Customers[i].Split(';');
-                if (ID.Equals(data[0]) && data[7] == "1")
+                if (ID.Equals(data[1]) && data[10] == "1")
                 {
                     Console.WriteLine($"{new string(' ', 10)}Khách hàng được tìm thấy...!!! Đây là Bản ghi đầy đủ...!!!\n\n\n"); //FIX
                     DisplayHeader();
                     isFound = true;
-                    Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[0],-13} | {data[1],-32} | {data[6],-7} | {data[2],-27} | {data[5],-30} | {data[4],-14} |");
+                    Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
                     Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
                     break;
                 }
@@ -166,30 +165,30 @@ namespace ThucTapCoSo
             {
                 string[] data = line[i].Split(';');
 
-                if (data.Length == 7 && ID.Equals(data[0]))
+                if (ID.Equals(data[1]) && data[0] == "1")
                 {
                     isFound = true;
 
                     //data0: userID; data1: name; data2: email; data3: pass; data4: phone; data5: address; data6: age
                     Console.Write("Nhập tên mới của Hành khách:\t");
-                    data[1] = Console.ReadLine();
-
-                    Console.Write($"Nhập địa chỉ email mới của Hành khách {data[1]}:\t");
                     data[2] = Console.ReadLine();
 
-                    Console.Write($"Nhập số điện thoại mới của Hành khách {data[1]}:\t");
-                    data[4] = Console.ReadLine();
+                    Console.Write($"Nhập địa chỉ email mới của Hành khách {data[2]}:\t");
+                    data[3] = Console.ReadLine();
 
-                    Console.Write($"Nhập địa chỉ mới của Hành khách {data[1]}:\t");
+                    Console.Write($"Nhập số điện thoại mới của Hành khách {data[2]}:\t");
                     data[5] = Console.ReadLine();
 
-                    Console.Write($"Nhập tuổi mới của Hành khách {data[1]}:\t");
+                    Console.Write($"Nhập địa chỉ mới của Hành khách {data[2]}:\t");
+                    data[6] = Console.ReadLine();
+
+                    Console.Write($"Nhập tuổi mới của Hành khách {data[2]}:\t");
                     int newAge;
                     while (!int.TryParse(Console.ReadLine(), out newAge) || newAge < 0)
                     {
                         Console.Write("Vui lòng nhập số tuổi đúng định dạng: \t");
                     }
-                    data[6] = newAge.ToString();
+                    data[7] = newAge.ToString();
 
                     line[i] = string.Join(";", data);
                 }
@@ -215,9 +214,7 @@ namespace ThucTapCoSo
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
             string filePath = Path.Combine(datatxt, "Customer.txt");
-            string filePathFHC = Path.Combine(datatxt, "FlightHasCustomers.txt");
 
-            string[] FlightHasCustomers = File.ReadAllLines(filePathFHC);
             string[] Customer = File.ReadAllLines(filePath);
 
             for (int i = 0; i < Customer.Length; i++)
@@ -225,19 +222,9 @@ namespace ThucTapCoSo
 				// Phân tách dữ liệu trong dòng sử dụng dấu chấm phẩy
 				string[] dataCustomer = Customer[i].Split(';');
 
-                if ( ID.Equals(dataCustomer[0]) && dataCustomer[7] == "1")
+                if ( ID.Equals(dataCustomer[1]) && dataCustomer[0] == "1")
                 {
-                    for(int j = 0; j<FlightHasCustomers.Length; j++)
-                    {
-                        string[] dataFHC = FlightHasCustomers[j].Split(';');
-                        if (ID.Equals(dataFHC[1]))
-                        {
-                            dataFHC[3] = "0";
-                            FlightHasCustomers[j] = string.Join(";", dataFHC);
-                            break;
-                        }
-                    }
-                    dataCustomer[7] = "0";
+                    dataCustomer[0] = "0";
                     Customer[i] = string.Join(";", dataCustomer);
                     isFound = true;					
 					break; // Đã tìm thấy và xóa, không cần kiểm tra các dòng khác
@@ -248,7 +235,6 @@ namespace ThucTapCoSo
             {
                 // Ghi lại tất cả các dòng đã được cập nhật vào tệp
                 File.WriteAllLines(filePath, Customer);
-                File.WriteAllLines(filePathFHC, FlightHasCustomers);
                 Console.WriteLine($"{new string(' ', 10)}Đã xóa Khách hàng với ID {ID}."); // FIX
             }
             else
@@ -278,10 +264,10 @@ namespace ThucTapCoSo
             for (int i = 0; i < lines.Length; i++)
             {
                 string[] data = lines[i].Split(';');
-                if (data[7] == "1")
+                if (data[0] == "1")
                 {
                     isFound = true;
-                    Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[0],-13} | {data[1],-32} | {data[6],-7} | {data[2],-27} | {data[5],-30} | {data[4],-14} |");
+                    Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
                     Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
                 }
             }
@@ -317,16 +303,16 @@ namespace ThucTapCoSo
             return newString.ToString();
         }
 
-        public void AddNewFlightToCustomerList(Flight f)
-        {
-            this.flightsRegisteredByUser.Add(f);
-            //numOfFlights++;
-        }
-        public void AddExistingFlightToCustomerList(int index, int numOfTickets)
-        {
-            int newNumOfTickets = numOfTicketsBookedByUser[index] + numOfTickets;
-            numOfTicketsBookedByUser[index] = newNumOfTickets;
-        }
+        //public void AddNewFlightToCustomerList(Flight f)
+        //{
+        //    this.flightsRegisteredByUser.Add(f);
+        //    //numOfFlights++;
+        //}
+        //public void AddExistingFlightToCustomerList(int index, int numOfTickets)
+        //{
+        //    int newNumOfTickets = numOfTicketsBookedByUser[index] + numOfTickets;
+        //    numOfTicketsBookedByUser[index] = newNumOfTickets;
+        //}
 
         public void DisplayArtWork(int option)
         {
@@ -410,10 +396,10 @@ namespace ThucTapCoSo
 
 
         // ************************************************************ Setters & Getters ************************************************************
-        public List<Flight> GetFlightsRegisteredByUser()
-        {
-            return flightsRegisteredByUser;
-        }
+        //public List<Flight> GetFlightsRegisteredByUser()
+        //{
+        //    return flightsRegisteredByUser;
+        //}
 
         public string GetPassword()
         {
@@ -450,10 +436,10 @@ namespace ThucTapCoSo
             return name;
         }
 
-        public List<int> GetNumOfTicketsBookedByUser()
-        {
-            return numOfTicketsBookedByUser;
-        }
+        //public List<int> GetNumOfTicketsBookedByUser()
+        //{
+        //    return numOfTicketsBookedByUser;
+        //}
 
         public void SetName(string name)
         {
