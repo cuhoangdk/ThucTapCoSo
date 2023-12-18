@@ -1,3 +1,6 @@
-1;978729;Huy Dê;de@gmail.com;123;0987766484;Đăk Lăk;21
-1;788464;Cường Bảy Núi;catra@gmail.com;123;0986535282;Tp.HCM;30
-1;123456;Tester;test;123;0986535282;Tp.HCM;30
+1;978729;Huy Dê;de@gmail.com;123;0987766484;Đăk Lăk;12/12/2003
+1;788464;Cường Bảy Núi;catra@gmail.com;123;0986535282;Tp.HCM;12/12/2003
+1;123456;Tester;test;123;0986535282;Tp.HCM;12/12/2003
+1;245954;Thanh Hải;ccmk@gmail.com;123;958685930490;Nha Trang;8/2/2003
+1;336956;Hà;haha;hahaha;123;hádjh;11/22/2003
+1;314876;Hải;111@gmail.com;111;1111111111;Nha Trang;12/12/2003

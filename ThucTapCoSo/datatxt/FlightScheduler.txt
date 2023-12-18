@@ -1,16 +1,8 @@
-1;FL-129;20;200;Thursday, 07 December 2023, 00:30 AM;Johannesburg;Stockholm;04:10;S-16;2065.16;3827.21
-1;BY-118;30;300;Wednesday, 13 December 2023, 06:30 AM;Bhutan;Rio de Janeiro;18:25;A-3;8138.86;15083.17
-1;GR-939;20;180;Monday, 01 January 2024, 00:30 AM;Karachi;Hong Kong;00:25;GT-3;20;4791.96
-1;EK-305;30;360;Sunday, 07 January 2024, 06:30 AM;Hong Kong;Gilgit Baltistan;04:55;Q-8;2223.72;4121.07
-1;FZ-157;30;320;Saturday, 13 January 2024, 12:30 PM;Bangkok;Lagos;00:35;N-13;268.81;498.17
-1;QI-154;30;370;Friday, 19 January 2024, 18:30 PM;Tehran;Sydney;15:15;Y-8;6966.58;12910.67
-1;ZY-197;20;230;Friday, 26 January 2024, 00:30 AM;Tehran;Riyadh;01:00;Z-7;687.58;1274.25
-1;NG-255;10;150;Thursday, 01 February 2024, 06:30 AM;Dublin;Melbourne;20:15;L-4;9278.72;17195.59
-1;XF-941;20;250;Wednesday, 07 February 2024, 12:30 PM;Lien Khuong;Vinh;00:30;G-2;446.88;828.18
-1;UU-347;20;250;Tuesday, 13 February 2024, 18:30 PM;Tan Son Nhat;Dubai;06:05;L-5;3032.30;5619.54
-1;NK-376;20;270;Tuesday, 20 February 2024, 00:30 AM;Riyadh;Perth;07:00;D-11;2859.22;5298.78
-1;RX-150;30;350;Wednesday, 21 February 2024, 02:00 AM;Lagos;Kuwait;06:30;I-12;3049.58;5651.57
-1;GL-376;30;300;Thursday, 07 December 2023, 15:30 PM;Karachi;Mexico;17:35;Q-3;7651.62;14180.2
-1;KK-299;10;100;Monday, 11 December 2023, 23:45 PM;Vinh;Can Tho;01:30;I-5;518.81;961.47
-1;BB-200;18;237;Monday, 11 December 2023, 03:45 AM;New Delhi;Kabul;01:30;X-4;540.43;1001.54
-1;DB-452;20;200;Monday, 18 December 2023, 20:00 PM;Ca Mau;Con Dao;00:35;U-5;90.2;167.16
+1;DA-470;00;97;Fri, 22/12/2023 01:15 AM;TP Hồ Chí Minh;Cà Mau;00:40;D-7;131.97;244.58
+1;VT-431;00;100;Mon, 25/12/2023 03:45 AM;Quảng Ninh;Thừa Thiên Huế;01:-02;B-4;283.96;526.24
+1;OP-228;00;200;Mon, 18/12/2023 22:30 PM;Quảng Ninh;Thừa Thiên Huế;01:-02;D-11;283.96;526.24
+1;KS-145;00;100;Mon, 18/12/2023 22:45 PM;Đà Lạt;Đà Nẵng;01:-05;W-9;258.58;479.2
+1;AG-312;00;100;Thu, 21/12/2023 00:15 AM;Đà Nẵng;Bình Định;00:40;E-5;135.3;250.74
+1;PN-177;00;100;Thu, 21/12/2023 00:45 AM;Đà Lạt;Hải Phòng;01:35;Q-8;552.55;1024
+1;OD-446;00;100;Mon, 25/12/2023 04:45 AM;Vinh;Pleiku;01:05;Q-12;313.58;581.13
+1;PP-431;00;100;Sat, 30/12/2023 09:45 AM;Thanh Hóa;Kiên Giang;01:40;P-14;596.27;1105.03

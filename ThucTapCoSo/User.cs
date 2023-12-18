@@ -26,8 +26,7 @@ namespace ThucTapCoSo
 
             Console.WriteLine();
             WelcomeScreen(1);
-            Console.WriteLine("\n\t\t\t\t\t+++++++++++++ Chào mừng bạn đến với Star AirLines +++++++++++++\n\nĐể tiếp tục, vui lòng nhập một giá trị.");
-            Console.WriteLine("\n***** Tên người dùng && Mật khẩu mặc định là root-root ***** Sử dụng Thông tin đăng nhập mặc định sẽ giới hạn bạn chỉ có thể xem danh sách Hành khách....\n");
+            Console.WriteLine("\n\t\t\t\t\t+++++++++++++ CHÀO MỪNG BẠN ĐẾN VỚI STAR AIRLINES +++++++++++++\n\n");
             DisplayMainMenu();
             int desiredOption;
             //fix code
@@ -48,9 +47,9 @@ namespace ThucTapCoSo
                     string[] Admin = File.ReadAllLines(filePathAdmin);
                     /*Default username and password....*/
                     PrintArtWork(1);
-                    Console.Write("\nNhập tên người dùng để đăng nhập vào Hệ thống Quản lý :     ");
+                    Console.Write("\n\tUSERNAME   :   ");
                     string username = Console.ReadLine();
-                    Console.Write("\nNhập mật khẩu để đăng nhập vào Hệ thống Quản lý :     ");
+                    Console.Write("\n\tPASSWORD   :   ");
                     string password = Console.ReadLine();
                     Console.WriteLine();
                     bool isFound = false;
@@ -60,27 +59,27 @@ namespace ThucTapCoSo
 
                         if(dataAdmin[0].Equals(username) && dataAdmin[1].Equals(password))
                         {
-                            Console.WriteLine($"{"",-20}Đăng nhập thành công với tên người dùng \"{username}\"..... Để tiếp tục, nhập một giá trị từ dưới đây....", "");
+                            Console.WriteLine($"{"",-20}Đăng nhập thành công với tên người dùng \"{username}\"");
                             isFound = true;
                             do
                             {
-                                Console.WriteLine($"\n\n+++++++++ 2nd Layer Menu +++++++++ Logged in as \"{username}\"\n", "", "");
+                                Console.WriteLine($"\n\n\t+++++++++ 2ND LAYER MENU +++++++++ LOGGED IN AS \"{username}\"\n", "", "");
 
-                                Console.WriteLine("(a) Nhập 1 để thêm hành khách mới....");
-                                Console.WriteLine("(b) Nhập 2 để tìm kiếm một hành khách....");
-                                Console.WriteLine("(c) Nhập 3 để cập nhật dữ liệu của hành khách....");
-                                Console.WriteLine("(d) Nhập 4 để xóa một hành khách....");
-                                Console.WriteLine("(e) Nhập 5 để Hiển thị tất cả hành khách....");
-                                Console.WriteLine("(f) Nhập 6 để Hiển thị tất cả các chuyến bay đã đăng ký bởi hành khách...");
-                                Console.WriteLine("(g) Nhập 7 để Hiển thị tất cả hành khách đã đăng ký trên một chuyến bay....");
-                                Console.WriteLine("(h) Nhập 8 để Xóa một chuyến bay....");
-                                Console.WriteLine("(h) Nhập 9 để Thêm một chuyến bay....");
-                                Console.WriteLine("(h) Nhập 10 để Chỉnh sửa một chuyến bay....");
-                                Console.WriteLine("(h) Nhập 11 để Hiển thị toàn bộ các chuyến bay....");
-                                Console.WriteLine("(i) Nhập 0 để Quay lại Menu Chính/Đăng xuất....");
+                                Console.WriteLine("\t\t1  : Thêm hành khách mới");
+                                Console.WriteLine("\t\t2  : Tìm kiếm một hành khách");
+                                Console.WriteLine("\t\t3  : Cập nhật dữ liệu hành khách");
+                                Console.WriteLine("\t\t4  : Xóa hành khách");
+                                Console.WriteLine("\t\t5  : Hiển thị tất cả hành khách");
+                                Console.WriteLine("\t\t6  : Hiển thị tất cả các chuyến bay đã đăng ký bởi hành khách");
+                                Console.WriteLine("\t\t7  : Hiển thị tất cả hành khách đã đăng ký trên một chuyến bay");
+                                Console.WriteLine("\t\t8  : Xóa chuyến bay");
+                                Console.WriteLine("\t\t9  : Thêm chuyến bay");
+                                Console.WriteLine("\t\t10 : Chỉnh sửa chuyến bay");
+                                Console.WriteLine("\t\t11 : Hiển thị toàn bộ các chuyến bay");
+                                Console.WriteLine("\t\t0  : Đăng xuất");
 
 
-                                Console.Write("\nNhập tùy chọn mong muốn:   ");
+                                Console.Write("\nNhập tùy chọn:   ");
                                 //fix code
                                 while (!int.TryParse(Console.ReadLine(), out desiredOption))
                                 {
@@ -96,7 +95,7 @@ namespace ThucTapCoSo
                                 {
                                     c1.DisplayArtWork(2);
                                     c1.DisplayCustomersData(false);
-                                    Console.Write("Nhập CustomerID muốn tìm :\t");
+                                    Console.Write("\tNhập CustomerID muốn tìm :\t");
                                     string customerID = Console.ReadLine();
                                     Console.WriteLine();
                                     c1.SearchUser(customerID);
@@ -234,9 +233,9 @@ namespace ThucTapCoSo
                     string[] Customer = File.ReadAllLines(filePathCustomer);
 
                     PrintArtWork(3);
-                    Console.Write("\n\nNhập Email để đăng nhập: \t");
+                    Console.Write("\n\tEMAIL     :   ");
                     string userName = Console.ReadLine();
-                    Console.Write("Nhập mật khẩu : \t");
+                    Console.Write("\n\tPASSWORD  :   ");
                     string password = Console.ReadLine();
 
                     bool isFound = false;
@@ -248,18 +247,18 @@ namespace ThucTapCoSo
                         {
                             isFound = true;
                             int desiredChoice;
-                            Console.WriteLine($"\n\n{"",-20}Đăng nhập thành công với tên người dùng \"{userName}\"..... Để tiếp tục, nhập giá trị từ dưới đây....");
+                            Console.WriteLine($"\n\n{"",-20}Đăng nhập thành công với tên người dùng \"{userName}\"");
                             do
                             {
-                                Console.WriteLine($"\n\n{"",-60}+++++++++ 3rd Layer Menu +++++++++{"",50}Logged in as \"{userName}\"\n");
-                                Console.WriteLine("(a) Nhập 1 để Đặt chỗ trên chuyến bay....");
-                                Console.WriteLine("(b) Nhập 2 để cập nhật dữ liệu của bạn....");
-                                Console.WriteLine("(c) Nhập 3 để xóa tài khoản của bạn....");
-                                Console.WriteLine("(d) Nhập 4 để Hiển thị Lịch trình chuyến bay....");
-                                Console.WriteLine("(e) Nhập 5 để Hủy chuyến bay....");
-                                Console.WriteLine($"(f) Nhập 6 để Hiển thị tất cả các chuyến bay đã đăng ký bởi \"{userName}\"....");
-                                Console.WriteLine("(g) Nhập 0 để Quay lại Menu Chính/Đăng xuất....");
-                                Console.Write("Nhập lựa chọn mong muốn :   ");
+                                Console.WriteLine($"\n\n{"",-60}+++++++++ 3RD LAYER MENU +++++++++{"",50}LOGGED IN AS \"{userName}\"\n");
+                                Console.WriteLine("\t\t1 : Đặt chỗ");
+                                Console.WriteLine("\t\t2 : Cập nhật thông tin tài khoản");
+                                Console.WriteLine("\t\t3 : Xóa tài khoản");
+                                Console.WriteLine("\t\t4 : Lịch trình chuyến bay");
+                                Console.WriteLine("\t\t5 : Hủy vé bay");
+                                Console.WriteLine($"\t\t6 : Các vé được đặt bởi tài khoản \"{userName}\"....");
+                                Console.WriteLine("\t\t0 : Đăng xuất ");
+                                Console.Write("\t\tNhập tùy chọn :   ");
                                 while (!int.TryParse(Console.ReadLine(), out desiredChoice))
                                 {
                                     Console.Write("Lựa chọn không hợp lệ vui lòng nhập lại:  ");
@@ -268,13 +267,13 @@ namespace ThucTapCoSo
                                 {
                                     bookingAndReserving.DisplayArtWork(1);
                                     f1.DisplayFlightSchedule();
-                                    Console.Write("\nNhập số chuyến bay mong muốn để đặt chỗ :\t ");
+                                    Console.Write("\nNhập mã chuyến bay mong muốn để đặt chỗ :\t ");
                                     string flightToBeBooked = Console.ReadLine().ToUpper();
 
                                     string ticketType;
                                     while (true)
                                     {
-                                        Console.WriteLine("\nNhập loại vé bạn muốn đặt (1. BSN / 2. ECO):\t");
+                                        Console.WriteLine("\nNhập loại vé bạn muốn đặt (1. Business  / 2. Economy ):\t");
                                         int choose;
 
                                         if (int.TryParse(Console.ReadLine(), out choose) && (choose == 1 || choose == 2))
@@ -303,12 +302,12 @@ namespace ThucTapCoSo
                                 else if (desiredChoice == 3)
                                 {
                                     bookingAndReserving.DisplayArtWork(3);
-                                    Console.Write("Bạn chắc chắn muốn xóa tài khoản của mình... Đây là một hành động không thể hoàn tác... Nhập Y/y để xác nhận...");
+                                    Console.Write("\tBẠN CÓ CHẮC CHẮN MUỐN XÓA TÀI KHOẢN CỦA MÌNH. HÀNH ĐỘNG NÀY KHÔNG THỂ HOÀN TÁC. Nhập Y/y để xác nhận...");
                                     char confirmationChar = Console.ReadLine()[0];
                                     if (confirmationChar == 'Y' || confirmationChar == 'y')
                                     {
                                         c1.DeleteUser(dataC[1]);
-                                        Console.WriteLine($"Tài khoản của người dùng {userName} đã bị xóa thành công...!!!");
+                                        Console.WriteLine($"Tài khoản của người dùng {userName} đã bị xóa!");
                                         desiredChoice = 0;
                                     }
                                     else
@@ -372,12 +371,12 @@ namespace ThucTapCoSo
         static void DisplayMainMenu()
         {
 			Console.OutputEncoding = Encoding.Unicode;
-            Console.WriteLine("\n\n\t\t(a) Nhấn 0 để Thoát.");
-            Console.WriteLine("\t\t(b) Nhấn 1 để Đăng nhập như quản trị viên.");
-            Console.WriteLine("\t\t(c) Nhấn 2 để Đăng ký như quản trị viên.");
-            Console.WriteLine("\t\t(d) Nhấn 3 để Đăng nhập như hành khách.");
-            Console.WriteLine("\t\t(e) Nhấn 4 để Đăng ký như hành khách.");
-            Console.WriteLine("\t\t(f) Nhấn 5 để Hiển thị Hướng dẫn sử dụng.");
+            Console.WriteLine("\n\n\t\t1 : Đăng nhập quản trị viên.");
+            Console.WriteLine("\t\t2 : Đăng ký quản trị viên.");
+            Console.WriteLine("\t\t3 : Đăng nhập hành khách.");
+            Console.WriteLine("\t\t4 : Đăng ký hành khách.");
+            Console.WriteLine("\t\t5 : Hiển thị Hướng dẫn sử dụng.");
+            Console.WriteLine("\t\t0 : Thoát.");
             Console.Write("\t\tNhập tùy chọn mong muốn:    ");
 
         }
@@ -386,8 +385,8 @@ namespace ThucTapCoSo
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			Console.WriteLine($"\n\n{new string(' ', 50)} +++++++++++++++++ Chào mừng bạn đến với Hướng dẫn sử dụng của Star Airlines +++++++++++++++++");
-            Console.WriteLine("\n\n\t\t(a) Nhấn phím 1 để hiển thị Hướng dẫn quản trị.");
-            Console.WriteLine("\t\t(b) Nhấn 2 để hiển thị Hướng dẫn sử dụng.");
+            Console.WriteLine("\n\t\t1 : Hướng dẫn quản trị.");
+            Console.WriteLine("\t\t2 : Hướng dẫn khách hàng.");
             Console.Write("\nNhập tùy chọn mong muốn:   ");
             //fix code
             int choice;

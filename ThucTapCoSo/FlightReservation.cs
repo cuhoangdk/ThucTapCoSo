@@ -43,7 +43,7 @@ namespace ThucTapCoSo
                     for (int j=0; j < customer.Length; j++)
                     {
                         string[] dataCustomer = customer[j].Split(';');
-                        if(dataCustomer[0].Equals(userID))
+                        if(dataCustomer[1].Equals(userID))
                         {
                             int availableECOSeats = int.Parse(dataFlight[3]);
                             int availableBSNSeats = int.Parse(dataFlight[2]);
@@ -295,9 +295,9 @@ namespace ThucTapCoSo
 
             //in ra console user có những chuyến bay nào
             Console.WriteLine();
-            Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+\n");
-            Console.WriteLine("| STT  | LỊCH BAY\t\t\t\t   | MÃ CHUYẾN |  Số vé đã đặt    | \tTừ ====>>         | \t====>> Đến\t   | \t  THỜI GIAN HẠ CÁNH      |THỜI GIAN BAY|  CỔNG  |  TRẠNG THÁI      |");
-            Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+\n");
+            Console.WriteLine("+------+-----------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+");
+            Console.WriteLine("| STT  | LỊCH BAY                    | MÃ CHUYẾN | SỐ VÉ            | KHỞI HÀNH             | ĐIỂM ĐẾN               | THƯỜI GIAN HẠ CÁNH          |THỜI GIAN BAY| CỔNG   | TRẠNG THÁI       |");
+            Console.WriteLine("+------+-----------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+");
 
             int stt = 0;
 
@@ -319,8 +319,8 @@ namespace ThucTapCoSo
                                 if (dataF[1].Equals(dataTR[1]))
                                 {
                                     Flight fl = new Flight();
-                                    Console.WriteLine($"| {stt + 1,-5}| {dataF[4],-41} | {dataF[1],-9} | {dataTR[3]} {dataTR[4]}\t  | {dataF[5],-21} | {dataF[6],-22} | {fl.FetchArrivalTime(dataF[4], dataF[7]),-27} | {dataF[7],-11} | {dataF[8],-6} | {FlightStatus(dataF[1]),-17}|");
-                                    Console.Write("+------+-------------------------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+\n");
+                                    Console.WriteLine($"| {stt + 1,-5}| {dataF[4],-27} | {dataF[1],-9} | {dataTR[3],-1} {dataTR[4],-13}  | {dataF[5],-21} | {dataF[6],-22} | {fl.FetchArrivalTime(dataF[4], dataF[7]),-27} | {dataF[7],-11} | {dataF[8],-6} | {FlightStatus(dataF[1]),-17}|");
+                                    Console.WriteLine($"+------+-----------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+");
                                     stt++;
                                 }
                             }
@@ -396,13 +396,13 @@ namespace ThucTapCoSo
                                     {
                                         Console.WriteLine();
                                         Console.WriteLine($" Mã chuyến bay: {flightName}");
-                                        Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
-                                        Console.WriteLine($"{new string(' ', 10)}| STT         | Mã khách hàng | Tên khách hàng                   | Tuổi    | Email  \t\t\t   | Địa chỉ\t\t\t    | Số điện thoại\t      | Số vé đã đặt | Tổng tiền vé $ |");
-                                        Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                                        Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                                        Console.WriteLine($"{new string(' ', 10)}| STT         | Mã khách hàng | Tên khách hàng                   | Năm sinh   | Email                       | Địa chỉ                        | Số điện thoại           | Số vé đã đặt | Tổng tiền vé $ |");
+                                        Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
                                         shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
                                     }
                                     // In thông tin của mỗi khách hàng trong nhóm
-                                    Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-11} | {dataCustomer[1],-13} | {dataCustomer[2],-32} | {dataCustomer[7],-7} | {dataCustomer[3],-27} | {dataCustomer[6],-30} | {dataCustomer[5],-23} | {dataTR[3]} {dataTR[4]} | {TotalPrice(dataTR[3], fl.CalculatePrice(dataFlight[9])),-14} |");
+                                    Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-11} | {dataCustomer[1],-13} | {dataCustomer[2],-32} | {dataCustomer[7],-10} | {dataCustomer[3],-27} | {dataCustomer[6],-30} | {dataCustomer[5],-23} | {dataTR[3]} {dataTR[4]} | {TotalPrice(dataTR[3], fl.CalculatePrice(dataFlight[9])),-14} |");
                                     Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
                                     stt++;
                                 }

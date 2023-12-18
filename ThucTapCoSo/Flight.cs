@@ -216,50 +216,7 @@ namespace ThucTapCoSo
         //    return isAdded;
         //}
 
-        public string CalculateFlightTime(double distanceBetweenTheCities)
-        {
-            double groundSpeed = 450;
-            double time = (distanceBetweenTheCities / groundSpeed);
-
-            // Sử dụng Math.Round để làm tròn thời gian
-            int hours = (int)Math.Round(time);
-            int minutes = (int)((time - hours) * 60 + 20);
-
-            // Làm tròn đến đơn vị thời gian gần nhất chia hết cho 5
-            int remainder = minutes % 5;
-            if (remainder > 0)
-            {
-                minutes += 5 - remainder;
-            }
-
-            if (minutes >= 60)
-            {
-                minutes -= 60;
-                hours++;
-            }
-
-            return $"{hours:D2}:{minutes:D2}";
-        }
-        public string FetchArrivalTime(string flightSchedule, string flightTime)
-        {
-
-            if (flightSchedule != null)
-            {
-                DateTime departureDateTime = DateTime.ParseExact(flightSchedule, "dddd, dd MMMM yyyy, HH:mm tt", CultureInfo.InvariantCulture);
-
-                string[] duration = flightTime.Split(':');
-                int hours = int.Parse(duration[0]);
-                int minutes = int.Parse(duration[1]);
-
-                DateTime arrivalTime = departureDateTime.AddHours(hours).AddMinutes(minutes);
-
-                return arrivalTime.ToString("ddd, dd-MM-yyyy HH:mm tt");
-            }
-            else
-            {
-                return "N/A";
-            }
-        }
+        
         public void HiddenFlight(string flightNumber, string idAdmin, DateTime date)
         {
 			Console.OutputEncoding = Encoding.Unicode;
@@ -343,9 +300,9 @@ namespace ThucTapCoSo
             Console.OutputEncoding = Encoding.Unicode;
 
 			Console.WriteLine();
-            Console.Write("+------+----------------------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
-            Console.Write("| STT  | Lịch chuyến bay\t\t\t|Mã chuyến bay| Số ghế trống\t\t     | \tTỪ ====>>           | \t====>> ĐẾN\t     | \t   THỜI GIAN HẠ CÁNH     |THỜI GIAN BAY|  CỔNG  | QUÃNG ĐƯỜNG(MILES/KMS) | GIÁ VÉ $ |\n");
-            Console.Write("+------+----------------------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
+            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
+            Console.Write("| STT  | THỜI GIAN CẤT CÁNH        | MÃ CHUYẾN   | SỐ GHẾ TRỐNG                 | KHỞI HÀNH             | ĐIẾM ĐẾN               | THỜI GIAN HẠ CÁNH         |THỜI GIAN BAY|  CỔNG  | QUÃNG ĐƯỜNG(MILES/KMS) | GIÁ VÉ $ |\n");
+            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -362,8 +319,8 @@ namespace ThucTapCoSo
                 {
                     continue;
                 }
-                Console.WriteLine($"| {stt,-4} | {data[4],-38} | {data[1],-11} | BSN: {data[2],-1} / ECO: {data[3],-1} | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4],data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice(data[9]),-8} |");
-                Console.Write("+------+----------------------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
+                Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-1} / ECO: {data[3],-1}           | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4],data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice(data[9]),-8} |");
+                Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
                 stt++;
             }
         }
@@ -386,7 +343,51 @@ namespace ThucTapCoSo
             {
                 newDate = newDate.AddMinutes(15 - mod);
             }
-            return newDate.ToString("dddd, dd MMMM yyyy, HH:mm tt");
+            return newDate.ToString("ddd, dd/MM/yyyy HH:mm tt");
+        }
+        public string CalculateFlightTime(double distanceBetweenTheCities)
+        {
+            double groundSpeed = 450;
+            double time = (distanceBetweenTheCities / groundSpeed);
+
+            // Sử dụng Math.Round để làm tròn thời gian
+            int hours = (int)Math.Round(time);
+            int minutes = (int)((time - hours) * 60 + 20);
+
+            // Làm tròn đến đơn vị thời gian gần nhất chia hết cho 5
+            int remainder = minutes % 5;
+            if (remainder > 0)
+            {
+                minutes += 5 - remainder;
+            }
+
+            if (minutes >= 60)
+            {
+                minutes -= 60;
+                hours++;
+            }
+
+            return $"{hours:D2}:{minutes:D2}";
+        }
+        public string FetchArrivalTime(string flightSchedule, string flightTime)
+        {
+
+            if (flightSchedule != null)
+            {
+                DateTime departureDateTime = DateTime.ParseExact(flightSchedule, "ddd, dd/MM/yyyy HH:mm tt", CultureInfo.InvariantCulture);
+
+                string[] duration = flightTime.Split(':');
+                int hours = int.Parse(duration[0]);
+                int minutes = int.Parse(duration[1]);
+
+                DateTime arrivalTime = departureDateTime.AddHours(hours).AddMinutes(minutes);
+
+                return arrivalTime.ToString("ddd, dd/MM/yyyy HH:mm tt");
+            }
+            else
+            {
+                return "N/A";
+            }
         }
         public DateTime GetNearestHourQuarter(DateTime datetime)
         {

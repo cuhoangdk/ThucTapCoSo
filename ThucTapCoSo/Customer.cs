@@ -18,7 +18,7 @@ namespace ThucTapCoSo
         private string phone;
         private readonly string password;
         private string address;
-        private int age;
+        private DateTime birth;
         //public List<Flight> flightsRegisteredByUser;
         //public List<int> numOfTicketsBookedByUser;
         // ************************************************************ Behaviours/Methods ************************************************************
@@ -32,9 +32,9 @@ namespace ThucTapCoSo
             this.password = null;
             this.phone = null;
             this.address = null;
-            this.age = 0;
+            this.birth = DateTime.Now;
         }
-        public Customer(string userID, string name, string email, string password, string phone, string address, int age)
+        public Customer(string userID, string name, string email, string password, string phone, string address, DateTime birth)
         {
             this.name = name;
             this.userID = userID;
@@ -42,9 +42,7 @@ namespace ThucTapCoSo
             this.password = password;
             this.phone = phone;
             this.address = address;
-            this.age = age;
-            //this.flightsRegisteredByUser = new List<Flight>();
-            //this.numOfTicketsBookedByUser = new List<int>();
+            this.birth = birth;
         }
 
         // Method to register a new 
@@ -65,9 +63,9 @@ namespace ThucTapCoSo
             string filePath = Path.Combine(datatxt, "Customer.txt");
 
             Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ Chào mừng bạn đến với Cổng đăng ký của Khách hàng ++++++++++++++");
-            Console.Write("Nhập tên của bạn:\t");
+            Console.Write("\tHọ và tên:\t");
             string name = Console.ReadLine();
-            Console.Write("Nhập địa chỉ Email của bạn:\t");
+            Console.Write("\tEmail:\t");
             string email = Console.ReadLine();
             while (IsUniqueData(email))
             {
@@ -75,15 +73,15 @@ namespace ThucTapCoSo
                 Console.Write("Nhập địa chỉ Email của bạn :\t");
                 email = Console.ReadLine();
             }
-            Console.Write("Nhập mật khẩu của bạn:\t");
+            Console.Write("\tMật khẩu:\t");
             string password = Console.ReadLine();
-            Console.Write("Nhập số điện thoại của bạn:\t");
+            Console.Write("\tSố điện thoại:\t");
             string phone = Console.ReadLine();
-            Console.Write("Nhập địa chỉ của bạn:\t");
+            Console.Write("\tĐịa chỉ:\t");
             string address = Console.ReadLine();
-            Console.Write("Nhập tuổi của bạn:\t");
-            int age;
-			while (!int.TryParse(Console.ReadLine(), out age) || age < 0)
+            Console.Write("\tNgày tháng năm sinh:\t");
+            DateTime birth;
+			while (!DateTime.TryParse(Console.ReadLine(), out birth))
 			{
 				Console.Write("Vui lòng nhập số tuổi đúng định dạng: \t");
 			}
@@ -91,7 +89,7 @@ namespace ThucTapCoSo
             //true là dùng để ghi tiếp theo vào file .txt, StreamWriter(filePath): là dùng để ghi đè lên file cũ 
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
-                writer.WriteLine($"1;{userID};{name};{email};{password};{phone};{address};{age}");
+                writer.WriteLine($"1;{userID};{name};{email};{password};{phone};{address};{birth.ToString("dd/MM/yyyy")}");
             }
         }
         public void SearchUser(string ID)
@@ -108,13 +106,13 @@ namespace ThucTapCoSo
             for (int i=0; i<Customers.Length; i++)
             {
                 string[] data = Customers[i].Split(';');
-                if (ID.Equals(data[1]) && data[10] == "1")
+                if (ID.Equals(data[1]) && data[0] == "1")
                 {
                     Console.WriteLine($"{new string(' ', 10)}Khách hàng được tìm thấy...!!! Đây là Bản ghi đầy đủ...!!!\n\n\n"); //FIX
                     DisplayHeader();
                     isFound = true;
                     Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
-                    Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
+                    Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
                     break;
                 }
             }
@@ -267,8 +265,8 @@ namespace ThucTapCoSo
                 if (data[0] == "1")
                 {
                     isFound = true;
-                    Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
-                    Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
+                    Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[1],-13} | {data[2],-32} | {data[7],-10} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
+                    Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
                 }
             }
             if (!isFound)
@@ -281,9 +279,9 @@ namespace ThucTapCoSo
         {
             Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine();
-            Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
-            Console.WriteLine($"{new string(' ', 10)}| STT   | Mã khách hàng | Tên khách hàng                   | Tuổi    | Email\t\t\t     | Địa chỉ\t\t\t      | Số điện thoại  |");
-            Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+----------------+");
+            Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
+            Console.WriteLine($"{new string(' ', 10)}| STT   | Mã khách hàng | Tên khách hàng                   | Năm sinh   | Email                       | Địa chỉ                        | Số điện thoại  |");
+            Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
         }
 
         public string RandomIDDisplay(string randomID)
@@ -421,9 +419,9 @@ namespace ThucTapCoSo
             return email;
         }
 
-        public int GetAge()
+        public DateTime GetAge()
         {
-            return age;
+            return birth;
         }
 
         public string GetUserID()
@@ -461,9 +459,9 @@ namespace ThucTapCoSo
             this.address = address;
         }
 
-        public void SetAge(int age)
+        public void SetAge(DateTime age)
         {
-            this.age = age;
+            this.birth = age;
         }
     }
 }
