@@ -82,9 +82,15 @@ namespace ThucTapCoSo
 
                 string flightSchedule = CreateNewFlightsAndTime();
                 string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
-                Console.Write("Nhập vào số ghế ngồi của chuyến bay: ");
-                int numOfSeatsInTheFlight;
-                while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlight) || numOfSeatsInTheFlight < 75 || numOfSeatsInTheFlight > 500)
+                Console.Write("SỐ GHẾ HẠNG PHỔ THÔNG    : ");
+                int numOfSeatsInTheFlightECO;
+                while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlightECO) || numOfSeatsInTheFlightECO < 75 || numOfSeatsInTheFlightECO > 500)
+                {
+                    Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 75 ghế và nhiều nhất 500 ghế). Nhập giá trị lại :\t");
+                }
+                Console.Write("SỐ GHẾ HẠNG THƯƠNG GIA   :  ");
+                int numOfSeatsInTheFlightBSN;
+                while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlightBSN) || numOfSeatsInTheFlightBSN < 25 || numOfSeatsInTheFlightBSN > 500)
                 {
                     Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 75 ghế và nhiều nhất 500 ghế). Nhập giá trị lại :\t");
                 }
@@ -94,22 +100,13 @@ namespace ThucTapCoSo
                 double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
                 string flightTime = CalculateFlightTime(distanceInMiles);
 
-
-                //flightList.Add(new Flight(
-                //        flightSchedule,
-                //        flightNumber,
-                //        numOfSeatsInTheFlight,
-                //        chosenDestinations,
-                //        distanceBetweenTheCities,
-                //        gate.ToUpper()
-                //    ));
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
-                    writer.WriteLine($"{flag};{flightNumber};00;{numOfSeatsInTheFlight};{flightSchedule};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
+                    writer.WriteLine($"{flag};{flightNumber};{numOfSeatsInTheFlightBSN};{numOfSeatsInTheFlightECO};{flightSchedule};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
                 }
                 using (StreamWriter writer = new StreamWriter(fileHistory, true))
                 {
-                    writer.WriteLine($"{date};ADD;{idAdmin};{flightNumber};{flightSchedule};{numOfSeatsInTheFlight};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
+                    writer.WriteLine($"{date};ADD;{idAdmin};{flightNumber};{flightSchedule};{numOfSeatsInTheFlightECO};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
                 }
             }
             else
@@ -319,7 +316,7 @@ namespace ThucTapCoSo
                 {
                     continue;
                 }
-                Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-1} / ECO: {data[3],-1}           | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4],data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice(data[9]),-8} |");
+                Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4],data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice(data[9]),-8} |");
                 Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
                 stt++;
             }
