@@ -90,9 +90,9 @@ namespace ThucTapCoSo
                 }
                 Console.Write("SỐ GHẾ HẠNG THƯƠNG GIA   :  ");
                 int numOfSeatsInTheFlightBSN;
-                while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlightBSN) || numOfSeatsInTheFlightBSN < 25 || numOfSeatsInTheFlightBSN > 500)
+                while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlightBSN) || numOfSeatsInTheFlightBSN < 10 || numOfSeatsInTheFlightBSN > 50)
                 {
-                    Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 75 ghế và nhiều nhất 500 ghế). Nhập giá trị lại :\t");
+                    Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 10 ghế và nhiều nhất 50 ghế). Nhập giá trị lại :\t");
                 }
                 string gate = r1.RandomFlightNumbGen(1, 30);
                 //

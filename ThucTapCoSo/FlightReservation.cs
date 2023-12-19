@@ -397,13 +397,13 @@ namespace ThucTapCoSo
                                         Console.WriteLine();
                                         Console.WriteLine($" Mã chuyến bay: {flightName}");
                                         Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
-                                        Console.WriteLine($"{new string(' ', 10)}| STT         | Mã khách hàng | Tên khách hàng                   | Năm sinh   | Email                       | Địa chỉ                        | Số điện thoại           | Số vé đã đặt | Tổng tiền vé $ |");
+                                        Console.WriteLine($"{new string(' ', 10)}| STT         | Mã khách hàng | Tên khách hàng                   | Ngày sinh  | Email                       | Địa chỉ                        | Số điện thoại           | Số vé đã đặt | Tổng tiền vé $ |");
                                         Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
                                         shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
                                     }
                                     // In thông tin của mỗi khách hàng trong nhóm
-                                    Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-11} | {dataCustomer[1],-13} | {dataCustomer[2],-32} | {dataCustomer[7],-10} | {dataCustomer[3],-27} | {dataCustomer[6],-30} | {dataCustomer[5],-23} | {dataTR[3]} {dataTR[4]} | {TotalPrice(dataTR[3], fl.CalculatePrice(dataFlight[9])),-14} |");
-                                    Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                                    Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-11} | {dataCustomer[1],-13} | {dataCustomer[2],-32} | {dataCustomer[7],-10} | {dataCustomer[3],-27} | {dataCustomer[6],-30} | {dataCustomer[5],-23} | {dataTR[3]} {dataTR[4],-10} | {TotalPrice(dataTR[3], fl.CalculatePrice(dataFlight[9])),-14} |");
+                                    Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
                                     stt++;
                                 }
                             }
@@ -434,9 +434,9 @@ namespace ThucTapCoSo
                 {
                     Console.WriteLine();
                     Console.WriteLine($"\n{new string('+', 30)} Hiển thị Khách hàng đã đăng ký cho Chuyến bay số \"{flightNum,-6}\" {new string('+', 30)}\n");
-                    Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
-                    Console.WriteLine($"{new string(' ', 10)}| Mã chuyến bay  |Mã khách hàng| Tên khách hàng                   | Tuổi    | Email  \t\t\t    | Địa chỉ\t\t\t     | Số điện thoại\t       | Số vé đã đặt | Tổng tiền vé $ |");
-                    Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                    Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                    Console.WriteLine($"{new string(' ', 10)}| Mã chuyến bay  |Mã khách hàng| Tên khách hàng                   | Ngày sinh  | Email  \t\t       | Địa chỉ\t\t        | Số điện thoại\t          | Số vé đã đặt | Tổng tiền vé $ |");
+                    Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
                     break;
                 }
             }
@@ -461,8 +461,8 @@ namespace ThucTapCoSo
                             if (dataTR[2].Equals(dataCustomer[1]) && dataCustomer[0] == "1")
                             {
                                 Flight fl = new Flight();
-                                Console.WriteLine($"{new string(' ', 10)}| {flightNum,-14} | {dataCustomer[1],-11} | {dataCustomer[2],-32} | {dataCustomer[7],-7} | {dataCustomer[3],-27} | {dataCustomer[6],-30} | {dataCustomer[5],-23} | {dataTR[3]} {dataTR[4]} | {TotalPrice(dataTR[3], fl.CalculatePrice(dataF[9])),-14} |");
-                                Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+---------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                                Console.WriteLine($"{new string(' ', 10)}| {flightNum,-14} | {dataCustomer[1],-11} | {dataCustomer[2],-32} | {dataCustomer[7],-7} | {dataCustomer[3],-27} | {dataCustomer[6],-30} | {dataCustomer[5],-23} | {dataTR[3]} {dataTR[4],-10} | {TotalPrice(dataTR[3], fl.CalculatePrice(dataF[9])),-14} |");
+                                Console.WriteLine($"{new string(' ', 10)}+----------------+-------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
                             }
                         }
                     }
