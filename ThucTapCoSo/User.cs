@@ -108,7 +108,7 @@ namespace ThucTapCoSo
                                     c1.DisplayCustomersData(false);
                                     Console.Write("Nhập CustomerID để Cập nhật Dữ liệu của khách hàng đó :\t");
                                     string customerID = Console.ReadLine();
-                                    c1.EditUserInfo(customerID);
+                                    c1.EditCustomerInfo(customerID);
                                 }
                                 else if (desiredOption == 4)
                                 {
@@ -116,7 +116,7 @@ namespace ThucTapCoSo
                                     c1.DisplayCustomersData(false);
                                     Console.Write("Nhập CustomerID của khách hàng muốn xóa :\t");
                                     string customerID = Console.ReadLine();
-                                    c1.DeleteUser(customerID);
+                                    c1.DeleteCustomer(customerID);
                                 }
                                 else if (desiredOption == 5)
                                 {
@@ -297,7 +297,7 @@ namespace ThucTapCoSo
                                 else if (desiredChoice == 2)
                                 {
                                     bookingAndReserving.DisplayArtWork(2);
-                                    c1.EditUserInfo(dataC[1]);
+                                    c1.EditCustomerInfo(dataC[1]);
                                 }
                                 else if (desiredChoice == 3)
                                 {
@@ -306,7 +306,7 @@ namespace ThucTapCoSo
                                     char confirmationChar = Console.ReadLine()[0];
                                     if (confirmationChar == 'Y' || confirmationChar == 'y')
                                     {
-                                        c1.DeleteUser(dataC[1]);
+                                        c1.DeleteCustomer(dataC[1]);
                                         Console.WriteLine($"Tài khoản của người dùng {userName} đã bị xóa!");
                                         desiredChoice = 0;
                                     }

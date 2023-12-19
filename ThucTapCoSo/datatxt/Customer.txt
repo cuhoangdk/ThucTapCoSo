@@ -1,7 +1,9 @@
 1;978729;Huy Dê;de@gmail.com;123;0987766484;Đăk Lăk;12/12/2003
 1;788464;Cường Bảy Núi;catra@gmail.com;123;0986535282;Tp.HCM;12/12/2003
-1;123456;Tester;test;123;0986535282;Tp.HCM;12/12/2003
-1;245954;Thanh Hải;ccmk@gmail.com;123;958685930490;Nha Trang;8/2/2003
-1;336956;Hà;haha;hahaha;123;hádjh;11/22/2003
+1;123456;Hải Heo Quay;haxx@gmail.com;123;0988887878;Kon Tum;19/12/2023
+1;245954;Thanh Hải;ha11@gmail.com;123;08394868598;Nha Trang;02/02/2004
+0;336956;Hà;haha;hahaha;123;hádjh;11/22/2003
 1;314876;Hải;111@gmail.com;111;1111111111;Nha Trang;12/12/2003
 0;970488;4;1;1;1;1;13/02/2003
+1;43458;Khánh Sky;khanhsky@gmail.com;111;0965234876;Bắc Ninh;25/12/1978
+1;892412;Nguyễn Đình Hiệu;hieu.nd.63cntt@ntu.edu.vn;111;0983674559;Đắk Lắk;30/12/2000

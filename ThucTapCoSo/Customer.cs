@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ThucTapCoSo
@@ -62,28 +63,28 @@ namespace ThucTapCoSo
 
             string filePath = Path.Combine(datatxt, "Customer.txt");
 
-            Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ Chào mừng bạn đến với Cổng đăng ký của Khách hàng ++++++++++++++");
-            Console.Write("\tHọ và tên:\t");
+            Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ CHÀO MỪNG BẠN ĐẾN VỚI CỔNG ĐĂNG KÍ CỦA KHÁCH HÀNG ++++++++++++++");
+            Console.Write("\tHỌ VÀ TÊN:\t");
             string name = Console.ReadLine();
-            Console.Write("\tEmail:\t");
+            Console.Write("\tEMAIL :\t");
             string email = Console.ReadLine();
-            while (IsUniqueData(email))
+            while (IsUniqueData(email) || !IsValidEmail(email))
             {
-                Console.WriteLine("LỖI!!! Người dùng có cùng địa chỉ email đã tồn tại... Sử dụng một địa chỉ email mới hoặc đăng nhập bằng thông tin đăng nhập trước đó....");
-                Console.Write("Nhập địa chỉ Email của bạn :\t");
+                Console.WriteLine("ĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
+                Console.Write("EMAIL :\t");
                 email = Console.ReadLine();
             }
-            Console.Write("\tMật khẩu:\t");
+            Console.Write("\tMẬT KHẨU:\t");
             string password = Console.ReadLine();
-            Console.Write("\tSố điện thoại:\t");
+            Console.Write("\tSỐ ĐIỆN THOẠI:\t");
             string phone = Console.ReadLine();
-            Console.Write("\tĐịa chỉ:\t");
+            Console.Write("\tĐỊA CHỈ:\t");
             string address = Console.ReadLine();
-            Console.Write("\tNgày tháng năm sinh:\t");
+            Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
             DateTime birth;
-			while (!DateTime.TryParse(Console.ReadLine(), out birth))
-			{
-				Console.Write("Vui lòng nhập số tuổi đúng định dạng: \t");
+            while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
+            {
+                Console.Write("VUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
 			}
 
             //true là dùng để ghi tiếp theo vào file .txt, StreamWriter(filePath): là dùng để ghi đè lên file cũ 
@@ -92,6 +93,145 @@ namespace ThucTapCoSo
                 writer.WriteLine($"1;{userID};{name};{email};{password};{phone};{address};{birth.ToString("dd/MM/yyyy")}");
             }
         }
+
+        public void EditCustomerInfo(string ID)
+        {
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
+            bool isFound = false;
+
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePath = Path.Combine(datatxt, "Customer.txt");
+
+            Console.WriteLine();
+
+            string[] line = File.ReadAllLines(filePath);
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                string[] data = line[i].Split(';');
+
+                if (ID.Equals(data[1]) && data[0] == "1")
+                {
+                    isFound = true;
+
+                    Console.WriteLine("\tNHẬP THÔNG TIN MỚI CỦA KHÁCH HÀNG!");
+                    Console.WriteLine("\tBẤM ENTER ĐỂ BỎ QUA KHÔNG CHỈNH SỬA!");
+
+                    Console.Write("\tHỌ VÀ TÊN:\t");
+                    string name = Console.ReadLine();
+                    Console.Write("\tEMAIL :\t");
+                    string email = Console.ReadLine();
+                    while (email != "" && (IsUniqueData(email) || !IsValidEmail(email)))
+                    {
+                        Console.WriteLine("\tĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
+                        Console.Write("\tEMAIL :\t");
+                        email = Console.ReadLine();
+                    }
+                    Console.Write("\tSỐ ĐIỆN THOẠI:\t");
+                    string phone = Console.ReadLine();
+                    Console.Write("\tĐỊA CHỈ:\t");
+                    string address = Console.ReadLine();
+                    Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
+                    string input;
+                    do
+                    {
+                        Console.Write("\tNGÀY THÁNG NĂM SINH (dd/MM/yyyy):\t");
+                        input = Console.ReadLine();
+
+                        if (input == "")
+                        {
+                            break; // Thoát khỏi vòng lặp nếu người dùng không nhập gì cả
+                        }
+
+                        if (!DateTime.TryParseExact(input, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
+                        {
+                            Console.Write("\tVUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
+                        }
+                    } while (input != "");
+                    //data0: userID; data1: name; data2: email; data3: pass; data4: phone; data5: address; data6: age
+                    // Ghi vô file
+                    if (name != "")
+                    {
+                        data[2] = "";
+
+                    }
+                    if (email != "")
+                    {
+                        data[3] = email;
+
+                    }
+                    if (phone != "")
+                    {
+                        data[5] = phone;
+
+                    }
+                    if (address != "")
+                    {
+                        data[6] = address;
+
+                    }
+                    if (birth != null)
+                    {
+                        data[7] = birth.ToString("dd/MM/yyyy");
+
+                    }
+
+                    line[i] = string.Join(";", data);
+                }
+            }
+            if (!isFound)
+            {
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID  {ID} ...!!!"); //FIX
+            }
+            else
+            {
+                File.WriteAllLines(filePath, line);
+                Console.WriteLine("Cập nhật thông tin thành công!");
+            }
+        }
+
+        public void DeleteCustomer(string ID)
+        {
+            Console.OutputEncoding = Encoding.Unicode;
+            bool isFound = false;
+
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+            string filePath = Path.Combine(datatxt, "Customer.txt");
+
+            string[] Customer = File.ReadAllLines(filePath);
+
+            for (int i = 0; i < Customer.Length; i++)
+            {
+                // Phân tách dữ liệu trong dòng sử dụng dấu chấm phẩy
+                string[] dataCustomer = Customer[i].Split(';');
+
+                if (ID.Equals(dataCustomer[1]) && dataCustomer[0] == "1")
+                {
+                    dataCustomer[0] = "0";
+                    Customer[i] = string.Join(";", dataCustomer);
+                    isFound = true;
+                    break; // Đã tìm thấy và xóa, không cần kiểm tra các dòng khác
+                }
+            }
+
+            if (isFound)
+            {
+                // Ghi lại tất cả các dòng đã được cập nhật vào tệp
+                File.WriteAllLines(filePath, Customer);
+                Console.WriteLine($"{new string(' ', 10)}Đã xóa Khách hàng với ID {ID}."); // FIX
+            }
+            else
+            {
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); // FIX
+            }
+        }
+
         public void SearchUser(string ID)
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -145,102 +285,15 @@ namespace ThucTapCoSo
 
             return isUnique;
         }
-        public void EditUserInfo(string ID)
+        static bool IsValidEmail(string email)
         {
-            Console.OutputEncoding = Encoding.Unicode;
-            bool isFound = false;
+            // Biểu thức chính quy để kiểm tra định dạng email
+            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
 
-            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            string datatxt = Path.Combine(current, "datatxt");
-
-            string filePath = Path.Combine(datatxt, "Customer.txt");
-
-            Console.WriteLine();
-
-            string[] line = File.ReadAllLines(filePath);
-
-            for (int i = 0; i < line.Length; i++)
-            {
-                string[] data = line[i].Split(';');
-
-                if (ID.Equals(data[1]) && data[0] == "1")
-                {
-                    isFound = true;
-
-                    //data0: userID; data1: name; data2: email; data3: pass; data4: phone; data5: address; data6: age
-                    Console.Write("Nhập tên mới của Hành khách:\t");
-                    data[2] = Console.ReadLine();
-
-                    Console.Write($"Nhập địa chỉ email mới của Hành khách {data[2]}:\t");
-                    data[3] = Console.ReadLine();
-
-                    Console.Write($"Nhập số điện thoại mới của Hành khách {data[2]}:\t");
-                    data[5] = Console.ReadLine();
-
-                    Console.Write($"Nhập địa chỉ mới của Hành khách {data[2]}:\t");
-                    data[6] = Console.ReadLine();
-
-                    Console.Write($"Nhập tuổi mới của Hành khách {data[2]}:\t");
-                    int newAge;
-                    while (!int.TryParse(Console.ReadLine(), out newAge) || newAge < 0)
-                    {
-                        Console.Write("Vui lòng nhập số tuổi đúng định dạng: \t");
-                    }
-                    data[7] = newAge.ToString();
-
-                    line[i] = string.Join(";", data);
-                }
-            }
-            if (!isFound)
-            {
-                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID  {ID} ...!!!"); //FIX
-            }
-            else
-            {
-                File.WriteAllLines(filePath, line);
-                Console.WriteLine("Cập nhật thông tin thành công!");
-            }
+            // Sử dụng Regex.IsMatch để kiểm tra tính hợp lệ của email
+            return Regex.IsMatch(email, pattern);
         }
-
-        public void DeleteUser(string ID)
-        {
-            Console.OutputEncoding = Encoding.Unicode;
-            bool isFound = false;
-
-            //Lấy vị trí hiện tại
-            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            //tìm folder datatxt: nơi lưu dữ liệu
-            string datatxt = Path.Combine(current, "datatxt");
-            string filePath = Path.Combine(datatxt, "Customer.txt");
-
-            string[] Customer = File.ReadAllLines(filePath);
-
-            for (int i = 0; i < Customer.Length; i++)
-            {
-				// Phân tách dữ liệu trong dòng sử dụng dấu chấm phẩy
-				string[] dataCustomer = Customer[i].Split(';');
-
-                if ( ID.Equals(dataCustomer[1]) && dataCustomer[0] == "1")
-                {
-                    dataCustomer[0] = "0";
-                    Customer[i] = string.Join(";", dataCustomer);
-                    isFound = true;					
-					break; // Đã tìm thấy và xóa, không cần kiểm tra các dòng khác
-                }
-            }
-
-            if (isFound)
-            {
-                // Ghi lại tất cả các dòng đã được cập nhật vào tệp
-                File.WriteAllLines(filePath, Customer);
-                Console.WriteLine($"{new string(' ', 10)}Đã xóa Khách hàng với ID {ID}."); // FIX
-            }
-            else
-            {
-                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); // FIX
-            }
-        }
-
+       
         public void DisplayCustomersData(bool showHeader)
         {
             Console.OutputEncoding = Encoding.Unicode;
