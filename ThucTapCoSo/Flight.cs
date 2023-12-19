@@ -20,8 +20,12 @@ namespace ThucTapCoSo
         private readonly double distanceInKm;
         private readonly string flightTime;
         public int numOfSeatsInTheFlight;
-        //private readonly List<Customer> listOfRegisteredCustomersInAFlight;
-        //private int customerIndex;
+        private static readonly string[][] planeTypes =
+        {
+            new[] {"AIRBUS A320", "8" , "182" },
+            new[] {"AIRBUS A321", "24", "184" },
+            new[] {"EMBRAER 190", "6" , "92" },
+        };
         private static int nextFlightDay = 0;
 
         // ************************************************************ Behaviours/Methods ************************************************************
