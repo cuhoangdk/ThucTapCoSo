@@ -267,32 +267,7 @@ namespace ThucTapCoSo
                                 {
                                     bookingAndReserving.DisplayArtWork(1);
                                     f1.DisplayFlightSchedule();
-                                    Console.Write("\nNhập mã chuyến bay mong muốn để đặt chỗ :\t ");
-                                    string flightToBeBooked = Console.ReadLine().ToUpper();
-
-                                    string ticketType;
-                                    while (true)
-                                    {
-                                        Console.WriteLine("\nNhập loại vé bạn muốn đặt (1. Business  / 2. Economy ):\t");
-                                        int choose;
-
-                                        if (int.TryParse(Console.ReadLine(), out choose) && (choose == 1 || choose == 2))
-                                        {
-                                            ticketType = (choose == 1) ? "BSN" : "ECO";
-                                            break;
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
-                                        }
-                                    }
-                                    Console.Write($"Nhập số lượng vé cho chuyến bay {flightToBeBooked} :   ");
-                                    int numOfTickets;
-                                    while (!int.TryParse(Console.ReadLine(), out numOfTickets) || numOfTickets > 10 || numOfTickets < 1)
-                                    {
-                                        Console.Write("LỖI!! Vui lòng nhập số lượng vé hợp lệ (ít hơn 10, nhiều hơn 0): ");
-                                    }
-                                    bookingAndReserving.BookFlight(flightToBeBooked, dataC[1], numOfTickets, ticketType);
+                                    bookingAndReserving.BookFlight(dataC[1]);
                                 }
                                 else if (desiredChoice == 2)
                                 {

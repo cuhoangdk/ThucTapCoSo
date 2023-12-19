@@ -285,7 +285,7 @@ namespace ThucTapCoSo
 
             return isUnique;
         }
-        static bool IsValidEmail(string email)
+        public bool IsValidEmail(string email)
         {
             // Biểu thức chính quy để kiểm tra định dạng email
             string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";

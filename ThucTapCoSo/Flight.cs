@@ -49,14 +49,13 @@ namespace ThucTapCoSo
             //this.listOfRegisteredCustomersInAFlight = new List<Customer>();
             this.gate = gate;
         }
-        public void FlightHistory()
+        private static readonly string[][] planeTypes =
         {
-            //Lấy vị trí hiện tại
-            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            //tìm folder datatxt: nơi lưu dữ liệu
-            string datatxt = Path.Combine(current, "datatxt");
-            string flightAddPath = Path.Combine(datatxt, "FlightHistory.txt");
-        }
+            new[] {"AIRBUS A320"  ,"8","182" },
+            new[] {"AIRBUS A321"  ,"24","184" },
+            new[] {"EMBRAER 190"  ,"6", "92" },
+        };
+
         public void AddFlight(string idAdmin, DateTime date)
         {
             RandomGenerator r1 = new RandomGenerator();
@@ -82,32 +81,72 @@ namespace ThucTapCoSo
 
                 string flightSchedule = CreateNewFlightsAndTime();
                 string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
-                Console.Write("SỐ GHẾ HẠNG PHỔ THÔNG    : ");
-                int numOfSeatsInTheFlightECO;
-                while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlightECO) || numOfSeatsInTheFlightECO < 75 || numOfSeatsInTheFlightECO > 500)
+
+                string flightType;
+
+                while (true)
                 {
-                    Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 75 ghế và nhiều nhất 500 ghế). Nhập giá trị lại :\t");
+                    Console.Write("NHẬP LOẠI MÁY BAY (1.AIRBUS A320 / 2.AIRBUS A321 / 3.EMBRAER 190):\t");
+                    int choose;
+
+                    if (int.TryParse(Console.ReadLine(), out choose) && (choose == 1 || choose == 2 || choose == 3))
+                    {
+                        switch (choose)
+                        {
+                            case 1:
+                                flightType = "AIRBUS A320";
+                                break;
+                            case 2:
+                                flightType = "AIRBUS A321";
+                                break;
+                            case 3:
+                                flightType = "EMBRAER 190";
+                                break;
+                            default:
+                                flightType = "Unknown";
+                                break;
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
+                    }
                 }
-                Console.Write("SỐ GHẾ HẠNG THƯƠNG GIA   :  ");
-                int numOfSeatsInTheFlightBSN;
-                while (!int.TryParse(Console.ReadLine(), out numOfSeatsInTheFlightBSN) || numOfSeatsInTheFlightBSN < 10 || numOfSeatsInTheFlightBSN > 50)
-                {
-                    Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 10 ghế và nhiều nhất 50 ghế). Nhập giá trị lại :\t");
-                }
+
                 string gate = r1.RandomFlightNumbGen(1, 30);
                 //
                 double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
                 double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
                 string flightTime = CalculateFlightTime(distanceInMiles);
 
-                using (StreamWriter writer = new StreamWriter(filePath, true))
+                if(flightType == "AIRBUS A320")
                 {
-                    writer.WriteLine($"{flag};{flightNumber};{numOfSeatsInTheFlightBSN};{numOfSeatsInTheFlightECO};{flightSchedule};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine($"{flag};{flightNumber};{planeTypes[0][1]};{planeTypes[0][2]};{flightSchedule};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
+                    }
                 }
+                else if (flightType == "AIRBUS A321")
+                {
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine($"{flag};{flightNumber};{planeTypes[1][1]};{planeTypes[1][2]};{flightSchedule};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
+                    }
+                }
+                else if (flightType == "EMBRAER 190")
+                {
+                    using (StreamWriter writer = new StreamWriter(filePath, true))
+                    {
+                        writer.WriteLine($"{flag};{flightNumber};{planeTypes[2][1]};{planeTypes[2][2]};{flightSchedule};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
+                    }
+                }
+                //
                 using (StreamWriter writer = new StreamWriter(fileHistory, true))
                 {
-                    writer.WriteLine($"{date};ADD;{idAdmin};{flightNumber};{flightSchedule};{numOfSeatsInTheFlightECO};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
+                    writer.WriteLine($"{date};ADD;{idAdmin};{flightNumber};{flightSchedule};{chosenDestinations[0][0]};{chosenDestinations[1][0]};{flightTime};{gate.ToUpper()};{distanceInMiles};{distanceInKm}");
                 }
+                Console.WriteLine($"\nĐã tạo thành công chuyến bay từ {chosenDestinations[0][0]} đến {chosenDestinations[1][0]}\n");
             }
             else
             {

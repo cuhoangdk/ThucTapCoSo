@@ -39,6 +39,8 @@ namespace ThucTapCoSo
         new[] {"Côn Đảo"          , "8.731477",  "106.629832", "Vietnam", "Domestic" },
     };
 
+        public static string[][] Destinations => destinations;
+
         // ************************************************************ Behaviours/Methods ************************************************************
 
         /* Tạo ID ngẫu nhiên cho khách hàng (Customer).... */
@@ -49,7 +51,6 @@ namespace ThucTapCoSo
         }
 
         /* Phương thức này cho phép chọn điểm đi và điểm đến (thành phố) để tạo chuyến bay..... */
-
         public string[][] SpecificallyDestinations()
         {
             int specCity1;
@@ -61,7 +62,7 @@ namespace ThucTapCoSo
             string toWhichCityLat;
             string toWhichCityLong;
             string[][] chosenDestinations;
-            Console.WriteLine("\tDanh sách thành phố:\n");
+            Console.WriteLine("\n\tDanh sách thành phố:\n");
             int columns = 3;
             for (int i = 0; i < destinations.Length; i++)
             {
@@ -127,15 +128,7 @@ namespace ThucTapCoSo
             return chosenDestinations;
         }
 
-        /* Tạo số ghế ngẫu nhiên cho mỗi chuyến bay */
-        public int RandomNumOfSeats()
-        {            
-            int numOfSeats = rand.Next(100, 500);
-            return numOfSeats;
-        }
-
         /* Tạo Số hiệu (Flight Number) chuyến bay duy nhất.... */
-
         public string RandomFlightNumbGen(int uptoHowManyLettersRequired, int divisible)
         {            
             string randomAlphabets = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", uptoHowManyLettersRequired)
