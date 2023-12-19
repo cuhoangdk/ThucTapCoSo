@@ -70,8 +70,8 @@ namespace ThucTapCoSo
             string email = Console.ReadLine();
             while (IsUniqueData(email) || !IsValidEmail(email))
             {
-                Console.WriteLine("ĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
-                Console.Write("EMAIL :\t");
+                Console.WriteLine("\tĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
+                Console.Write("\tEMAIL :\t");
                 email = Console.ReadLine();
             }
             Console.Write("\tMẬT KHẨU:\t");
@@ -84,7 +84,7 @@ namespace ThucTapCoSo
             DateTime birth;
             while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
             {
-                Console.Write("VUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
+                Console.Write("\tVUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
 			}
 
             //true là dùng để ghi tiếp theo vào file .txt, StreamWriter(filePath): là dùng để ghi đè lên file cũ 
@@ -134,11 +134,10 @@ namespace ThucTapCoSo
                     string phone = Console.ReadLine();
                     Console.Write("\tĐỊA CHỈ:\t");
                     string address = Console.ReadLine();
-                    Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
                     string input;
                     do
                     {
-                        Console.Write("\tNGÀY THÁNG NĂM SINH (dd/MM/yyyy):\t");
+                        Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
                         input = Console.ReadLine();
 
                         if (input == "")
@@ -248,7 +247,7 @@ namespace ThucTapCoSo
                 string[] data = Customers[i].Split(';');
                 if (ID.Equals(data[1]) && data[0] == "1")
                 {
-                    Console.WriteLine($"{new string(' ', 10)}Khách hàng được tìm thấy...!!! Đây là Bản ghi đầy đủ...!!!\n\n\n"); //FIX
+                    Console.WriteLine($"{new string(' ', 10)}DƯỚI ĐÂY LÀ THÔNG TIN ĐẦY ĐỦ CỦA KHÁCH HÀNG\n\n\n"); //FIX
                     DisplayHeader();
                     isFound = true;
                     Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
@@ -258,7 +257,7 @@ namespace ThucTapCoSo
             }
             if(!isFound)
             {
-                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); //FIX
+                Console.WriteLine($"{new string(' ', 10)}KHÔNG TÌM THẤY KHÁCH HÀNG CÓ MÃ SỐ{ID}...!!!"); //FIX
             }
         }
         public bool IsUniqueData(string emailID)
@@ -324,7 +323,7 @@ namespace ThucTapCoSo
             }
             if (!isFound)
             {
-                Console.WriteLine("Chưa khách hàng nào đăng kí!!!!");
+                Console.WriteLine("CHUYẾN BAY KHÔNG TỒN TẠI KHÁCH HÀNG!");
 
             }
         }
@@ -333,7 +332,7 @@ namespace ThucTapCoSo
             Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine();
             Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
-            Console.WriteLine($"{new string(' ', 10)}| STT   | Mã khách hàng | Tên khách hàng                   | Năm sinh   | Email                       | Địa chỉ                        | Số điện thoại  |");
+            Console.WriteLine($"{new string(' ', 10)}| STT   | MÃ KHÁCH HÀNG | HỌ VÀ TÊN                        | NĂM SINH   | EMAIL                       | ĐỊA CHỈ                        | SỐ ĐIỆN THOẠI  |");
             Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
         }
 
@@ -353,17 +352,6 @@ namespace ThucTapCoSo
             }
             return newString.ToString();
         }
-
-        //public void AddNewFlightToCustomerList(Flight f)
-        //{
-        //    this.flightsRegisteredByUser.Add(f);
-        //    //numOfFlights++;
-        //}
-        //public void AddExistingFlightToCustomerList(int index, int numOfTickets)
-        //{
-        //    int newNumOfTickets = numOfTicketsBookedByUser[index] + numOfTickets;
-        //    numOfTicketsBookedByUser[index] = newNumOfTickets;
-        //}
 
         public void DisplayArtWork(int option)
         {
@@ -486,11 +474,6 @@ namespace ThucTapCoSo
         {
             return name;
         }
-
-        //public List<int> GetNumOfTicketsBookedByUser()
-        //{
-        //    return numOfTicketsBookedByUser;
-        //}
 
         public void SetName(string name)
         {
