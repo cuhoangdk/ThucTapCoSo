@@ -30,7 +30,7 @@ namespace ThucTapCoSo
             DisplayMainMenu();
             int desiredOption;
             //fix code
-			while (!int.TryParse(Console.ReadLine(), out desiredOption) || desiredOption < 0 || desiredOption > 5)
+            while (!int.TryParse(Console.ReadLine(), out desiredOption) || desiredOption < 0 || desiredOption > 5)
 			{
                 Console.Write("LỖI!! Vui lòng nhập giá trị giữa 0 - 5. Nhập giá trị lại :\t");
             }            
@@ -266,7 +266,6 @@ namespace ThucTapCoSo
                                 if (desiredChoice == 1)
                                 {
                                     bookingAndReserving.DisplayArtWork(1);
-                                    f1.DisplayFlightSchedule();
                                     bookingAndReserving.BookFlight(dataC[1]);
                                 }
                                 else if (desiredChoice == 2)

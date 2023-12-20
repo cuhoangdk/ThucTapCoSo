@@ -53,16 +53,10 @@ namespace ThucTapCoSo
             //this.listOfRegisteredCustomersInAFlight = new List<Customer>();
             this.gate = gate;
         }
-        private static readonly string[][] planeTypes =
-        {
-            new[] {"AIRBUS A320"  ,"8","182" },
-            new[] {"AIRBUS A321"  ,"24","184" },
-            new[] {"EMBRAER 190"  ,"6", "92" },
-        };
 
         public void AddFlight(string idAdmin, DateTime date)
         {
-            RandomGenerator r1 = new RandomGenerator();
+            Generator r1 = new Generator();
 
             string[][] chosenDestinations = r1.SpecificallyDestinations();
             int flag = 1;
@@ -186,7 +180,7 @@ namespace ThucTapCoSo
                         writer.WriteLine($"{date};EDIT;{idAdmin};{ID}");
                     }
 
-                    RandomGenerator r1 = new RandomGenerator();
+                    Generator r1 = new Generator();
                     string[][] chosenDestinations = r1.SpecificallyDestinations();
 
                     if (double.TryParse(chosenDestinations[0][1], out double latitude1) && 
@@ -383,7 +377,7 @@ namespace ThucTapCoSo
             {
                 newDate = newDate.AddMinutes(15 - mod);
             }
-            return newDate.ToString("ddd, dd/MM/yyyy HH:mm tt");
+            return newDate.ToString("ddd, dd/MM/yyyy HH:mm");
         }
         public string CalculateFlightTime(double distanceBetweenTheCities)
         {
@@ -414,7 +408,7 @@ namespace ThucTapCoSo
 
             if (flightSchedule != null)
             {
-                DateTime departureDateTime = DateTime.ParseExact(flightSchedule, "ddd, dd/MM/yyyy HH:mm tt", CultureInfo.InvariantCulture);
+                DateTime departureDateTime = DateTime.ParseExact(flightSchedule, "ddd, dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
 
                 string[] duration = flightTime.Split(':');
                 int hours = int.Parse(duration[0]);
@@ -422,7 +416,7 @@ namespace ThucTapCoSo
 
                 DateTime arrivalTime = departureDateTime.AddHours(hours).AddMinutes(minutes);
 
-                return arrivalTime.ToString("ddd, dd/MM/yyyy HH:mm tt");
+                return arrivalTime.ToString("ddd, dd/MM/yyyy HH:mm");
             }
             else
             {

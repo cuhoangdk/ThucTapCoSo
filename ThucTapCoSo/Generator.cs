@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace ThucTapCoSo
 {
-    internal class RandomGenerator
+    internal class Generator
     {
 		// ************************************************************ Fields ************************************************************
 		Random rand = new Random();
 	    	private string randomNum;
 
         /* Tên thành phố nằm ở chỉ số 0, vĩ độ của thành phố ở chỉ số 1 và kinh độ ở chỉ số 2 */
-        private static readonly string[][] destinations =
+        public static readonly string[][] destinations =
         {
         new[] {"TP Hồ Chí Minh"   , "10.816332", "106.664067", "Vietnam", "International"},
         new[] {"Hà Nội"           , "21.217854", "105.792948", "Vietnam", "International"},

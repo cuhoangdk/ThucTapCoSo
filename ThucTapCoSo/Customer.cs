@@ -50,7 +50,7 @@ namespace ThucTapCoSo
         
         public void AddNewCustomer()
         {
-            RandomGenerator random = new RandomGenerator();
+            Generator random = new Generator();
             random.RandomIDGen();
             string userID = random.GetRandomNumber();
 

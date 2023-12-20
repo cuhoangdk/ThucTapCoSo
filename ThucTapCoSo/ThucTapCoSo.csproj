@@ -49,7 +49,7 @@
     <Compile Include="IDisplayClass.cs" />
     <Compile Include="FlightReservation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomGenerator.cs" />
+    <Compile Include="Generator.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
