@@ -154,7 +154,7 @@ namespace ThucTapCoSo
                     // Ghi vô file
                     if (name != "")
                     {
-                        data[2] = "";
+                        data[2] = name;
 
                     }
                     if (email != "")
