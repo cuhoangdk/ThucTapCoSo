@@ -82,9 +82,9 @@ namespace ThucTapCoSo
 
                 string flightSchedule = CreateNewFlightsAndTime();
                 string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
+                int columns = 3;
 
                 Console.WriteLine("\tCHỌN LOẠI MÁY BAY:");
-                int columns = 3;
                 for (int i = 0; i < planeTypes.Length; i++)
                 {
                     Console.Write($"\t{i + 1,-3} {planeTypes[i][0],-20}");
@@ -106,8 +106,6 @@ namespace ThucTapCoSo
                 {
                     Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
                 }
-
-
                 string gate = r1.RandomFlightNumbGen(1, 30);
                 double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
                 double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
@@ -125,11 +123,14 @@ namespace ThucTapCoSo
                 }
                 Console.WriteLine($"\nĐã tạo thành công chuyến bay từ {chosenDestinations[0][0]} đến {chosenDestinations[1][0]}\n");
             }
+
             else
             {
                 // Xử lý trường hợp không thể chuyển đổi thành công
                 Console.WriteLine("Lỗi chuyển đổi tọa độ cho chuyến bay " + (flightNumber));
             }
+
+
         }
         public void EditFlight(string ID, string idAdmin, DateTime date)
         {
