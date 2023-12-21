@@ -89,9 +89,9 @@ namespace ThucTapCoSo
                                     Console.Write("\tEMAIL :\t");
                                     email = Console.ReadLine();
                                     Customer c = new Customer();
-                                    while (c.IsUniqueData(email) || !c.IsValidEmail(email))
+                                    while (!c.IsValidEmail(email))
                                     {
-                                        Console.WriteLine("ĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
+                                        Console.WriteLine("ĐỊA CHỈ EMAIL KHÔNG HỢP LỆ");
                                         Console.Write("EMAIL :\t");
                                         email = Console.ReadLine();
                                     }
@@ -125,9 +125,9 @@ namespace ThucTapCoSo
                                     Console.Write("\tEMAIL :\t");
                                     email = Console.ReadLine();
                                     Customer c = new Customer();
-                                    while (c.IsUniqueData(email) || !c.IsValidEmail(email))
+                                    while (!c.IsValidEmail(email))
                                     {
-                                        Console.WriteLine("ĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
+                                        Console.WriteLine("ĐỊA CHỈ EMAIL ĐÃ KHÔNG HỢP LỆ");
                                         Console.Write("EMAIL :\t");
                                         email = Console.ReadLine();
                                     }
@@ -350,7 +350,7 @@ namespace ThucTapCoSo
             DateTime date;
             while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out date))
             {
-                Console.Write("\tVUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
+                Console.Write("\tVUI LÒNG NHẬP NGÀY KHỞI HÀNH ĐÚNG ĐỊNH DẠNG: \t");
             }
             Console.WriteLine();
             Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
