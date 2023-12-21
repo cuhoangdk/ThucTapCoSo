@@ -24,14 +24,13 @@ namespace ThucTapCoSo
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
 
-            string filePathCus = Path.Combine(datatxt, "Customer.txt");
             string filePathFl = Path.Combine(datatxt, "FlightScheduler.txt");
             string filePathTicketReceipt = Path.Combine(datatxt, "TicketReceipt.txt");
 
-            string[] customer = File.ReadAllLines(filePathCus);
             string[] flight = File.ReadAllLines(filePathFl);
 
             bool isFound = false;
+            bool checkTicket = false;
             DateTime now = DateTime.Now;
             int numOfTickets;
             string flightToBeBooked;
@@ -63,86 +62,110 @@ namespace ThucTapCoSo
                     }
                 }
 
-                for (int count=0; count<numOfTickets; count++)
+                for (int i = 0; i < flight.Length; i++)
                 {
-                    Console.Write("\tHỌ VÀ TÊN:\t");
-                    string name = Console.ReadLine();
-                    Console.Write("\tEMAIL :\t");
-                    string email = Console.ReadLine();
-                    Customer c = new Customer();
-                    while (c.IsUniqueData(email) || !c.IsValidEmail(email))
-                    {
-                        Console.WriteLine("ĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
-                        Console.Write("EMAIL :\t");
-                        email = Console.ReadLine();
-                    }
-                    Console.Write("\tSỐ ĐIỆN THOẠI:\t");
-                    string phone = Console.ReadLine();
-                    Console.Write("\tĐỊA CHỈ:\t");
-                    string address = Console.ReadLine();
-                    Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
-                    DateTime birth;
-                    while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
-                    {
-                        Console.Write("VUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
-                    }
+                    string[] dataFlight = flight[i].Split(';');
 
-                    for (int i = 0; i < flight.Length; i++)
+                    if (dataFlight[1].Equals(flightToBeBooked) && dataFlight[0] == "1")
                     {
-                        string[] dataFlight = flight[i].Split(';');
-                        if (dataFlight[1].Equals(flightToBeBooked) && dataFlight[0] == "1")
+                        isFound = true;
+
+                        for (int count = 1; count <= numOfTickets; count++)
                         {
-                            isFound = true;
-                            //
-                            for (int j = 0; j < customer.Length; j++)
-                            {
-                                string[] dataCustomer = customer[j].Split(';');
-                                if (dataCustomer[1].Equals(userID))
-                                {
-                                    int availableECOSeats = int.Parse(dataFlight[3]);
-                                    int availableBSNSeats = int.Parse(dataFlight[2]);
+                            string name, email, phone, address;
+                            DateTime birth;
 
-                                    if (ticketType == "ECO")
+                            if(ticketType == "ECO")
+                            {
+                                int availableECOSeats = int.Parse(dataFlight[3]);
+
+                                if (availableECOSeats >= numOfTickets)
+                                {
+                                    checkTicket = true;
+                                    Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
+
+                                    Console.Write("\tHỌ VÀ TÊN:\t");
+                                    name = Console.ReadLine();
+                                    Console.Write("\tEMAIL :\t");
+                                    email = Console.ReadLine();
+                                    Customer c = new Customer();
+                                    while (c.IsUniqueData(email) || !c.IsValidEmail(email))
                                     {
-                                        if (availableECOSeats >= numOfTickets)
-                                        {
-                                            dataFlight[3] = Convert.ToString(availableECOSeats - numOfTickets);
-                                            flight[i] = string.Join(";", dataFlight);
-                                            File.WriteAllLines(filePathFl, flight);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine($"Không đủ chỗ ngồi hạng {ticketType} cho Chuyến bay \"{flightToBeBooked.ToUpper()}\"...");
-                                        }
+                                        Console.WriteLine("ĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
+                                        Console.Write("EMAIL :\t");
+                                        email = Console.ReadLine();
                                     }
-                                    else if (ticketType == "BSN")
+                                    Console.Write("\tSỐ ĐIỆN THOẠI:\t");
+                                    phone = Console.ReadLine();
+                                    Console.Write("\tĐỊA CHỈ:\t");
+                                    address = Console.ReadLine();
+                                    Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
+                                    while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
                                     {
-                                        if (availableBSNSeats >= numOfTickets)
-                                        {
-                                            dataFlight[2] = Convert.ToString(availableBSNSeats - numOfTickets);
-                                            flight[i] = string.Join(";", dataFlight);
-                                            File.WriteAllLines(filePathFl, flight);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine($"Không đủ chỗ ngồi hạng {ticketType} cho Chuyến bay \"{flightToBeBooked.ToUpper()}\"...");
-                                        }
+                                        Console.Write("VUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
                                     }
-                                    break;
+                                    using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
+                                    {
+                                        write.WriteLine($"{now};Mã chỗ;{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
+                                    }
+                                    dataFlight[3] = Convert.ToString(availableECOSeats - 1);
                                 }
                             }
+                            else if( ticketType == "BSN")
+                            {
+                                int availableBSNSeats = int.Parse(dataFlight[2]);
+
+                                if (availableBSNSeats >= numOfTickets)
+                                {
+                                    checkTicket = true;
+                                    Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
+
+                                    Console.Write("\tHỌ VÀ TÊN:\t");
+                                    name = Console.ReadLine();
+                                    Console.Write("\tEMAIL :\t");
+                                    email = Console.ReadLine();
+                                    Customer c = new Customer();
+                                    while (c.IsUniqueData(email) || !c.IsValidEmail(email))
+                                    {
+                                        Console.WriteLine("ĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
+                                        Console.Write("EMAIL :\t");
+                                        email = Console.ReadLine();
+                                    }
+                                    Console.Write("\tSỐ ĐIỆN THOẠI:\t");
+                                    phone = Console.ReadLine();
+                                    Console.Write("\tĐỊA CHỈ:\t");
+                                    address = Console.ReadLine();
+                                    Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
+                                    while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
+                                    {
+                                        Console.Write("VUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
+                                    }
+                                    
+                                    using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
+                                    {
+                                        write.WriteLine($"{now};Mã chỗ;{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
+                                    }
+
+                                    dataFlight[2] = Convert.ToString(availableBSNSeats - 1);
+                                }
+                            }
+                            flight[i] = string.Join(";", dataFlight);
                         }
+                        break;
                     }
-                    using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
-                    {
-                        write.WriteLine($"{now};Mã chỗ;{userID};{flightToBeBooked};{ticketType};{name};{birth};{phone};{address}");
-                    }
-                    Console.WriteLine($"\n {new string(' ', 30)} Bạn đã đặt {numOfTickets} vé {ticketType} cho Chuyến bay \"{flightToBeBooked.ToUpper()}\"...");
                 }
-                //
                 if (!isFound)
                 {
                     Console.WriteLine($"Số hiệu không hợp lệ...! Không tìm thấy chuyến bay với ID \"{flightToBeBooked}\"...");
+                }
+                if (checkTicket)
+                {
+                    File.WriteAllLines(filePathFl, flight);
+                    Console.WriteLine($"\n {new string(' ', 30)} Bạn đã đặt {numOfTickets} vé {ticketType} cho Chuyến bay \"{flightToBeBooked.ToUpper()}\"...");
+                }
+                else
+                {
+                    Console.WriteLine($"Không đủ chỗ ngồi hạng {ticketType} cho Chuyến bay \"{flightToBeBooked.ToUpper()}\"...");
                 }
             }
         }
@@ -429,57 +452,72 @@ namespace ThucTapCoSo
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
 
-            string filePathTR = Path.Combine(datatxt, "TicketReceipt.txt");
             string filePathCustomer = Path.Combine(datatxt, "Customer.txt");
             string filePathFlight = Path.Combine(datatxt, "FlightScheduler.txt");
+            string filePathTR = Path.Combine(datatxt, "TicketReceipt.txt");
 
+            string[] Customer = File.ReadAllLines(filePathCustomer);
             string[] flight = File.ReadAllLines(filePathFlight);
             string[] TicketReceipt = File.ReadAllLines(filePathTR);
-            string[] Customer = File.ReadAllLines(filePathCustomer);
 
-            //in ra console user có những chuyến bay nào
-            Console.WriteLine();
-            Console.WriteLine("+------+-----------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+");
-            Console.WriteLine("| STT  | LỊCH BAY                    | MÃ CHUYẾN | SỐ VÉ            | KHỞI HÀNH             | ĐIỂM ĐẾN               | THƯỜI GIAN HẠ CÁNH          |THỜI GIAN BAY| CỔNG   | TRẠNG THÁI       |");
-            Console.WriteLine("+------+-----------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+");
+            Dictionary<string, List<string[]>> user_receipt = new Dictionary<string, List<string[]>>();
+
+            foreach (string line in TicketReceipt)
+            {
+                string[] data = line.Split(';');
+                string key = data[3]; // Sử dụng tên chuyến bay làm key
+
+                if (!user_receipt.ContainsKey(key))
+                {
+                    user_receipt[key] = new List<string[]>();
+                }
+
+                user_receipt[key].Add(data);
+            }
 
             int stt = 0;
-
-            for(int i = 0; i<TicketReceipt.Length; i++)
+            foreach (var idFL in user_receipt)
             {
-                string[] dataTR = TicketReceipt[i].Split(';');
-                //
-                if (userID.Equals(dataTR[2]))
+                string id = idFL.Key;
+                List<string[]> customerDataList = idFL.Value;
+                bool shouldDisplayHeader = true;
+
+                foreach (var dataTR in customerDataList)
                 {
                     for (int j = 0; j < Customer.Length; j++)
                     {
-                        string[] dataC = Customer[j].Split(';');
-
-                        if (userID.Equals(dataC[1]) && dataC[0] == "1")
+                        string[] dataCustomer = Customer[j].Split(';');
+                        for (int i = 0; i < flight.Length; i++)
                         {
-                            for(int h = 0; h<flight.Length; h++)
+                            string[] dataFlight = flight[i].Split(';');
+
+                            if (userID.Equals(dataCustomer[1]) && dataTR[2].Equals(dataCustomer[1]) && id.Equals(dataFlight[1]) && dataFlight[0] == "1")
                             {
-                                string[] dataF = flight[h].Split(';');
-                                if (dataF[1].Equals(dataTR[1]))
+                                Flight fl = new Flight();
+                                if (shouldDisplayHeader)
                                 {
-                                    Flight fl = new Flight();
-                                    Console.WriteLine($"| {stt + 1,-5}| {dataF[4],-27} | {dataF[1],-9} | {dataTR[3],-1} {dataTR[4],-13}  | {dataF[5],-21} | {dataF[6],-22} | {fl.FetchArrivalTime(dataF[4], dataF[7]),-27} | {dataF[7],-11} | {dataF[8],-6} | {FlightStatus(dataF[1]),-17}|");
-                                    Console.WriteLine($"+------+-----------------------------+-----------+------------------+-----------------------+------------------------+-----------------------------+-------------+--------+------------------+");
-                                    stt++;
+                                    Console.WriteLine();
+                                    Console.WriteLine($" Chuyến bay đi từ {dataFlight[5]} đến {dataFlight[6]} vào ngày {ConvertToDate(dataFlight[4])}");
+                                    Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                                    Console.WriteLine($"{new string(' ', 10)}| STT         | Mã khách hàng | Tên khách hàng                   | Ngày sinh  | Email                       | Địa chỉ                        | Số điện thoại           | Số vé đã đặt | Tổng tiền vé $ |");
+                                    Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                                    shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
                                 }
+                                // In thông tin của mỗi khách hàng trong nhóm
+                                Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-11} | {dataCustomer[1],-13} | {dataCustomer[2],-32} | {dataCustomer[7],-10} | {dataCustomer[3],-27} | {dataCustomer[6],-30} | {dataCustomer[5],-23} | Chưa làm | Chưa làm |");
+                                Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                                stt++;
                             }
                         }
                     }
                 }
             }
-
             if (stt == 0)
             {
-                Console.WriteLine($"Không có chuyến bay được đăng ký cho người dùng với ID {userID}.");
+                Console.WriteLine($"Không có chuyến bay được đăng kí bởi {userID}");
             }
-            
         }
-        
+
         public void DisplayRegisteredUsersForAllFlight()
         {
             Console.WriteLine();
