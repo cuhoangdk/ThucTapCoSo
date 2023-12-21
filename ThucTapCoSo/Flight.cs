@@ -99,8 +99,8 @@ namespace ThucTapCoSo
                 {
 
                     flightType = planeTypes[choose - 1][0];
-                    ecoSlots = planeTypes[choose - 1][1];
-                    bsnSlots = planeTypes[choose - 1][2];
+                    bsnSlots = planeTypes[choose - 1][1];
+                    ecoSlots = planeTypes[choose - 1][2];
                 }
                 else
                 {
@@ -238,11 +238,18 @@ namespace ThucTapCoSo
             DisplayFlightSchedule();
         }
 
-        public float CalculatePrice(string mile)
+        public float CalculatePrice(string ticketType, string mile)
         {
-            //giá trung bình 0.1$/mile
-            float price = (float)Math.Round((double.Parse(mile) * 0.10),2);
-            return price;
+            if(ticketType == "BSN")
+            {
+                float price = (float)Math.Round((double.Parse(mile) * 1), 2);
+                return price;
+            }
+            else
+            {
+                float price = (float)Math.Round((double.Parse(mile) * 0.10), 2);
+                return price;
+            }
         }
 
         public override string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2)
@@ -276,9 +283,9 @@ namespace ThucTapCoSo
             Console.OutputEncoding = Encoding.Unicode;
 
 			Console.WriteLine();
-            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
-            Console.Write("| STT  | THỜI GIAN CẤT CÁNH        | MÃ CHUYẾN   | SỐ GHẾ TRỐNG                 | KHỞI HÀNH             | ĐIẾM ĐẾN               | THỜI GIAN HẠ CÁNH         |THỜI GIAN BAY|  CỔNG  | QUÃNG ĐƯỜNG(MILES/KMS) | GIÁ VÉ $ |\n");
-            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
+            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
+            Console.Write("| STT  | THỜI GIAN CẤT CÁNH        | MÃ CHUYẾN   | SỐ GHẾ TRỐNG                 | KHỞI HÀNH             | ĐIẾM ĐẾN               | THỜI GIAN HẠ CÁNH         |THỜI GIAN BAY|  CỔNG  | QUÃNG ĐƯỜNG(MILES/KMS) | GIÁ VÉ $ (BSN / ECO) |\n");
+            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -295,8 +302,8 @@ namespace ThucTapCoSo
                 {
                     continue;
                 }
-                Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4],data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice(data[9]),-8} |");
-                Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------+\n");
+                Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4],data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice("BSN",data[9]),-8} /  {CalculatePrice("ECO", data[9]),-8} |");
+                Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
                 stt++;
             }
         }
@@ -393,5 +400,7 @@ namespace ThucTapCoSo
         public string FromWhichCity => fromWhichCity;
         public string Gate => gate;
         public string ToWhichCity => toWhichCity;
+
+        public static string[][] PlaneTypes => planeTypes;
     }
 }
