@@ -284,7 +284,7 @@ namespace ThucTapCoSo
             for (int i = 0; i < line.Length; i++)
             {
                 string[] data = line[i].Split(';');
-                if (data[2].Equals(emailID))
+                if (data[3].Equals(emailID))
                 {
                     isUnique = true;
                     break;

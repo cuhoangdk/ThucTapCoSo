@@ -172,23 +172,7 @@ namespace ThucTapCoSo
                         data[6] = chosenDestinations[1][0];
                         data[9] = distanceBetweenTheCities[0];
                         data[10] = distanceBetweenTheCities[1];
-                        //
-                        Console.Write("Nhập số ghế thương gia mới của chuyến bay:\t");
-                        int BSNSeats;
-                        while (!int.TryParse(Console.ReadLine(), out BSNSeats) || BSNSeats < 10 || BSNSeats > 50)
-                        {
-                            Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 10 ghế và nhiều nhất 50 ghế). Nhập giá trị lại :\t");
-                        }
-                        data[2] = BSNSeats.ToString();
-                        //
-                        int ECOSeats;
-                        Console.Write("Nhập số ghế phổ thông mới của chuyến bay:\t");
-                        while (!int.TryParse(Console.ReadLine(), out ECOSeats) || ECOSeats < 75 || ECOSeats > 500)
-						{
-							Console.Write("LỖI!! Vui lòng nhập số ghế đúng định dạng (ít nhất 75 ghế và nhiều nhất 500 ghế). Nhập giá trị lại :\t");
-						}
-						data[3] = ECOSeats.ToString();
-
+                        
                         Console.Write("Nhập cổng mới cho chuyến bay:\t");
                         data[8] = Console.ReadLine();
                         data[7] = CalculateFlightTime(double.Parse(data[9]));
