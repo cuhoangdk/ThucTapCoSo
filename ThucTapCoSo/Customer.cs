@@ -82,7 +82,7 @@ namespace ThucTapCoSo
             string address = Console.ReadLine();
             Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
             DateTime birth;
-            while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
+            while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
             {
                 Console.Write("\tVUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
 			}
@@ -135,26 +135,35 @@ namespace ThucTapCoSo
                     Console.Write("\tĐỊA CHỈ:\t");
                     string address = Console.ReadLine();
                     string input;
-                    do
+                    Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
+                    input = Console.ReadLine();
+                    DateTime birth = DateTime.Now;
+                    while (true)
                     {
-                        Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
-                        input = Console.ReadLine();
-
-                        if (input == "")
+                        if (string.IsNullOrWhiteSpace(input))
                         {
-                            break; // Thoát khỏi vòng lặp nếu người dùng không nhập gì cả
+                            // Người dùng không nhập gì hoặc chỉ nhập khoảng trắng, bỏ qua và thoát khỏi vòng lặp.
+                            break;
                         }
 
-                        if (!DateTime.TryParseExact(input, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
+                        if (DateTime.TryParseExact(input, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
+                        {
+                            // Ngày sinh hợp lệ, thoát khỏi vòng lặp.
+                            break;
+                        }
+                        else
                         {
                             Console.Write("\tVUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
+                            input = Console.ReadLine();
                         }
-                    } while (input != "");
+                    }
+
+
                     //data0: userID; data1: name; data2: email; data3: pass; data4: phone; data5: address; data6: age
                     // Ghi vô file
                     if (name != "")
                     {
-                        data[2] = "";
+                        data[2] = name;
 
                     }
                     if (email != "")
