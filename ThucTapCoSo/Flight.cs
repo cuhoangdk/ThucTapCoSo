@@ -14,7 +14,7 @@ namespace ThucTapCoSo
         private readonly string flightSchedule;
         private readonly string flightNumber;
         private readonly string fromWhichCity;
-        private string gate;
+        private readonly string gate;
         private readonly string toWhichCity;
         private readonly double distanceInMiles;
         private readonly double distanceInKm;
@@ -94,8 +94,7 @@ namespace ThucTapCoSo
                         Console.WriteLine(); // Xuống dòng sau mỗi số cột
                     }
                 }
-                int choose;
-                if (int.TryParse(Console.ReadLine(), out choose) && (choose > 0 && choose <= planeTypes.Length))
+                if (int.TryParse(Console.ReadLine(), out int choose) && (choose > 0 && choose <= planeTypes.Length))
                 {
 
                     flightType = planeTypes[choose - 1][0];
