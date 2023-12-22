@@ -60,9 +60,9 @@ namespace ThucTapCoSo
 
             string[][] chosenDestinations = r1.SpecificallyDestinations();
             int flag = 1;
-            string flightType = "Unknown";
-            string ecoSlots = "";
-            string bsnSlots = "";
+            string flightType;
+            string ecoSlots;
+            string bsnSlots;
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));

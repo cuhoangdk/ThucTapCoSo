@@ -127,7 +127,7 @@ namespace ThucTapCoSo
                                 {
                                     bookingAndReserving.DisplayArtWork(6);
                                     c1.DisplayCustomersData(false);
-                                    Console.Write("\n\nNhập ID của người dùng để hiển thị tất cả các chuyến bay đã đăng ký bởi người đó...");
+                                    Console.Write("\n\n\tTẤT CẢ CÁC CHUYẾN BAY ĐƯỢC ĐẶT CHỖ BỞI NGƯỜI DÙNG CÓ ID : ");
                                     string id = Console.ReadLine();
                                     bookingAndReserving.DisplayFlightsRegisteredByOneUser(id);
                                 }

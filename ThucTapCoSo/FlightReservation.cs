@@ -16,7 +16,7 @@ namespace ThucTapCoSo
 {
     internal class FlightReservation : Generator,IDisplayClass
     {
-        public string TicketID(string plane, string seatsEmpty, string ticketType)
+        public string SeatID(string plane, string seatsEmpty, string ticketType)
         {
             string[][] planeType = Flight.PlaneTypes;
             int id;
@@ -40,6 +40,7 @@ namespace ThucTapCoSo
         {
 			Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
+            Random rand = new Random();
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -94,14 +95,14 @@ namespace ThucTapCoSo
                         {
                             string name, email, phone, address;
                             DateTime birth;
-
-                            if(ticketType == "ECO")
+                            int rtID = rand.Next(10000000, 99999999);
+                            if (ticketType == "ECO")
                             {
                                 int availableECOSeats = int.Parse(dataFlight[3]);
 
                                 if (availableECOSeats >= numOfTickets)
                                 {
-                                    string tiketID = TicketID(dataFlight[11], dataFlight[3], ticketType);
+                                    string tiketID = SeatID(dataFlight[11], dataFlight[3], ticketType);
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
@@ -143,7 +144,7 @@ namespace ThucTapCoSo
 									}
 									using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
                                     {
-                                        write.WriteLine($"{now};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
+                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
                                     }
                                     dataFlight[3] = Convert.ToString(availableECOSeats - 1);
                                 }
@@ -167,7 +168,7 @@ namespace ThucTapCoSo
 
                                 if (availableBSNSeats >= numOfTickets)
                                 {
-                                    string tiketID = TicketID(dataFlight[11], dataFlight[2], ticketType);
+                                    string tiketID = SeatID(dataFlight[11], dataFlight[2], ticketType);
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
@@ -210,7 +211,7 @@ namespace ThucTapCoSo
 
 									using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
                                     {
-                                        write.WriteLine($"{now};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
+                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
                                     }
 
                                     dataFlight[2] = Convert.ToString(availableBSNSeats - 1);
@@ -287,10 +288,10 @@ namespace ThucTapCoSo
                         {
                             string[] dataTR = TicketReceipt[i].Split(';');
 
-                            if (ticketIdCancel.Equals(dataTR[1]) && userID.Equals(dataTR[2]) && flightNum.Equals(dataTR[3]))
+                            if (ticketIdCancel.Equals(dataTR[2]) && userID.Equals(dataTR[3]) && flightNum.Equals(dataTR[4]))
                             {
                                 ticketCheck = true;								
-								string ticketType = dataTR[4];
+								string ticketType = dataTR[5];
                                 int ticketsToBeReturned = 1;								
 								if (ticketType == "BSN")
                                 {
@@ -439,28 +440,12 @@ namespace ThucTapCoSo
                 return "Không thể chuyển đổi";
             }
         }
-        string FlightStatus(string fightNo)
+        string FlightStatus(string flag, string date)
         {
-			Console.OutputEncoding = Encoding.Unicode;
-            //Lấy vị trí hiện tại
-            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            //tìm folder datatxt: nơi lưu dữ liệu
-            string datatxt = Path.Combine(current, "datatxt");
-
-            string fileFlight = Path.Combine(datatxt, "FlightScheduler.txt");
-            string[] Flight = File.ReadAllLines(fileFlight);
-
-            bool isFlightAvailable = false;
-            for(int i=0; i<Flight.Length; i++)
-            {
-                string[] dataFlight = Flight[i].Split(';');
-                if (dataFlight[1].Equals(fightNo) && dataFlight[0]=="1")
-                {
-                    isFlightAvailable = true;
-                    break;
-                }
-            }
-            return isFlightAvailable ? "Theo Lịch Trình" : "   Hủy Bỏ      ";
+            if (flag == "0") return "ĐÃ XÓA";
+            DateTime datefile = DateTime.ParseExact(date, "ddd, dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+            if (datefile < DateTime.Now) return "ĐÃ CẤT CÁNH";
+            else return "THEO LỊCH TRÌNH";
         }
         public float TotalPrice(int numOfTicket, float price)
         {
@@ -489,7 +474,7 @@ namespace ThucTapCoSo
             foreach (string line in TicketReceipt)
             {
                 string[] data = line.Split(';');
-                string key = $"{data[2]}_{data[3]}_{data[4]}";  //  userID_flightNum_ticketType
+                string key = $"{data[1]}_{data[3]}_{data[4]}_{data[5]}";  //  ma hoa don_userID_flightNum_ticketType
 
                 if (user_receipt.ContainsKey(key))
                 {
@@ -500,38 +485,38 @@ namespace ThucTapCoSo
                     user_receipt[key] = 1;
                 }
             }
-
+            int stt = 1;
             bool isFound = false;
-
+            bool shouldDisplayHeader = true;
             foreach (var key in user_receipt)
             {
-                string[] dataTR = key.Key.Split('_');   //  userID_flightNum_ticketType
-                bool shouldDisplayHeader = true;
+                string[] dataTR = key.Key.Split('_');   //   ma hoa don_userID_flightNum_ticketType
 
                 for (int j = 0; j < Customer.Length; j++)
                 {
                     string[] dataCustomer = Customer[j].Split(';');
-                    if (userID.Equals(dataTR[0]) && dataTR[0].Equals(dataCustomer[1]))
+                    if (userID.Equals(dataTR[1]) && dataTR[1].Equals(dataCustomer[1]))
                     {
                         for (int i = 0; i < flight.Length; i++)
                         {
                             string[] dataFlight = flight[i].Split(';');
-                            if (dataTR[1].Equals(dataFlight[1]) && dataFlight[0] == "1")
+                            if (dataTR[2].Equals(dataFlight[1]) && dataFlight[0] == "1")
                             {
                                 isFound = true;
                                 Flight fl = new Flight();
                                 if (shouldDisplayHeader)
                                 {
                                     Console.WriteLine();
-                                    Console.WriteLine($" Chuyến bay {dataTR[1]} khởi hành từ {dataFlight[5]} đến {dataFlight[6]} vào ngày {ConvertToDate(dataFlight[4])}");
-                                    Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
-                                    Console.WriteLine($"{new string(' ', 10)}|             | Mã khách hàng | Tên khách hàng                   | Ngày sinh  | Email                       | Địa chỉ                        | Số điện thoại           | Số vé đã đặt | Tổng tiền vé $ |");
-                                    Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                                    Console.Write("\t+------+-------------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+--------------+----------------+-----------------+\n");
+                                    Console.Write("\t| STT  | MÃ ĐẶT CHỖ  | MÃ CHUYẾN   | THỜI GIAN CẤT CÁNH        | KHỞI HÀNH              | ĐIẾM ĐẾN              | THỜI GIAN BAY |  CỔNG  | TỔNG SỐ VÉ   | TỔNG TIỀN $    | TRẠNG THÁI      |\n");
+                                    Console.Write("\t+------+-------------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+--------------+----------------+-----------------+\n");
                                     shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
                                 }
-                                Console.WriteLine($"{new string(' ', 10)}| {"",-11} | {dataCustomer[1],-13} | {dataCustomer[2],-32} | {dataCustomer[7],-10} | {dataCustomer[3],-27} | {dataCustomer[6],-30} | {dataCustomer[5],-23} | {key.Value} {dataTR[2],-10} | {fl.CalculatePrice(dataTR[2],dataFlight[9]),-14} |");
-                                Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+----------------+");
+                                Console.Write($"\t| {stt,-4} | {dataTR[0],-11} | {dataFlight[1],-11} | {dataFlight[4],-25} | {dataFlight[5],-22} | {dataFlight[6],-21} | {dataFlight[7],-8}  Hrs | {dataFlight[8],-6} | {key.Value} {dataTR[3],-10} | {fl.CalculatePrice(dataTR[3],dataFlight[9]),-14} | {FlightStatus(dataFlight[0], dataFlight[4]),-15} |\n");
+                                Console.Write("\t+------+-------------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+--------------+----------------+-----------------+\n");
+                                stt++; 
                             }
+
                         }
                         break;
                     }
@@ -539,14 +524,14 @@ namespace ThucTapCoSo
             }
             if (!isFound)
             {
-                Console.WriteLine($"Không có chuyến bay được đăng kí bởi {userID}");
+                Console.WriteLine($"\tUSERID {userID} CHƯA ĐĂNG KÍ CHUYẾN BAY NÀO");
             }
         }
 
         public void DisplayRegisteredUsersForAllFlight()
         {
             Console.WriteLine();
-            Console.WriteLine($"\n{new string('+', 30)} Hiển thị tất cả chuyến bay đã được đăng ký\" {new string('+', 30)}\n");
+            Console.WriteLine($"\n{new string('+', 30)} TẤT CẢ CÁC CHUYẾN BAY ĐÃ ĐƯỢC ĐĂNG KÍ\" {new string('+', 30)}\n");
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -567,7 +552,7 @@ namespace ThucTapCoSo
             foreach (string line in TicketReceipt)
             {
                 string[] data = line.Split(';');
-                string flightName = data[3]; // Sử dụng tên chuyến bay làm key
+                string flightName = data[4]; // Sử dụng tên chuyến bay làm key
                 //string flightName = $"{data[3]}_{data[4]}";
 
                 if (!flightGroups.ContainsKey(flightName))
@@ -591,25 +576,25 @@ namespace ThucTapCoSo
                     for(int j=0; j<Customer.Length; j++)
                     {
                         string[] dataCustomer = Customer[j].Split(';');
-                        if ( dataTR[2].Equals(dataCustomer[1]))
+                        if ( dataTR[3].Equals(dataCustomer[1]))
                         {
                             for (int i = 0; i < flight.Length; i++)
                             {
                                 string[] dataFlight = flight[i].Split(';');
 
-                                if (dataTR[3].Equals(dataFlight[1]) && dataFlight[0] == "1" && dataCustomer[0] == "1")
+                                if (dataTR[4].Equals(dataFlight[1]) && dataFlight[0] == "1" && dataCustomer[0] == "1")
                                 {
                                     if (shouldDisplayHeader)
                                     {
                                         Console.WriteLine();
                                         Console.WriteLine($"\tChuyến bay {dataFlight[1]} khởi hành từ {dataFlight[5]} đến {dataFlight[6]} vào {dataFlight[4]}");
                                         Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
-                                        Console.WriteLine($"{new string(' ', 10)}| STT | Số ghế        | Tên hành khách                   | Ngày sinh  | Email                       | Địa chỉ                        | Số điện thoại           | Loại vé      |");
+                                        Console.WriteLine($"{new string(' ', 10)}| STT | SỐ GHẾ        | TÊN HÀNH KHÁCH                   | NGÀY SINH  | EMAIL                       | ĐỊA CHỈ                        | SỐ ĐIỆN THOẠI           | LOẠI VÉ      |");
                                         Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
                                         shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
                                     }
                                     // In thông tin của mỗi khách hàng trong nhóm
-                                    Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-3} | {dataTR[1],-13} | {dataTR[5],-32} | {dataTR[6],-10} | {dataTR[7],-27} | {dataTR[9],-30} | {dataTR[8],-23} | {dataTR[4],-12} |");
+                                    Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-3} | {dataTR[2],-13} | {dataTR[6],-32} | {dataTR[7],-10} | {dataTR[8],-27} | {dataTR[10],-30} | {dataTR[9],-23} | {dataTR[5],-12} |");
                                     Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
                                     stt++;
                                 }
@@ -638,10 +623,10 @@ namespace ThucTapCoSo
                 if (dataF[0] == "1" && flightNum.Equals(dataF[1]))
                 {
                     Console.WriteLine();
-                    Console.WriteLine($"{new string('+', 30)} Hiển thị tất cả vé của chuyến bay {flightNum} được đặt bởi {userID} {new string('+', 30)}");
-                    Console.WriteLine($"{new string(' ', 10)}+-----+-------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+---------+");
-                    Console.WriteLine($"{new string(' ', 10)}| STT | Mã vé       | Tên khách hàng                   | Ngày sinh  | Email  \t\t            | Địa chỉ\t\t             | Số điện thoại\t       | Loại vé |");
-                    Console.WriteLine($"{new string(' ', 10)}+-----+-------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+---------+");
+                    Console.WriteLine($"{new string('+', 30)} Hiển thị tất cả chỗ ngồi của chuyến bay {flightNum} được đặt bởi {userID} {new string('+', 30)}");
+                    Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                    Console.WriteLine($"{new string(' ', 10)}| STT | SỐ GHẾ        | TÊN HÀNH KHÁCH                   | NGÀY SINH  | EMAIL                       | ĐỊA CHỈ                        | SỐ ĐIỆN THOẠI           | LOẠI VÉ      |");
+                    Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
                     break;
                 }
             }
@@ -657,23 +642,23 @@ namespace ThucTapCoSo
                 {
                     string[] dataF = Flight[j].Split(';');
 
-                    if (userID.Equals(dataTR[2]) && dataF[1].Equals(flightNum) && dataF[0] == "1" && flightNum.Equals(dataTR[3]))
+                    if (userID.Equals(dataTR[2]) && dataF[1].Equals(flightNum) && dataF[0] == "1" && flightNum.Equals(dataTR[4]))
                     {
                         isFound = true;
                         //
-                        Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-3} | {dataTR[1],-11} | {dataTR[5],-32} | {dataTR[6],-10} | {dataTR[7],-27} | {dataTR[9],-30} | {dataTR[8],-23} | {dataTR[4],-7} |");
-                        Console.WriteLine($"{new string(' ', 10)}+-----+-------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+---------+");
+                        Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-3} | {dataTR[2],-13} | {dataTR[6],-32} | {dataTR[7],-10} | {dataTR[8],-27} | {dataTR[10],-30} | {dataTR[9],-23} | {dataTR[5],-12} |");
+                        Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
                         stt++;
                     }
                 }
             }
             if (!isFound)
             {
-                Console.WriteLine($"\nKhông tìm thấy chuyến bay {flightNum}");
+                Console.WriteLine($"\n\tCHUYẾN BAY CÓ MÃ SỐ {flightNum} KHÔNG TỒN TẠI");
             }
             if(stt == 0)
             {
-                Console.WriteLine($"\nBạn chưa đăng kí chuyến bay này.");
+                Console.WriteLine($"\n\tBẠN CHƯA ĐĂNG KÍ CHUYẾN BAY NÀY");
             }
         }
         public void DisplayRegisteredUsersForASpecificFlight(string flightNum)
@@ -698,9 +683,9 @@ namespace ThucTapCoSo
                 {
                     Console.WriteLine();
                     Console.WriteLine($"\n{new string('+', 30)} Hiển thị Khách hàng đã đăng ký cho Chuyến bay số \"{flightNum,-6}\" {new string('+', 30)}\n");
-                    Console.WriteLine($"{new string(' ', 10)}+-----+-------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+---------+");
-                    Console.WriteLine($"{new string(' ', 10)}| STT | Mã vé       | Tên khách hàng                   | Ngày sinh  | Email  \t\t            | Địa chỉ\t\t             | Số điện thoại\t       | Loại vé |");
-                    Console.WriteLine($"{new string(' ', 10)}+-----+-------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+---------+");
+                    Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                    Console.WriteLine($"{new string(' ', 10)}| STT | SỐ GHẾ        | TÊN HÀNH KHÁCH                   | NGÀY SINH  | EMAIL                       | ĐỊA CHỈ                        | SỐ ĐIỆN THOẠI           | LOẠI VÉ      |");
+                    Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
                     break;
                 }
             }
@@ -715,7 +700,7 @@ namespace ThucTapCoSo
                 {
                     string[] dataF = Flight[j].Split(';');
 
-                    if (dataF[1].Equals(flightNum) && dataF[0] == "1" && flightNum.Equals(dataTR[3]))
+                    if (dataF[1].Equals(flightNum) && dataF[0] == "1" && flightNum.Equals(dataTR[4]))
                     {
                         isFound = true;
                         //
@@ -723,10 +708,10 @@ namespace ThucTapCoSo
                         {
                             string[] dataCustomer = Customer[k].Split(';');
 
-                            if (dataTR[2].Equals(dataCustomer[1]) && dataCustomer[0] == "1")
+                            if (dataTR[3].Equals(dataCustomer[1]) && dataCustomer[0] == "1")
                             {
-                                Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-3} | {dataTR[1],-11} | {dataTR[5],-32} | {dataTR[6],-10} | {dataTR[7],-27} | {dataTR[9],-30} | {dataTR[8],-23} | {dataTR[4],-7} |");
-                                Console.WriteLine($"{new string(' ', 10)}+-----+-------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+---------+");
+                                Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-3} | {dataTR[2],-13} | {dataTR[6],-32} | {dataTR[7],-10} | {dataTR[8],-27} | {dataTR[10],-30} | {dataTR[9],-23} | {dataTR[5],-12} |");
+                                Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
                                 stt++;
                             }
                         }

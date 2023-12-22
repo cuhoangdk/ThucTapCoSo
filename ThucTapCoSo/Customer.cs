@@ -271,19 +271,19 @@ namespace ThucTapCoSo
             string filePath = Path.Combine(datatxt, "Customer.txt");
 
             string[] Customers = File.ReadAllLines(filePath);
-            bool isFound = false;
 
+
+
+            bool isFound = false;
+            DisplayHeader();
             for (int i=0; i<Customers.Length; i++)
             {
                 string[] data = Customers[i].Split(';');
                 if (ID.Equals(data[1]) && data[0] == "1")
                 {
-                    Console.WriteLine($"{new string(' ', 10)}DƯỚI ĐÂY LÀ THÔNG TIN ĐẦY ĐỦ CỦA KHÁCH HÀNG\n\n\n"); //FIX
-                    DisplayHeader();
                     isFound = true;
                     Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
                     Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
-                    break;
                 }
             }
             if(!isFound)
