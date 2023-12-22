@@ -65,7 +65,11 @@ namespace ThucTapCoSo
 
             Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ CHÀO MỪNG BẠN ĐẾN VỚI CỔNG ĐĂNG KÍ CỦA KHÁCH HÀNG ++++++++++++++");
             Console.Write("\tHỌ VÀ TÊN:\t");
-            string name = Console.ReadLine();
+			string name = Console.ReadLine();
+			while (string.IsNullOrWhiteSpace(name)){
+                Console.Write("VUI LÒNG NHẬP HỌ VÀ TÊN: ");
+				name = Console.ReadLine();
+			}			
             Console.Write("\tEMAIL :\t");
             string email = Console.ReadLine();
             while (IsUniqueData(email) || !IsValidEmail(email))
@@ -76,19 +80,36 @@ namespace ThucTapCoSo
             }
             Console.Write("\tMẬT KHẨU:\t");
             string password = Console.ReadLine();
-            Console.Write("\tSỐ ĐIỆN THOẠI:\t");
-            string phone = Console.ReadLine();
-            Console.Write("\tĐỊA CHỈ:\t");
-            string address = Console.ReadLine();
-            Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
-            DateTime birth;
-            while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
-            {
-                Console.Write("\tVUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
+			while (string.IsNullOrWhiteSpace(password))
+			{
+				Console.Write("VUI LÒNG NHẬP MẬT KHẨU: ");
+				password = Console.ReadLine();
 			}
+			Console.Write("\tSỐ ĐIỆN THOẠI:\t");
+            string phone = Console.ReadLine();
+			while (string.IsNullOrWhiteSpace(phone))
+			{
+				Console.Write("VUI LÒNG NHẬP SỐ ĐIỆN THOẠI: ");
+				phone = Console.ReadLine();
+			}
+			Console.Write("\tĐỊA CHỈ:\t");
+            string address = Console.ReadLine();
+			while (string.IsNullOrWhiteSpace(address))
+			{
+				Console.Write("VUI LÒNG NHẬP ĐỊA CHỈ: ");
+				address = Console.ReadLine();
+			}
+			Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
+            DateTime birth;
+			DateTime currentDate = DateTime.Now;			
 
-            //true là dùng để ghi tiếp theo vào file .txt, StreamWriter(filePath): là dùng để ghi đè lên file cũ 
-            using (StreamWriter writer = new StreamWriter(filePath, true))
+			while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth) || birth > currentDate)
+			{				
+				Console.Write("\tVUI LÒNG NHẬP NGÀY SINH HỢP LỆ: \t");
+				
+			}
+			//true là dùng để ghi tiếp theo vào file .txt, StreamWriter(filePath): là dùng để ghi đè lên file cũ 
+			using (StreamWriter writer = new StreamWriter(filePath, true))
             {
                 writer.WriteLine($"1;{userID};{name};{email};{password};{phone};{address};{birth.ToString("dd/MM/yyyy")}");
             }
@@ -137,8 +158,9 @@ namespace ThucTapCoSo
                     string input;
                     Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
                     input = Console.ReadLine();
-                    DateTime birth = DateTime.Now;
-                    while (true)
+                    DateTime birth = DateTime.Parse(data[7]);
+					DateTime currentDate = DateTime.Now;
+					while (true)
                     {
                         if (string.IsNullOrWhiteSpace(input))
                         {
@@ -146,14 +168,14 @@ namespace ThucTapCoSo
                             break;
                         }
 
-                        if (DateTime.TryParseExact(input, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
+                        if (DateTime.TryParseExact(input, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth)|| DateTime.Parse(input) >currentDate)
                         {
                             // Ngày sinh hợp lệ, thoát khỏi vòng lặp.
                             break;
                         }
                         else
                         {
-                            Console.Write("\tVUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
+                            Console.Write("\tVUI LÒNG NHẬP NGÀY SINH ĐÚNG HỢP LỆ: \t");
                             input = Console.ReadLine();
                         }
                     }

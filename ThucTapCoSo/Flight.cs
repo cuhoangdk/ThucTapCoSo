@@ -94,18 +94,15 @@ namespace ThucTapCoSo
                         Console.WriteLine(); // Xuống dòng sau mỗi số cột
                     }
                 }
-                if (int.TryParse(Console.ReadLine(), out int choose) && (choose > 0 && choose <= planeTypes.Length))
+                int choose;
+                while (!int.TryParse(Console.ReadLine(), out choose) || choose < 0 || choose > planeTypes.Length)
                 {
-
-                    flightType = planeTypes[choose - 1][0];
-                    bsnSlots = planeTypes[choose - 1][1];
-                    ecoSlots = planeTypes[choose - 1][2];
+					Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");					
                 }
-                else
-                {
-                    Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
-                }
-                string gate = r1.RandomFlightNumbGen(1, 30);
+				flightType = planeTypes[choose - 1][0];
+				bsnSlots = planeTypes[choose - 1][1];
+				ecoSlots = planeTypes[choose - 1][2];
+				string gate = r1.RandomFlightNumbGen(1, 30);
                 double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
                 double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
                 string flightTime = CalculateFlightTime(distanceInMiles);

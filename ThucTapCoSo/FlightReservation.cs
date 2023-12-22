@@ -105,9 +105,14 @@ namespace ThucTapCoSo
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
-                                    Console.Write("\tHỌ VÀ TÊN:\t");
-                                    name = Console.ReadLine();
-                                    Console.Write("\tEMAIL :\t");
+									Console.Write("\tHỌ VÀ TÊN:\t");
+									name = Console.ReadLine();
+									while (string.IsNullOrWhiteSpace(name))
+									{
+										Console.Write("VUI LÒNG NHẬP HỌ VÀ TÊN: ");
+										name = Console.ReadLine();
+									}
+									Console.Write("\tEMAIL :\t");
                                     email = Console.ReadLine();
                                     Customer c = new Customer();
                                     while (!c.IsValidEmail(email))
@@ -118,14 +123,25 @@ namespace ThucTapCoSo
                                     }
                                     Console.Write("\tSỐ ĐIỆN THOẠI:\t");
                                     phone = Console.ReadLine();
-                                    Console.Write("\tĐỊA CHỈ:\t");
+									while (string.IsNullOrWhiteSpace(phone))
+									{
+										Console.Write("VUI LÒNG NHẬP SỐ ĐIỆN THOẠI: ");
+										phone = Console.ReadLine();
+									}
+									Console.Write("\tĐỊA CHỈ:\t");
                                     address = Console.ReadLine();
-                                    Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
-                                    while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
-                                    {
-                                        Console.Write("VUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
-                                    }
-                                    using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
+									while (string.IsNullOrWhiteSpace(address))
+									{
+										Console.Write("VUI LÒNG NHẬP ĐỊA CHỈ: ");
+										address = Console.ReadLine();
+									}
+									Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
+									DateTime currentDate = DateTime.Now;
+									while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth) || birth > currentDate)
+									{
+										Console.Write("\tVUI LÒNG NHẬP NGÀY SINH HỢP LỆ: \t");
+									}
+									using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
                                     {
                                         write.WriteLine($"{now};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
                                     }
@@ -155,28 +171,44 @@ namespace ThucTapCoSo
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
-                                    Console.Write("\tHỌ VÀ TÊN:\t");
-                                    name = Console.ReadLine();
-                                    Console.Write("\tEMAIL :\t");
-                                    email = Console.ReadLine();
-                                    Customer c = new Customer();
-                                    while (!c.IsValidEmail(email))
-                                    {
-                                        Console.WriteLine("ĐỊA CHỈ EMAIL ĐÃ KHÔNG HỢP LỆ");
-                                        Console.Write("EMAIL :\t");
-                                        email = Console.ReadLine();
-                                    }
-                                    Console.Write("\tSỐ ĐIỆN THOẠI:\t");
-                                    phone = Console.ReadLine();
-                                    Console.Write("\tĐỊA CHỈ:\t");
-                                    address = Console.ReadLine();
-                                    Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
-                                    while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
-                                    {
-                                        Console.Write("VUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
-                                    }
-                                    
-                                    using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
+									Console.Write("\tHỌ VÀ TÊN:\t");
+									name = Console.ReadLine();
+									while (string.IsNullOrWhiteSpace(name))
+									{
+										Console.Write("VUI LÒNG NHẬP HỌ VÀ TÊN: ");
+										name = Console.ReadLine();
+									}
+									Console.Write("\tEMAIL :\t");
+									email = Console.ReadLine();
+									Customer c = new Customer();
+									while (!c.IsValidEmail(email))
+									{
+										Console.WriteLine("ĐỊA CHỈ EMAIL KHÔNG HỢP LỆ");
+										Console.Write("EMAIL :\t");
+										email = Console.ReadLine();
+									}
+									Console.Write("\tSỐ ĐIỆN THOẠI:\t");
+									phone = Console.ReadLine();
+									while (string.IsNullOrWhiteSpace(phone))
+									{
+										Console.Write("VUI LÒNG NHẬP SỐ ĐIỆN THOẠI: ");
+										phone = Console.ReadLine();
+									}
+									Console.Write("\tĐỊA CHỈ:\t");
+									address = Console.ReadLine();
+									while (string.IsNullOrWhiteSpace(address))
+									{
+										Console.Write("VUI LÒNG NHẬP ĐỊA CHỈ: ");
+										address = Console.ReadLine();
+									}
+									Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
+									DateTime currentDate = DateTime.Now;
+									while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth) || birth > currentDate)
+									{
+										Console.Write("\tVUI LÒNG NHẬP NGÀY SINH HỢP LỆ: \t");
+									}
+
+									using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
                                     {
                                         write.WriteLine($"{now};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
                                     }
@@ -239,7 +271,7 @@ namespace ThucTapCoSo
             int countBSN = 0, countECO = 0;
 
             Console.Write("Nhập mã vé muốn hủy (chọn n/N để thoát):\t");
-            string ticketIdCancel = Console.ReadLine();
+            string ticketIdCancel = Console.ReadLine().ToUpper();
 
             while (ticketIdCancel.ToLower() != "n")
             {
@@ -257,17 +289,16 @@ namespace ThucTapCoSo
 
                             if (ticketIdCancel.Equals(dataTR[1]) && userID.Equals(dataTR[2]) && flightNum.Equals(dataTR[3]))
                             {
-                                ticketCheck = true;
-                                string ticketType = dataTR[4];
-                                int ticketsToBeReturned = 1;
-
-                                if (ticketType == "BSN")
+                                ticketCheck = true;								
+								string ticketType = dataTR[4];
+                                int ticketsToBeReturned = 1;								
+								if (ticketType == "BSN")
                                 {
                                     dataFlight[2] = Convert.ToString(int.Parse(dataFlight[2]) + ticketsToBeReturned);
                                     //xóa khách hàng đó ra khỏi file
                                     TicketReceipt.RemoveAt(i);
                                     countBSN++;
-                                    Console.WriteLine($"\tBạn đã hủy vé {ticketIdCancel}");
+                                    Console.WriteLine($"\tBạn đã hủy ghế {ticketIdCancel}");
                                     File.WriteAllLines(filePathTR, TicketReceipt);
                                     break;
                                 }
@@ -277,21 +308,25 @@ namespace ThucTapCoSo
                                     //xóa khách hàng đó ra khỏi file
                                     TicketReceipt.RemoveAt(i);
                                     countECO++;
-                                    Console.WriteLine($"Bạn đã hủy vé {ticketIdCancel}");
+                                    Console.WriteLine($"Bạn đã hủy ghế {ticketIdCancel}");
                                     File.WriteAllLines(filePathTR, TicketReceipt);
                                     break;
                                 }
-                            }
-                        }
-                        //cập nhật số vé có trong FlightScheduler.txt
-                        flight[j] = string.Join(";", dataFlight);
+                            }							
+						}
+						if (!ticketCheck)
+						{
+							Console.WriteLine($"\nKhông tìm thấy mã ghế {ticketIdCancel}");
+						}
+						//cập nhật số vé có trong FlightScheduler.txt
+						flight[j] = string.Join(";", dataFlight);
                         File.WriteAllLines(filePathFl, flight);
                         break;
-                    }
-                }
+                    }					
+				}
                 DisplayTicketNumberBookedByOneCustomer(userID, flightNum);
                 Console.Write("Nhập mã vé muốn hủy (chọn n/N để thoát):\t");
-                ticketIdCancel = Console.ReadLine();
+                ticketIdCancel = Console.ReadLine().ToUpper();
             }
             if (!isFound)
             {
@@ -300,11 +335,7 @@ namespace ThucTapCoSo
             else
             {
                 Console.WriteLine($"\nBạn đã hủy {countBSN} vé Business, {countECO} vé Economy trong chuyến bay {flightNum}");
-            }
-            if (!ticketCheck)
-            {
-                Console.WriteLine($"\nKhông tìm thấy mã vé {ticketIdCancel}");
-            }
+            }            
         }
         public bool SearchFlight()
         {
