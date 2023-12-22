@@ -236,17 +236,23 @@ namespace ThucTapCoSo
 
         public float CalculatePrice(string ticketType, string mile)
         {
-            if(ticketType == "BSN")
-            {
-                float price = (float)Math.Round((double.Parse(mile) * 1), 2);
-                return price;
-            }
-            else
-            {
-                float price = (float)Math.Round((double.Parse(mile) * 0.10), 2);
-                return price;
-            }
-        }
+			float VAT = 1.1f;//Thuế
+			float C4 = 1.0f; //dịch vụ soi chiếu bao gồm VAT
+			float TicketIssuance = 3.3f; // phụ thu xuất vé bao gồm VAT
+            float PaymentFees = 2.2f; //phí thanh toán 
+			float SystemAdministrationFee = 15f; //Phí quản trị hệ thống
+
+			if (ticketType == "BSN")			
+            {				
+				float price = (float)Math.Round((double.Parse(mile) * 0.05 * VAT + C4 + TicketIssuance + PaymentFees + SystemAdministrationFee), 2);
+				return price;
+			}
+			else
+            {		
+				float price = (float)Math.Round((double.Parse(mile) * 0.01 * VAT + C4 + TicketIssuance + PaymentFees + SystemAdministrationFee), 2);
+				return price;
+			}
+		}
 
         public override string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
