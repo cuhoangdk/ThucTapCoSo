@@ -38,6 +38,7 @@ namespace ThucTapCoSo
         public void BookFlight(string userID)
         {
 			Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -120,7 +121,7 @@ namespace ThucTapCoSo
                                     Console.Write("\tĐỊA CHỈ:\t");
                                     address = Console.ReadLine();
                                     Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
-                                    while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
+                                    while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
                                     {
                                         Console.Write("VUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
                                     }
@@ -168,7 +169,7 @@ namespace ThucTapCoSo
                                     Console.Write("\tĐỊA CHỈ:\t");
                                     address = Console.ReadLine();
                                     Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
-                                    while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
+                                    while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth))
                                     {
                                         Console.Write("VUI LÒNG NHẬP NGÀY SINH ĐÚNG ĐỊNH DẠNG: \t");
                                     }
@@ -394,8 +395,8 @@ namespace ThucTapCoSo
             string to = Console.ReadLine();
             string normalTo = RemoveDiacritics(to);
             Console.Write("\tNGÀY KHỞI HÀNH : ");
-            DateTime date;
-            while (!DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out date))
+            DateTime datesearch;
+            while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out datesearch))
             {
                 Console.Write("\tVUI LÒNG NHẬP NGÀY KHỞI HÀNH ĐÚNG ĐỊNH DẠNG: \t");
             }
@@ -413,9 +414,9 @@ namespace ThucTapCoSo
                 string normaldataTo = RemoveDiacritics(data[6]);
 
                 // Chuyển đổi chuỗi ngày về đối tượng DateTime
-                DateTime dateTime = DateTime.ParseExact(data[4], "ddd, dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                DateTime datefile = DateTime.ParseExact(data[4], "ddd, dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
 
-                if (normalFrom.Equals(normaldataFrom, StringComparison.OrdinalIgnoreCase) && normalTo.Equals(normaldataTo, StringComparison.OrdinalIgnoreCase) && data[0] == "1")
+                if (datesearch.ToString("dd/MM/yyyy")==datefile.ToString("dd/MM/yyyy") && normalFrom.Equals(normaldataFrom, StringComparison.OrdinalIgnoreCase) && normalTo.Equals(normaldataTo, StringComparison.OrdinalIgnoreCase) && data[0] == "1")
                 {
                     isFound = true;
                     Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {fl.FetchArrivalTime(data[4], data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {fl.CalculatePrice("BSN", data[9]),-8} /  {fl.CalculatePrice("ECO", data[9]),-8} |");
@@ -624,15 +625,15 @@ namespace ThucTapCoSo
                                     if (shouldDisplayHeader)
                                     {
                                         Console.WriteLine();
-                                        Console.WriteLine($" Chuyến bay {dataFlight[1]} khởi hành từ {dataFlight[5]} đến {dataFlight[6]} vào ngày {ConvertToDate(dataFlight[4])}");
-                                        Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
-                                        Console.WriteLine($"{new string(' ', 10)}| STT         | Mã vé         | Tên khách hàng                   | Ngày sinh  | Email                       | Địa chỉ                        | Số điện thoại           | Loại vé      |");
-                                        Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                                        Console.WriteLine($"\tChuyến bay {dataFlight[1]} khởi hành từ {dataFlight[5]} đến {dataFlight[6]} vào {dataFlight[4]}");
+                                        Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                                        Console.WriteLine($"{new string(' ', 10)}| STT | Số ghế        | Tên hành khách                   | Ngày sinh  | Email                       | Địa chỉ                        | Số điện thoại           | Loại vé      |");
+                                        Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
                                         shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
                                     }
                                     // In thông tin của mỗi khách hàng trong nhóm
-                                    Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-11} | {dataTR[1],-13} | {dataTR[5],-32} | {dataTR[6],-10} | {dataTR[7],-27} | {dataTR[9],-30} | {dataTR[8],-23} | {dataTR[4],-12} |");
-                                    Console.WriteLine($"{new string(' ', 10)}+-------------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                                    Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-3} | {dataTR[1],-13} | {dataTR[5],-32} | {dataTR[6],-10} | {dataTR[7],-27} | {dataTR[9],-30} | {dataTR[8],-23} | {dataTR[4],-12} |");
+                                    Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
                                     stt++;
                                 }
                             }
