@@ -16,6 +16,7 @@ namespace ThucTapCoSo
 {
     internal class FlightReservation : Generator,IDisplayClass
     {
+        //Hàm tạo số ghế (mã ghế)
         public string SeatID(string plane, string seatsEmpty, string ticketType)
         {
             string[][] planeType = Flight.PlaneTypes;
@@ -36,6 +37,7 @@ namespace ThucTapCoSo
             }
             return "";
         }
+        //Hàm đặt chỗ ngồi cho chuyến bay, mỗi chỗ ngồi là một hành khách
         public void BookFlight(string userID)
         {
 			Console.OutputEncoding = Encoding.Unicode;
@@ -246,6 +248,7 @@ namespace ThucTapCoSo
                 }
             }
         }
+        //Hàm hủy đặt chỗ, có thể hủy toàn bộ hoặc hủy từng chỗ ngồi của vé
         public void CancelFlight(string userID)
         {
 			Console.OutputEncoding = Encoding.Unicode;
@@ -262,82 +265,87 @@ namespace ThucTapCoSo
             Console.WriteLine($"{new string(' ', 30)}++++++++++++++ Đây là danh sách tất cả các chuyến bay bạn đã đăng ký ++++++++++++++");
             DisplayFlightsRegisteredByOneUser(userID);
 
-            Console.WriteLine("Nhập sô hiệu của chuyến bay bạn muốn hủy:");
-            string flightNum = Console.ReadLine().ToUpper();
-
-            DisplayTicketNumberBookedByOneCustomer(userID,flightNum);
+            Console.WriteLine("Chọn mã vé muốn hủy:");
+            string trID = Console.ReadLine().ToUpper();
+            
+            DisplayTicketNumberBookedByOneCustomer(userID, trID);
 
             bool isFound = false;
             bool ticketCheck = false;
             int countBSN = 0, countECO = 0;
 
-            Console.Write("Nhập mã vé muốn hủy (chọn n/N để thoát):\t");
-            string ticketIdCancel = Console.ReadLine().ToUpper();
+            Console.Write("Nhập mã ghế muốn hủy \n(chọn n/N để thoát):\t");
+            string SeatIDCancel = Console.ReadLine().ToUpper();
 
-            while (ticketIdCancel.ToLower() != "n")
+            while (SeatIDCancel.ToLower() != "n")
             {
-                for (int j = 0; j < flight.Length; j++)
+                for (int i = 0; i < TicketReceipt.Count; i++)
                 {
-                    string[] dataFlight = flight[j].Split(';');
-
-                    if (dataFlight[1].Equals(flightNum) && dataFlight[0] == "1")
+                    string[] dataTR = TicketReceipt[i].Split(';');
+                    if (dataTR[1].Equals(trID))
                     {
-                        isFound = true;
-
-                        for (int i = 0; i < TicketReceipt.Count; i++)
+                        ticketCheck = true;
+                        for (int j = 0; j < flight.Length; j++)
                         {
-                            string[] dataTR = TicketReceipt[i].Split(';');
+                            string[] dataFlight = flight[j].Split(';');
 
-                            if (ticketIdCancel.Equals(dataTR[2]) && userID.Equals(dataTR[3]) && flightNum.Equals(dataTR[4]))
+                            if (dataFlight[1].Equals(dataTR[4]) && dataFlight[0] == "1")
                             {
-                                ticketCheck = true;								
-								string ticketType = dataTR[5];
-                                int ticketsToBeReturned = 1;								
-								if (ticketType == "BSN")
+                                isFound = true;
+
+                                if (SeatIDCancel.Equals(dataTR[2]) && userID.Equals(dataTR[3]))
                                 {
-                                    dataFlight[2] = Convert.ToString(int.Parse(dataFlight[2]) + ticketsToBeReturned);
-                                    //xóa khách hàng đó ra khỏi file
-                                    TicketReceipt.RemoveAt(i);
-                                    countBSN++;
-                                    Console.WriteLine($"\tBạn đã hủy ghế {ticketIdCancel}");
-                                    File.WriteAllLines(filePathTR, TicketReceipt);
-                                    break;
+                                    string ticketType = dataTR[5];
+                                    int ticketsToBeReturned = 1;
+                                    if (ticketType == "BSN")
+                                    {
+                                        dataFlight[2] = Convert.ToString(int.Parse(dataFlight[2]) + ticketsToBeReturned);
+                                        //xóa khách hàng đó ra khỏi file
+                                        TicketReceipt.RemoveAt(i);
+                                        countBSN++;
+                                        Console.WriteLine($"\tBạn đã hủy ghế {SeatIDCancel}");
+                                        File.WriteAllLines(filePathTR, TicketReceipt);
+                                        break;
+                                    }
+                                    else if (ticketType == "ECO")
+                                    {
+                                        dataFlight[3] = Convert.ToString(int.Parse(dataFlight[3]) + ticketsToBeReturned);
+                                        //xóa khách hàng đó ra khỏi file
+                                        TicketReceipt.RemoveAt(i);
+                                        countECO++;
+                                        Console.WriteLine($"Bạn đã hủy ghế {SeatIDCancel}");
+                                        File.WriteAllLines(filePathTR, TicketReceipt);
+                                        break;
+                                    }
                                 }
-                                else if (ticketType == "ECO")
-                                {
-                                    dataFlight[3] = Convert.ToString(int.Parse(dataFlight[3]) + ticketsToBeReturned);
-                                    //xóa khách hàng đó ra khỏi file
-                                    TicketReceipt.RemoveAt(i);
-                                    countECO++;
-                                    Console.WriteLine($"Bạn đã hủy ghế {ticketIdCancel}");
-                                    File.WriteAllLines(filePathTR, TicketReceipt);
-                                    break;
-                                }
-                            }							
-						}
-						if (!ticketCheck)
-						{
-							Console.WriteLine($"\nKhông tìm thấy mã ghế {ticketIdCancel}");
-						}
-						//cập nhật số vé có trong FlightScheduler.txt
-						flight[j] = string.Join(";", dataFlight);
-                        File.WriteAllLines(filePathFl, flight);
-                        break;
-                    }					
-				}
-                DisplayTicketNumberBookedByOneCustomer(userID, flightNum);
+
+                                //cập nhật số vé có trong FlightScheduler.txt
+                                flight[j] = string.Join(";", dataFlight);
+                                File.WriteAllLines(filePathFl, flight);
+                                break;
+                            }
+                        }
+                        if (!ticketCheck)
+                        {
+                            Console.WriteLine($"\nKhông tìm thấy mã ghế {SeatIDCancel}");
+                            break;
+                        }
+                    }
+                }
+                DisplayTicketNumberBookedByOneCustomer(userID, trID);
                 Console.Write("Nhập mã vé muốn hủy (chọn n/N để thoát):\t");
-                ticketIdCancel = Console.ReadLine().ToUpper();
+                SeatIDCancel = Console.ReadLine().ToUpper();
             }
             if (!isFound)
             {
-                Console.WriteLine($"\nLỖI!!! Không thể tìm thấy chuyến bay với ID \"{flightNum.ToUpper()}\".....");
+                Console.WriteLine($"\nKHÔNG TÌM THẤY VÉ \"{trID.ToUpper()}\".....");
             }
             else
             {
-                Console.WriteLine($"\nBạn đã hủy {countBSN} vé Business, {countECO} vé Economy trong chuyến bay {flightNum}");
+                Console.WriteLine($"\nBạn đã hủy {countBSN} vé Business, {countECO} vé Economy trong vé {trID}");
             }            
         }
+        //Hàm tìm kiếm chuyến bay theo 3 tiêu chí: Điểm đi, điểm đến, ngày khởi hành
         public bool SearchFlight()
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -410,7 +418,7 @@ namespace ThucTapCoSo
             return true;
 
         }
-        //bỏ dấu
+        //Hàm bỏ dấu cho chuỗi (dùng cho việc so sánh chuỗi)
         static string RemoveDiacritics(string input)
         {
             string normalizedString = input.Normalize(NormalizationForm.FormD);
@@ -426,6 +434,7 @@ namespace ThucTapCoSo
             }
             return stringBuilder.ToString().ToLowerInvariant().Replace(" ", "").Replace("đ", "d");
         }
+        //Hàm chuyến string thành date
         public string ConvertToDate(string dateString)
         {
             dateString.Trim();
@@ -440,6 +449,7 @@ namespace ThucTapCoSo
                 return "Không thể chuyển đổi";
             }
         }
+        //Hàm xét trạng thái chuyến bay (đã xóa, đang theo lịch trình, đã cất cánh)
         string FlightStatus(string flag, string date)
         {
             if (flag == "0") return "ĐÃ XÓA";
@@ -447,11 +457,13 @@ namespace ThucTapCoSo
             if (datefile < DateTime.Now) return "ĐÃ CẤT CÁNH";
             else return "THEO LỊCH TRÌNH";
         }
+        //Hàm tính tổng tiền
         public float TotalPrice(int numOfTicket, float price)
         {
             float tolal = (float)Math.Round(price * numOfTicket ,2);
             return tolal; 
         }
+        //Hàm hiển thị tất cả các chuyến bay được đăng kí bởi một người dùng
         public void DisplayFlightsRegisteredByOneUser(string userID)
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -527,7 +539,7 @@ namespace ThucTapCoSo
                 Console.WriteLine($"\tUSERID {userID} CHƯA ĐĂNG KÍ CHUYẾN BAY NÀO");
             }
         }
-
+        //Hàm hiển thị tất cả hành khách của tất cả chuyến bay
         public void DisplayRegisteredUsersForAllFlight()
         {
             Console.WriteLine();
@@ -604,63 +616,7 @@ namespace ThucTapCoSo
                 }
             }
         }
-        public void DisplayTicketNumberBookedByOneCustomer(string userID, string flightNum)
-        {
-            //Lấy vị trí hiện tại
-            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            //tìm folder datatxt: nơi lưu dữ liệu
-            string datatxt = Path.Combine(current, "datatxt");
-
-            string filePathTR = Path.Combine(datatxt, "TicketReceipt.txt");
-            string filePathFlight = Path.Combine(datatxt, "FlightScheduler.txt");
-
-            string[] Flight = File.ReadAllLines(filePathFlight);
-            string[] TicketReceipt = File.ReadAllLines(filePathTR);
-
-            for (int j = 0; j < Flight.Length; j++)
-            {
-                string[] dataF = Flight[j].Split(';');
-                if (dataF[0] == "1" && flightNum.Equals(dataF[1]))
-                {
-                    Console.WriteLine();
-                    Console.WriteLine($"{new string('+', 30)} Hiển thị tất cả chỗ ngồi của chuyến bay {flightNum} được đặt bởi {userID} {new string('+', 30)}");
-                    Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
-                    Console.WriteLine($"{new string(' ', 10)}| STT | SỐ GHẾ        | TÊN HÀNH KHÁCH                   | NGÀY SINH  | EMAIL                       | ĐỊA CHỈ                        | SỐ ĐIỆN THOẠI           | LOẠI VÉ      |");
-                    Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
-                    break;
-                }
-            }
-
-            bool isFound = false;
-            int stt = 0;
-            //
-            for (int i = 0; i < TicketReceipt.Length; i++)
-            {
-                string[] dataTR = TicketReceipt[i].Split(';');
-                //
-                for (int j = 0; j < Flight.Length; j++)
-                {
-                    string[] dataF = Flight[j].Split(';');
-
-                    if (userID.Equals(dataTR[2]) && dataF[1].Equals(flightNum) && dataF[0] == "1" && flightNum.Equals(dataTR[4]))
-                    {
-                        isFound = true;
-                        //
-                        Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-3} | {dataTR[2],-13} | {dataTR[6],-32} | {dataTR[7],-10} | {dataTR[8],-27} | {dataTR[10],-30} | {dataTR[9],-23} | {dataTR[5],-12} |");
-                        Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
-                        stt++;
-                    }
-                }
-            }
-            if (!isFound)
-            {
-                Console.WriteLine($"\n\tCHUYẾN BAY CÓ MÃ SỐ {flightNum} KHÔNG TỒN TẠI");
-            }
-            if(stt == 0)
-            {
-                Console.WriteLine($"\n\tBẠN CHƯA ĐĂNG KÍ CHUYẾN BAY NÀY");
-            }
-        }
+        //Hàm hiển thị tất cả hành khách của một chuyến bay cụ thể
         public void DisplayRegisteredUsersForASpecificFlight(string flightNum)
         {
             //Lấy vị trí hiện tại
@@ -676,6 +632,8 @@ namespace ThucTapCoSo
             string[] Flight = File.ReadAllLines(filePathFlight);
             string[] TicketReceipt = File.ReadAllLines(filePathTR);
 
+
+            bool flag = false;
             for (int j = 0; j < Flight.Length; j++)
             {
                 string[] dataF = Flight[j].Split(';');
@@ -686,10 +644,15 @@ namespace ThucTapCoSo
                     Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
                     Console.WriteLine($"{new string(' ', 10)}| STT | SỐ GHẾ        | TÊN HÀNH KHÁCH                   | NGÀY SINH  | EMAIL                       | ĐỊA CHỈ                        | SỐ ĐIỆN THOẠI           | LOẠI VÉ      |");
                     Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                    flag = true;
                     break;
                 }
             }
-            bool isFound = false;
+            if (flag == false)
+            {
+                Console.WriteLine($"\nCHUYẾN BAY {flightNum} KHÔNG TỒN TẠI");
+                return;
+            }
             int stt = 0;
             //
             for (int i = 0; i < TicketReceipt.Length; i++)
@@ -699,11 +662,8 @@ namespace ThucTapCoSo
                 for (int j = 0; j < Flight.Length; j++)
                 {
                     string[] dataF = Flight[j].Split(';');
-
                     if (dataF[1].Equals(flightNum) && dataF[0] == "1" && flightNum.Equals(dataTR[4]))
                     {
-                        isFound = true;
-                        //
                         for (int k = 0; k < Customer.Length; k++)
                         {
                             string[] dataCustomer = Customer[k].Split(';');
@@ -716,18 +676,81 @@ namespace ThucTapCoSo
                             }
                         }
                     }
+                    else if (dataF[1].Equals(flightNum) && dataF[0] == "0")
+                    {
+                        Console.WriteLine($"\nCHUYẾN BAY {flightNum} ĐÃ BỊ XÓA");
+                        return;
+                    }
+
+                }
+            }
+
+            if (stt == 0)
+            {
+                Console.WriteLine($"\nCHUYẾN BAY {flightNum} KHÔNG CÓ HÀNH KHÁCH");
+                return;
+            }
+
+        }
+        //Hàm hiển thị tất cả hành khách được đăng kí ở trong một vé cụ thể (sử dụng ở trong hàm hủy vé)
+        public void DisplayTicketNumberBookedByOneCustomer(string userID, string trID)
+        {
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePathTR = Path.Combine(datatxt, "TicketReceipt.txt");
+            string filePathFlight = Path.Combine(datatxt, "FlightScheduler.txt");
+
+            string[] Flight = File.ReadAllLines(filePathFlight);
+            string[] TicketReceipt = File.ReadAllLines(filePathTR);
+
+            for (int j = 0; j < TicketReceipt.Length; j++)
+            {
+                string[] dataTR = TicketReceipt[j].Split(';');
+                if (trID.Equals(dataTR[1]))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"{new string('+', 30)} Các chỗ ngồi của vé {trID} được đặt bởi {userID} {new string('+', 30)}");
+                    Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                    Console.WriteLine($"{new string(' ', 10)}| STT | SỐ GHẾ        | TÊN HÀNH KHÁCH                   | NGÀY SINH  | EMAIL                       | ĐỊA CHỈ                        | SỐ ĐIỆN THOẠI           | LOẠI VÉ      |");
+                    Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                    break;
+                }
+            }
+
+            bool isFound = false;
+            int stt = 0;
+            //
+            for (int i = 0; i < TicketReceipt.Length; i++)
+            {
+                string[] dataTR = TicketReceipt[i].Split(';');
+                //
+                for (int j = 0; j < Flight.Length; j++)
+                {
+                    string[] dataF = Flight[j].Split(';');
+
+                    if (userID.Equals(dataTR[3]) && dataF[1].Equals(dataTR[4]) && dataF[0] == "1" && trID.Equals(dataTR[1]))
+                    {
+                        isFound = true;
+                        //
+                        Console.WriteLine($"{new string(' ', 10)}| {stt + 1,-3} | {dataTR[2],-13} | {dataTR[6],-32} | {dataTR[7],-10} | {dataTR[8],-27} | {dataTR[10],-30} | {dataTR[9],-23} | {dataTR[5],-12} |");
+                        Console.WriteLine($"{new string(' ', 10)}+-----+---------------+----------------------------------+------------+-----------------------------+--------------------------------+-------------------------+--------------+");
+                        stt++;
+                    }
                 }
             }
             if (!isFound)
             {
-                Console.WriteLine($"\nKhông tìm thấy chuyến bay {flightNum}");
+                Console.WriteLine($"\n\tCHƯA CÓ VÉ NÀO ĐƯỢC ĐĂNG KÍ");
             }
             if(stt == 0)
             {
-                Console.WriteLine($"\nKhông có hành khách trong chuyến bay {flightNum}");
+                Console.WriteLine($"\n\tCHƯA CÓ VÉ NÀO ĐƯỢC ĐĂNG KÍ");
             }
         }
-
+        //Hàm hiển thị các banner
         public void DisplayArtWork(int option)
         {
 			Console.OutputEncoding = Encoding.Unicode;

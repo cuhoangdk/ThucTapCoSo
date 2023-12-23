@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -20,11 +21,10 @@ namespace ThucTapCoSo
         private readonly string password;
         private string address;
         private DateTime birth;
-        //public List<Flight> flightsRegisteredByUser;
-        //public List<int> numOfTicketsBookedByUser;
+
         // ************************************************************ Behaviours/Methods ************************************************************
 
-        // Default constructor
+        // phương thức khởi tạo
         public Customer()
         {
             this.userID = null;
@@ -45,9 +45,7 @@ namespace ThucTapCoSo
             this.address = address;
             this.birth = birth;
         }
-
-        // Method to register a new 
-        
+        //Hàm tạo một người dùng mới
         public void AddNewCustomer()
         {
             Generator random = new Generator();
@@ -66,13 +64,14 @@ namespace ThucTapCoSo
             Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ CHÀO MỪNG BẠN ĐẾN VỚI CỔNG ĐĂNG KÍ CỦA KHÁCH HÀNG ++++++++++++++");
             Console.Write("\tHỌ VÀ TÊN:\t");
 			string name = Console.ReadLine();
-			while (string.IsNullOrWhiteSpace(name)){
+			while (string.IsNullOrWhiteSpace(name))
+            {
                 Console.Write("VUI LÒNG NHẬP HỌ VÀ TÊN: ");
 				name = Console.ReadLine();
 			}			
             Console.Write("\tEMAIL :\t");
             string email = Console.ReadLine();
-            while (IsUniqueData(email) || !IsValidEmail(email))
+            while (IsUniqueEmail(email) || !IsValidEmail(email))
             {
                 Console.WriteLine("\tĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
                 Console.Write("\tEMAIL :\t");
@@ -114,7 +113,7 @@ namespace ThucTapCoSo
                 writer.WriteLine($"1;{userID};{name};{email};{password};{phone};{address};{birth.ToString("dd/MM/yyyy")}");
             }
         }
-
+        //Hàm chỉnh sửa thông tin người dùng
         public void EditCustomerInfo(string ID)
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -145,7 +144,7 @@ namespace ThucTapCoSo
                     string name = Console.ReadLine();
                     Console.Write("\tEMAIL :\t");
                     string email = Console.ReadLine();
-                    while (email != "" && (IsUniqueData(email) || !IsValidEmail(email)))
+                    while (email != "" && (IsUniqueEmail(email) || !IsValidEmail(email)))
                     {
                         Console.WriteLine("\tĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
                         Console.Write("\tEMAIL :\t");
@@ -155,10 +154,9 @@ namespace ThucTapCoSo
                     string phone = Console.ReadLine();
                     Console.Write("\tĐỊA CHỈ:\t");
                     string address = Console.ReadLine();
-                    string input;
                     Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
-                    input = Console.ReadLine();
-                    DateTime birth = DateTime.Parse(data[7]);
+                    string input = Console.ReadLine();
+                    DateTime birth = DateTime.Now;
 					DateTime currentDate = DateTime.Now;
 					while (true)
                     {
@@ -168,7 +166,7 @@ namespace ThucTapCoSo
                             break;
                         }
 
-                        if (DateTime.TryParseExact(input, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth)|| DateTime.Parse(input) >currentDate)
+                        if (DateTime.TryParseExact(input, "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth)|| DateTime.Parse(input) > currentDate)
                         {
                             // Ngày sinh hợp lệ, thoát khỏi vòng lặp.
                             break;
@@ -203,7 +201,7 @@ namespace ThucTapCoSo
                         data[6] = address;
 
                     }
-                    if (birth != null)
+                    if (input != "")
                     {
                         data[7] = birth.ToString("dd/MM/yyyy");
 
@@ -222,7 +220,7 @@ namespace ThucTapCoSo
                 Console.WriteLine("Cập nhật thông tin thành công!");
             }
         }
-
+        //Hàm xóa tài khoản người dùng
         public void DeleteCustomer(string ID)
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -261,25 +259,26 @@ namespace ThucTapCoSo
                 Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); // FIX
             }
         }
-
-        public void SearchUser(string ID)
+        //Hàm tìm kiếm người dùng
+        public void SearchUser(string ID, string name, string address, string phone)
         {
             Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
             //fix code
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             string datatxt = Path.Combine(current, "datatxt");
             string filePath = Path.Combine(datatxt, "Customer.txt");
 
             string[] Customers = File.ReadAllLines(filePath);
-
-
+            if (name == "") name = "123912hd12beqsưqnd";
+            if (address == "") address = "123912hd12beqsưqnd";
 
             bool isFound = false;
             DisplayHeader();
             for (int i=0; i<Customers.Length; i++)
             {
                 string[] data = Customers[i].Split(';');
-                if (ID.Equals(data[1]) && data[0] == "1")
+                if ((ID.Equals(data[1]) || RemoveDiacritics(data[2]).Contains(RemoveDiacritics(name)) || RemoveDiacritics(data[6]).Contains(RemoveDiacritics(address)) || phone.Equals(data[5]) ) && data[0] == "1")
                 {
                     isFound = true;
                     Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
@@ -288,10 +287,27 @@ namespace ThucTapCoSo
             }
             if(!isFound)
             {
-                Console.WriteLine($"{new string(' ', 10)}KHÔNG TÌM THẤY KHÁCH HÀNG CÓ MÃ SỐ{ID}...!!!"); //FIX
+                Console.WriteLine($"{new string(' ', 10)}KHÔNG TÌM THẤY KHÁCH HÀNG"); //FIX
             }
         }
-        public bool IsUniqueData(string emailID)
+        //Hàm bỏ dấu cho chuỗi (dùng cho việc so sánh chuỗi)
+        static string RemoveDiacritics(string input)
+        {
+            string normalizedString = input.Normalize(NormalizationForm.FormD);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (char c in normalizedString)
+            {
+                UnicodeCategory unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+            return stringBuilder.ToString().ToLowerInvariant().Replace(" ", "").Replace("đ", "d");
+        }
+        //Hàm kiểm tra email có trùng không
+        public bool IsUniqueEmail(string emailID)
         {
             bool isUnique = false;
 
@@ -308,13 +324,14 @@ namespace ThucTapCoSo
                 string[] data = line[i].Split(';');
                 if (data[3].Equals(emailID))
                 {
+                    //trùng dữ liệu
                     isUnique = true;
                     break;
                 }
             }
-
             return isUnique;
         }
+        //Hàm kiểm tra email có hợp lệ không
         public bool IsValidEmail(string email)
         {
             // Biểu thức chính quy để kiểm tra định dạng email
@@ -323,7 +340,7 @@ namespace ThucTapCoSo
             // Sử dụng Regex.IsMatch để kiểm tra tính hợp lệ của email
             return Regex.IsMatch(email, pattern);
         }
-       
+        //Hàm hiển thị toàn bộ thông tin khách hàng
         public void DisplayCustomersData(bool showHeader)
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -358,6 +375,7 @@ namespace ThucTapCoSo
 
             }
         }
+        //Hàm hiển thị header của bảng
         void DisplayHeader()
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -366,24 +384,7 @@ namespace ThucTapCoSo
             Console.WriteLine($"{new string(' ', 10)}| STT   | MÃ KHÁCH HÀNG | HỌ VÀ TÊN                        | NĂM SINH   | EMAIL                       | ĐỊA CHỈ                        | SỐ ĐIỆN THOẠI  |");
             Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
         }
-
-        public string RandomIDDisplay(string randomID)
-        {
-            StringBuilder newString = new StringBuilder();
-            for (int i = 0; i <= randomID.Length; i++)
-            {
-                if (i == 3)
-                {
-                    newString.Append(" ").Append(randomID[i]);
-                }
-                else if (i < randomID.Length)
-                {
-                    newString.Append(randomID[i]);
-                }
-            }
-            return newString.ToString();
-        }
-
+        //Hàm hiển thị các banner
         public void DisplayArtWork(int option)
         {
             Console.OutputEncoding = Encoding.Unicode;
@@ -464,68 +465,51 @@ namespace ThucTapCoSo
             Console.WriteLine(artWork);
         }
 
-
         // ************************************************************ Setters & Getters ************************************************************
-        //public List<Flight> GetFlightsRegisteredByUser()
-        //{
-        //    return flightsRegisteredByUser;
-        //}
-
         public string GetPassword()
         {
             return password;
         }
-
         public string GetPhone()
         {
             return phone;
         }
-
         public string GetAddress()
         {
             return address;
         }
-
         public string GetEmail()
         {
             return email;
         }
-
         public DateTime GetAge()
         {
             return birth;
         }
-
         public string GetUserID()
         {
             return userID;
         }
-
         public string GetName()
         {
             return name;
         }
-
         public void SetName(string name)
         {
             this.name = name;
         }
-
         public void SetEmail(string email)
         {
             this.email = email;
         }
-
         public void SetPhone(string phone)
         {
             this.phone = phone;
         }
-
         public void SetAddress(string address)
         {
             this.address = address;
         }
-
         public void SetAge(DateTime age)
         {
             this.birth = age;

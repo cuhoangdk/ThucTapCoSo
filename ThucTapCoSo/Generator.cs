@@ -38,19 +38,15 @@ namespace ThucTapCoSo
         new[] {"Cà Mau"           , "9.175938",  "105.175963", "Vietnam", "Domestic" },
         new[] {"Côn Đảo"          , "8.731477",  "106.629832", "Vietnam", "Domestic" },
     };
-
-        public static string[][] Destinations => destinations;
-
         // ************************************************************ Behaviours/Methods ************************************************************
 
-        /* Tạo ID ngẫu nhiên cho khách hàng (Customer).... */
+        //Tạo ID ngẫu nhiên cho khách hàng
         public void RandomIDGen()
         {            
             string randomID = rand.Next(20000, 1000000).ToString();
             SetRandomNum(randomID);
         }
-
-        /* Phương thức này cho phép chọn điểm đi và điểm đến (thành phố) để tạo chuyến bay..... */
+        //Hàm chọn điểm đi và điểm đến để tạo chuyến bay
         public string[][] SpecificallyDestinations()
         {
             int specCity1;
@@ -127,8 +123,7 @@ namespace ThucTapCoSo
 
             return chosenDestinations;
         }
-
-        /* Tạo Số hiệu (Flight Number) chuyến bay duy nhất.... */
+        //Hàm tạo mã cho chuyến bay
         public string RandomFlightNumbGen(int uptoHowManyLettersRequired, int divisible)
         {            
             string randomAlphabets = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", uptoHowManyLettersRequired)
@@ -140,12 +135,10 @@ namespace ThucTapCoSo
         }
 
         //************************************************************ Setters & Getters ************************************************************
-
         public void SetRandomNum(string randomNum)
         {
             this.randomNum = randomNum;
         }
-
         public string GetRandomNumber()
         {
             return randomNum;

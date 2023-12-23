@@ -29,7 +29,7 @@ namespace ThucTapCoSo
         };
 
         // ************************************************************ Behaviours/Methods ************************************************************
-
+        //Các phương thức khởi tạo
         public Flight()
         {
             this.flightSchedule = null;
@@ -39,7 +39,6 @@ namespace ThucTapCoSo
             this.fromWhichCity = null;
             this.gate = null;
         }
-
         public Flight(string flightSchedule, string flightNumber, int numOfSeatsInTheFlight, string[][] chosenDestinations, string[] distanceBetweenTheCities, string gate)
         {
             this.flightSchedule = flightSchedule;
@@ -53,7 +52,38 @@ namespace ThucTapCoSo
             //this.listOfRegisteredCustomersInAFlight = new List<Customer>();
             this.gate = gate;
         }
+        //Hàm hiển thị thông tin toàn bộ các chuyến bay
+        public void DisplayFlightSchedule()
+        {
+            Console.InputEncoding = Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Unicode;
 
+            Console.WriteLine();
+            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
+            Console.Write("| STT  | THỜI GIAN CẤT CÁNH        | MÃ CHUYẾN   | SỐ GHẾ TRỐNG                 | KHỞI HÀNH             | ĐIẾM ĐẾN               | THỜI GIAN HẠ CÁNH         |THỜI GIAN BAY|  CỔNG  | QUÃNG ĐƯỜNG(MILES/KMS) | GIÁ VÉ $ (BSN / ECO) |\n");
+            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
+
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
+            List<string> lines = File.ReadAllLines(filePath).ToList();
+            int stt = 1;
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string[] data = lines[i].Split(';');
+                if (data[0] == "0")
+                {
+                    continue;
+                }
+                Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4], data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice("BSN", data[9]),-8} /  {CalculatePrice("ECO", data[9]),-8} |");
+                Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
+                stt++;
+            }
+        }
+        //Hàm thêm chuyến bay
         public void AddFlight(string idAdmin, DateTime date)
         {
             Generator r1 = new Generator();
@@ -128,6 +158,7 @@ namespace ThucTapCoSo
 
 
         }
+        //Hàm chỉnh sửa thông tin chuyến bay
         public void EditFlight(string ID, string idAdmin, DateTime date)
         {
             bool isFound = false;
@@ -187,8 +218,7 @@ namespace ThucTapCoSo
                 Console.WriteLine("Cập nhật thông tin thành công!");
             }
         }
-        
-        //Hàm dùng khi xóa chuyến bay, chuyến bay không được xóa mà chuyển flag thành 0
+        //Hàm dùng khi xóa chuyến bay, chuyến bay không được xóa mà chuyển flag thành 0.
         public void HiddenFlight(string flightNumber, string idAdmin, DateTime date)
         {
 			Console.OutputEncoding = Encoding.Unicode;
@@ -233,7 +263,7 @@ namespace ThucTapCoSo
             }
             DisplayFlightSchedule();
         }
-
+        //Hàm tính tiền của mối vé, dựa vào quãng đường, loại vé, thuế phí.
         public float CalculatePrice(string ticketType, string mile)
         {
 			float VAT = 1.1f;//Thuế
@@ -253,7 +283,7 @@ namespace ThucTapCoSo
 				return price;
 			}
 		}
-
+        //Hàm tính khoảng cách giữa 2 địa điểm của chuyến bay, dựa vào kinh độ và vĩ độ của 2 địa điểm
         public override string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
             double theta = lon1 - lon2;
@@ -268,47 +298,17 @@ namespace ThucTapCoSo
             distanceString[2] = $"{Math.Round(distance * 100.0) / 100.0:F2}";
             return distanceString;
         }
-
+        //Hàm chuyển độ thành radian (dùng để tính cho hàm khoảng cách)
         private double DegreeToRadian(double deg)
         {
             return (deg * Math.PI / 180.0);
         }
-
+        //Hàm chuyển radian thành độ (dùng để tính cho hàm khoảng cách)
         private double RadianToDegree(double rad)
         {
             return (rad * 180.0 / Math.PI);
         }
-
-        public void DisplayFlightSchedule()
-        {
-            Console.InputEncoding = Encoding.Unicode;
-            Console.OutputEncoding = Encoding.Unicode;
-
-			Console.WriteLine();
-            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
-            Console.Write("| STT  | THỜI GIAN CẤT CÁNH        | MÃ CHUYẾN   | SỐ GHẾ TRỐNG                 | KHỞI HÀNH             | ĐIẾM ĐẾN               | THỜI GIAN HẠ CÁNH         |THỜI GIAN BAY|  CỔNG  | QUÃNG ĐƯỜNG(MILES/KMS) | GIÁ VÉ $ (BSN / ECO) |\n");
-            Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
-
-            //Lấy vị trí hiện tại
-            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            //tìm folder datatxt: nơi lưu dữ liệu
-            string datatxt = Path.Combine(current, "datatxt");
-
-            string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
-            List<string> lines = File.ReadAllLines(filePath).ToList();
-            int stt = 1;
-            for (int i = 0; i < lines.Count; i++)
-            {
-                string[] data = lines[i].Split(';');
-                if(data[0] == "0")
-                {
-                    continue;
-                }
-                Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4],data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice("BSN",data[9]),-8} /  {CalculatePrice("ECO", data[9]),-8} |");
-                Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
-                stt++;
-            }
-        }
+        //Hàm tạo thời gian ngẫu nhiên cho chuyến bay
 		public string CreateNewFlightsAndTime()
         {
             Random random = new Random();
@@ -330,6 +330,7 @@ namespace ThucTapCoSo
             }
             return newDate.ToString("ddd, dd/MM/yyyy HH:mm");
         }
+        //Hàm tính thời gian bay của chuyến bay dựa vào khoảng cách
         public string CalculateFlightTime(double distanceBetweenTheCities)
         {
             double groundSpeed = 450;
@@ -354,6 +355,7 @@ namespace ThucTapCoSo
 
             return $"{hours:D2}:{minutes:D2}";
         }
+        //Hàm tính thời gian hạ cánh dựa vào lịch bay và thời gian bay
         public string FetchArrivalTime(string flightSchedule, string flightTime)
         {
 
@@ -374,6 +376,7 @@ namespace ThucTapCoSo
                 return "N/A";
             }
         }
+        //Hàm làm tròn thời gian
         public DateTime GetNearestHourQuarter(DateTime datetime)
         {
             int minutes = datetime.Minute;
@@ -396,13 +399,10 @@ namespace ThucTapCoSo
         public string FlightNumber => flightNumber;
         public void SetNoOfSeatsInTheFlight(int numOfSeatsInTheFlight) => this.numOfSeatsInTheFlight = numOfSeatsInTheFlight;
         public string FlightTime => flightTime;
-        //public List<Flight> FlightList => flightList;
-        //public List<Customer> ListOfRegisteredCustomersInAFlight => listOfRegisteredCustomersInAFlight;
         public string FlightSchedule => flightSchedule;
         public string FromWhichCity => fromWhichCity;
         public string Gate => gate;
         public string ToWhichCity => toWhichCity;
-
         public static string[][] PlaneTypes => planeTypes;
     }
 }

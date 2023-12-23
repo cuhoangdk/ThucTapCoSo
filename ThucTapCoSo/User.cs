@@ -11,7 +11,8 @@ namespace ThucTapCoSo
     {
         static void Main()
         {
-			Console.OutputEncoding = Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -65,25 +66,25 @@ namespace ThucTapCoSo
                             {
                                 Console.WriteLine($"\n\n\t+++++++++ 2ND LAYER MENU +++++++++ LOGGED IN AS \"{username}\"\n", "", "");
 
-                                Console.WriteLine("\t\t1  : Thêm hành khách mới");
-                                Console.WriteLine("\t\t2  : Tìm kiếm một hành khách");
-                                Console.WriteLine("\t\t3  : Cập nhật dữ liệu hành khách");
-                                Console.WriteLine("\t\t4  : Xóa hành khách");
-                                Console.WriteLine("\t\t5  : Hiển thị tất cả hành khách");
-                                Console.WriteLine("\t\t6  : Hiển thị tất cả các chuyến bay đã đăng ký bởi hành khách");
-                                Console.WriteLine("\t\t7  : Hiển thị tất cả hành khách đã đăng ký trên một chuyến bay");
-                                Console.WriteLine("\t\t8  : Xóa chuyến bay");
-                                Console.WriteLine("\t\t9  : Thêm chuyến bay");
-                                Console.WriteLine("\t\t10 : Chỉnh sửa chuyến bay");
-                                Console.WriteLine("\t\t11 : Hiển thị toàn bộ các chuyến bay");
-                                Console.WriteLine("\t\t0  : Đăng xuất");
+                                Console.WriteLine("\t\t1  : THÊM TÀI KHOẢN NGƯỜI DÙNG MỚI");
+                                Console.WriteLine("\t\t2  : TÌM KIẾM TÀI KHOẢN NGƯỜI DÙNG");
+                                Console.WriteLine("\t\t3  : CẬP NHẬT TÀI KHOẢN NGƯỜI DÙNG");
+                                Console.WriteLine("\t\t4  : XÓA TÀI KHOẢN NGƯỜI DÙNG");
+                                Console.WriteLine("\t\t5  : HIỂN THỊ TẤT CẢ TÀI KHOẢN NGƯỜI DÙNG");
+                                Console.WriteLine("\t\t6  : HIỂN THỊ TẤT CẢ CÁC VÉ ĐƯỢC ĐĂNG KÍ BỞI MỘT NGƯỜI DÙNG");
+                                Console.WriteLine("\t\t7  : HIỂN THỊ HÀNH KHÁCH CỦA CHUYẾN BAY");
+                                Console.WriteLine("\t\t8  : XÓA CHUYẾN BAY");
+                                Console.WriteLine("\t\t9  : THÊM CHUYẾN BAY");
+                                Console.WriteLine("\t\t10 : CHỈNH SỬA CHUYẾN BAY");
+                                Console.WriteLine("\t\t11 : HIỂN THỊ TOÀN BỘ CHUYẾN BAY");
+                                Console.WriteLine("\t\t0  : ĐĂNG XUẤT");
 
 
-                                Console.Write("\nNhập tùy chọn:   ");
+                                Console.Write("\n\tNhập tùy chọn:   ");
                                 //fix code
                                 while (!int.TryParse(Console.ReadLine(), out desiredOption))
                                 {
-                                    Console.Write("Tuỳ chọn không hợp lệ, vui lòng nhập lại: ");
+                                    Console.Write("\tTuỳ chọn không hợp lệ, vui lòng nhập lại: ");
                                 }
 
                                 if (desiredOption == 1)
@@ -93,12 +94,22 @@ namespace ThucTapCoSo
                                 }
                                 else if (desiredOption == 2)
                                 {
+                                    string name;
+                                    string address;
+                                    string phone;
+                                    string customerID;
                                     c1.DisplayArtWork(2);
                                     c1.DisplayCustomersData(false);
-                                    Console.Write("\tNhập CustomerID muốn tìm :\t");
-                                    string customerID = Console.ReadLine();
+                                    Console.Write("\tNhập mã khách hàng  :\t");
+                                    customerID = Console.ReadLine();
+                                    Console.Write("\tNhập tên khách hàng :\t");
+                                    name = Console.ReadLine();
+                                    Console.Write("\tNhập địa chỉ        :\t");
+                                    address = Console.ReadLine();
+                                    Console.Write("\tNhập số điện thoại  :\t");
+                                    phone = Console.ReadLine();
                                     Console.WriteLine();
-                                    c1.SearchUser(customerID);
+                                    c1.SearchUser(customerID,name,address,phone);
                                 }
                                 else if (desiredOption == 3)
                                 {
@@ -106,7 +117,7 @@ namespace ThucTapCoSo
 
                                     bookingAndReserving.DisplayArtWork(2);
                                     c1.DisplayCustomersData(false);
-                                    Console.Write("Nhập CustomerID để Cập nhật Dữ liệu của khách hàng đó :\t");
+                                    Console.Write("\t NHẬP MÃ KHÁCH HÀNG MUỐN CẬP NHẬT DỮ LIỆU  :  ");
                                     string customerID = Console.ReadLine();
                                     c1.EditCustomerInfo(customerID);
                                 }
@@ -114,7 +125,7 @@ namespace ThucTapCoSo
                                 {
                                     bookingAndReserving.DisplayArtWork(3);
                                     c1.DisplayCustomersData(false);
-                                    Console.Write("Nhập CustomerID của khách hàng muốn xóa :\t");
+                                    Console.Write("\tNHẬP MÃ KHÁCH HÀNG MUỐN XÓA     :  ");
                                     string customerID = Console.ReadLine();
                                     c1.DeleteCustomer(customerID);
                                 }
@@ -134,31 +145,30 @@ namespace ThucTapCoSo
                                 else if (desiredOption == 7)
                                 {
                                     c1.DisplayArtWork(4);
-                                    Console.Write("Bạn muốn hiển thị Hành khách của tất cả các chuyến bay hay một chuyến bay cụ thể.... 'Y/y' để hiển thị tất cả các chuyến bay và 'N/n' để tìm kiếm một" +
-                                                    " chuyến bay cụ thể.... ");
-
+                                    Console.WriteLine("\t1  HIỂN THỊ HÀNH KHÁCH TẤT CẢ CHUYẾN BAY");
+                                    Console.WriteLine("\t2  HIỂN THỊ HÀNH KHÁCH MỘT CHUYẾN BAY CỤ THỂ");
                                     char choice = Console.ReadLine()[0];
-                                    if ('y' == choice || 'Y' == choice)
+                                    if ('1' == choice)
                                     {
                                         bookingAndReserving.DisplayRegisteredUsersForAllFlight();
                                     }
-                                    else if ('n' == choice || 'N' == choice)
+                                    else if ('2' == choice)
                                     {
                                         f1.DisplayFlightSchedule();
-                                        Console.Write("Nhập Flight Number để hiển thị danh sách hành khách đã đăng ký trong chuyến bay đó... ");
+                                        Console.Write("NHẬP MÃ CHUYẾN BAY MUỐN XEM TOÀN BỘ HÀNH KHÁCH:");
                                         string flightNum = Console.ReadLine().ToUpper();
                                         bookingAndReserving.DisplayRegisteredUsersForASpecificFlight(flightNum);
                                     }
                                     else
                                     {
-                                        Console.WriteLine("Lựa chọn không hợp lệ...Không có phản hồi...!");
+                                        Console.WriteLine("\tLỰA CHỌN KHÔNG HỢP LỆ!");
                                     }
                                 }
                                 else if (desiredOption == 8)
                                 {
                                     c1.DisplayArtWork(5);
                                     f1.DisplayFlightSchedule();
-                                    Console.Write("Nhập Flight Number để xóa chuyến bay : ");
+                                    Console.Write("\tNHẬP MÃ CHUYẾN BAY MUỐN XÓA : ");
                                     string flightNum = Console.ReadLine().ToUpper();
                                     f1.HiddenFlight(flightNum, username, now);
 
@@ -171,7 +181,7 @@ namespace ThucTapCoSo
                                 else if (desiredOption == 10)
                                 {
                                     f1.DisplayFlightSchedule();
-                                    Console.WriteLine("Nhập vào Số hiệu chuyến bay muốn chỉnh sửa: ");
+                                    Console.WriteLine("\tNHẬP MÃ CHUYẾN BAY MUỐN CHỈNH SỬA: ");
                                     string id = Console.ReadLine().ToUpper();
                                     f1.EditFlight(id, username, now);
                                 }
@@ -182,11 +192,11 @@ namespace ThucTapCoSo
                                 else if (desiredOption == 0)
                                 {
                                     bookingAndReserving.DisplayArtWork(22);
-                                    Console.WriteLine("Cảm ơn bạn đã sử dụng Hệ thống Đặt vé của Star Airlines...!!!");
+                                    Console.WriteLine("\tCảm ơn bạn đã sử dụng Hệ thống Đặt vé của Star Airlines...!!!");
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Lựa chọn không hợp lệ...Có vẻ như bạn là Robot...Đang nhập giá trị ngẫu nhiên...Bạn phải đăng nhập lại...");
+                                    Console.WriteLine("\tLựa chọn không hợp lệ...Có vẻ như bạn là Robot...Đang nhập giá trị ngẫu nhiên...Bạn phải đăng nhập lại...");
                                     bookingAndReserving.DisplayArtWork(22);
                                     desiredOption = 0;
                                 }
@@ -197,7 +207,7 @@ namespace ThucTapCoSo
                     }
                     if (!isFound)
                     {
-                        Console.WriteLine($"\n{"",20}LỖI!!! Không thể đăng nhập. Không thể tìm thấy người dùng với thông tin đăng nhập đã nhập.... Hãy Tạo Thông Tin Mới hoặc đăng ký bằng cách nhấn 2....", "");
+                        Console.WriteLine($"\n\tLỖI!!! Không thể đăng nhập. Không thể tìm thấy người dùng với thông tin đăng nhập đã nhập.... Hãy Tạo Thông Tin Mới hoặc đăng ký bằng cách nhấn 2....", "");
                     }
                 }
                 else if (desiredOption == 2)
@@ -206,9 +216,9 @@ namespace ThucTapCoSo
                     string[] Admin = File.ReadAllLines(filePathAdmin);
                     PrintArtWork(2);
                     /*Nếu desiredOption là 2, hãy gọi phương thức đăng ký để đăng ký người dùng......*/
-                    Console.Write("\nNhập tên người dùng để Đăng ký :    ");
+                    Console.Write("\n\tUSERNAME :    ");
                     string username = Console.ReadLine();
-                    Console.Write("\nNhập mật khẩu để Đăng ký :    ");
+                    Console.Write("\n\tPASSWORD :    ");
                     string password = Console.ReadLine();
                     for(int i=0; i<Admin.Length; i++)
                     {
@@ -216,9 +226,10 @@ namespace ThucTapCoSo
 
                         while ( dataAdmin[0].Equals(username) )
                         {
-                            Console.Write("LỖI!!! Quản trị viên với cùng tên người dùng đã tồn tại. Nhập tên người dùng mới:   ");
+                            Console.Write("LỖI!!! Quản trị viên với cùng tên người dùng đã tồn tại. Hãy tạo tài khoản mới.");
+                            Console.Write("\tUSERNAME :   ");
                             username = Console.ReadLine();
-                            Console.Write("Nhập lại mật khẩu:   ");
+                            Console.Write("\tPASSWORD :   ");
                             password = Console.ReadLine();
                         }                
                     }
@@ -251,17 +262,17 @@ namespace ThucTapCoSo
                             do
                             {
                                 Console.WriteLine($"\n\n{"",-60}+++++++++ 3RD LAYER MENU +++++++++{"",50}LOGGED IN AS \"{userName}\"\n");
-                                Console.WriteLine("\t\t1 : Đặt chỗ");
-                                Console.WriteLine("\t\t2 : Cập nhật thông tin tài khoản");
-                                Console.WriteLine("\t\t3 : Xóa tài khoản");
-                                Console.WriteLine("\t\t4 : Lịch trình chuyến bay");
-                                Console.WriteLine("\t\t5 : Hủy vé bay");
-                                Console.WriteLine($"\t\t6 : Các vé được đặt bởi tài khoản \"{userName}\"....");
-                                Console.WriteLine("\t\t0 : Đăng xuất ");
-                                Console.Write("\t\tNhập tùy chọn :   ");
+                                Console.WriteLine("\t\t1 : ĐẶT CHỖ");
+                                Console.WriteLine("\t\t2 : CẬP NHẬT THÔNG TIN TÀI KHOẢN");
+                                Console.WriteLine("\t\t3 : XÓA TÀI KHOẢN");
+                                Console.WriteLine("\t\t4 : XEM LỊCH TRÌNH TẤT CẢ CÁC CHUYẾN BAY");
+                                Console.WriteLine("\t\t5 : HỦY VÉ BAY");
+                                Console.WriteLine($"\t\t6 : XEM CÁC VÉ ĐÃ ĐẶT \"{userName}\"....");
+                                Console.WriteLine("\t\t0 : ĐĂNG XUẤT ");
+                                Console.Write("\t\tNHẬP TÙY CHỌN :   ");
                                 while (!int.TryParse(Console.ReadLine(), out desiredChoice))
                                 {
-                                    Console.Write("Lựa chọn không hợp lệ vui lòng nhập lại:  ");
+                                    Console.Write("LỰA CHỌN KHÔNG HỢP LỆ VUI LÒNG NHẬP LẠI:  ");
                                 }
                                 if (desiredChoice == 1)
                                 {
@@ -341,20 +352,20 @@ namespace ThucTapCoSo
 
             WelcomeScreen(-1);
         }
-
+        //Hàm hiển thị menu chính
         static void DisplayMainMenu()
         {
 			Console.OutputEncoding = Encoding.Unicode;
-            Console.WriteLine("\n\n\t\t1 : Đăng nhập quản trị viên.");
-            Console.WriteLine("\t\t2 : Đăng ký quản trị viên.");
-            Console.WriteLine("\t\t3 : Đăng nhập hành khách.");
-            Console.WriteLine("\t\t4 : Đăng ký hành khách.");
-            Console.WriteLine("\t\t5 : Hiển thị Hướng dẫn sử dụng.");
-            Console.WriteLine("\t\t0 : Thoát.");
-            Console.Write("\t\tNhập tùy chọn mong muốn:    ");
+            Console.WriteLine("\n\n\t\t1 : ĐĂNG NHẬP QUẢN TRỊ VIÊN");
+            Console.WriteLine("\t\t2 : ĐĂNG KÍ QUẢN TRỊ VIÊN");
+            Console.WriteLine("\t\t3 : ĐĂNG NHẬP NGƯỜI DÙNG");
+            Console.WriteLine("\t\t4 : ĐĂNG KÍ NGƯỜI DÙNG");
+            Console.WriteLine("\t\t5 : HƯỚNG DẪN SỬ DỤNG");
+            Console.WriteLine("\t\t0 : THOÁT");
+            Console.Write("\t\tNHẬP TÙY CHỌN:    ");
 
         }
-
+        //Hàm hiển thị hướng dẫn sử dụng
         static void ManualInstructions()
         {
 			Console.OutputEncoding = Encoding.Unicode;
@@ -405,6 +416,7 @@ namespace ThucTapCoSo
             }
 
         }
+        //Hàm hiển thị banner chào mừng
 		static void WelcomeScreen(int option)
         {
 			Console.OutputEncoding = Encoding.Unicode;
@@ -437,6 +449,7 @@ namespace ThucTapCoSo
 
         Console.WriteLine(artWork);
     }
+        //Hàm hiển thị các banner
         static void PrintArtWork(int option)
         {
 			Console.OutputEncoding = Encoding.Unicode;
