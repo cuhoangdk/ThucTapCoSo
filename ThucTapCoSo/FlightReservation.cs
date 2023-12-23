@@ -397,7 +397,7 @@ namespace ThucTapCoSo
                 if (datesearch.ToString("dd/MM/yyyy")==datefile.ToString("dd/MM/yyyy") && normalFrom.Equals(normaldataFrom, StringComparison.OrdinalIgnoreCase) && normalTo.Equals(normaldataTo, StringComparison.OrdinalIgnoreCase) && data[0] == "1")
                 {
                     isFound = true;
-                    Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {fl.FetchArrivalTime(data[4], data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {fl.CalculatePrice("BSN", data[9]),-8} /  {fl.CalculatePrice("ECO", data[9]),-8} |");
+                    Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {fl.FetchArrivalTime(data[4], data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {fl.CalculatePrice("BSN", data[9], 18),-8} /  {fl.CalculatePrice("ECO", data[9], 18),-8} |");
                     Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
                     stt++;
                 }
@@ -474,7 +474,7 @@ namespace ThucTapCoSo
             foreach (string line in TicketReceipt)
             {
                 string[] data = line.Split(';');
-                string key = $"{data[1]}_{data[3]}_{data[4]}_{data[5]}";  //  ma hoa don_userID_flightNum_ticketType
+                string key = $"{data[1]}_{data[3]}_{data[4]}_{data[5]}_{data[7]}";  //  ma hoa don_userID_flightNum_ticketType_birth
 
                 if (user_receipt.ContainsKey(key))
                 {
@@ -490,9 +490,9 @@ namespace ThucTapCoSo
             bool shouldDisplayHeader = true;
             foreach (var key in user_receipt)
             {
-                string[] dataTR = key.Key.Split('_');   //   ma hoa don_userID_flightNum_ticketType
+                string[] dataTR = key.Key.Split('_');   //   ma hoa don_userID_flightNum_ticketType_birth
 
-                for (int j = 0; j < Customer.Length; j++)
+				for (int j = 0; j < Customer.Length; j++)
                 {
                     string[] dataCustomer = Customer[j].Split(';');
                     if (userID.Equals(dataTR[1]) && dataTR[1].Equals(dataCustomer[1]))
@@ -512,7 +512,13 @@ namespace ThucTapCoSo
                                     Console.Write("\t+------+-------------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+--------------+----------------+-----------------+\n");
                                     shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
                                 }
-                                Console.Write($"\t| {stt,-4} | {dataTR[0],-11} | {dataFlight[1],-11} | {dataFlight[4],-25} | {dataFlight[5],-22} | {dataFlight[6],-21} | {dataFlight[7],-8}  Hrs | {dataFlight[8],-6} | {key.Value} {dataTR[3],-10} | {fl.CalculatePrice(dataTR[3],dataFlight[9]),-14} | {FlightStatus(dataFlight[0], dataFlight[4]),-15} |\n");
+                                DateTime birth = DateTime.Parse(dataTR[4]);
+                                int age = DateTime.Now.Year - birth.Year;
+								if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
+								{
+									age--;
+								}
+								Console.Write($"\t| {stt,-4} | {dataTR[0],-11} | {dataFlight[1],-11} | {dataFlight[4],-25} | {dataFlight[5],-22} | {dataFlight[6],-21} | {dataFlight[7],-8}  Hrs | {dataFlight[8],-6} | {key.Value} {dataTR[3],-10} | {fl.CalculatePrice(dataTR[3],dataFlight[9],age),-14} | {FlightStatus(dataFlight[0], dataFlight[4]),-15} |\n");
                                 Console.Write("\t+------+-------------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+--------------+----------------+-----------------+\n");
                                 stt++; 
                             }

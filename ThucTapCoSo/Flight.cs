@@ -234,22 +234,37 @@ namespace ThucTapCoSo
             DisplayFlightSchedule();
         }
 
-        public float CalculatePrice(string ticketType, string mile)
+        public float CalculatePrice(string ticketType, string mile, int age)
         {
 			float VAT = 1.1f;//Thuế
 			float C4 = 1.0f; //dịch vụ soi chiếu bao gồm VAT
 			float TicketIssuance = 3.3f; // phụ thu xuất vé bao gồm VAT
             float PaymentFees = 2.2f; //phí thanh toán 
 			float SystemAdministrationFee = 15f; //Phí quản trị hệ thống
+            float price; // giá vé
 
 			if (ticketType == "BSN")			
-            {				
-				float price = (float)Math.Round((double.Parse(mile) * 0.05 * VAT + C4 + TicketIssuance + PaymentFees + SystemAdministrationFee), 2);
+            {
+                if (age <= 12)
+                {
+                    price = (float)Math.Round((double.Parse(mile) * 0.05 * VAT + C4/2 + TicketIssuance/2 + PaymentFees + SystemAdministrationFee/2), 2);
+                }
+                else
+                {
+                    price = (float)Math.Round((double.Parse(mile) * 0.05 * VAT + C4 + TicketIssuance + PaymentFees + SystemAdministrationFee), 2);
+                }
 				return price;
 			}
 			else
-            {		
-				float price = (float)Math.Round((double.Parse(mile) * 0.01 * VAT + C4 + TicketIssuance + PaymentFees + SystemAdministrationFee), 2);
+            {	
+                if (age <= 12)
+                {
+					price = (float)Math.Round((double.Parse(mile) * 0.01 * VAT + C4/2 + TicketIssuance/2 + PaymentFees + SystemAdministrationFee/2), 2);
+				}
+                else
+                {
+					price = (float)Math.Round((double.Parse(mile) * 0.01 * VAT + C4 + TicketIssuance + PaymentFees + SystemAdministrationFee), 2);
+				}				
 				return price;
 			}
 		}
@@ -304,7 +319,7 @@ namespace ThucTapCoSo
                 {
                     continue;
                 }
-                Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4],data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice("BSN",data[9]),-8} /  {CalculatePrice("ECO", data[9]),-8} |");
+                Console.WriteLine($"| {stt,-4} | {data[4],-25} | {data[1],-11} | BSN: {data[2],-3} / ECO: {data[3],-3}          | {data[5],-21} | {data[6],-22} | {FetchArrivalTime(data[4],data[7]),-25} | {data[7],6}  Hrs | {data[8],-6} | {data[9],-9} / {data[10],-10} | {CalculatePrice("BSN",data[9],18),-8} /  {CalculatePrice("ECO", data[9],18),-8} |");
                 Console.Write("+------+---------------------------+-------------+------------------------------+-----------------------+------------------------+---------------------------+-------------+--------+------------------------+----------------------+\n");
                 stt++;
             }
