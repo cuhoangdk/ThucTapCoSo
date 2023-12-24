@@ -471,11 +471,9 @@ namespace ThucTapCoSo
             //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
 
-            string filePathCustomer = Path.Combine(datatxt, "Customer.txt");
             string filePathFlight = Path.Combine(datatxt, "FlightScheduler.txt");
             string filePathTR = Path.Combine(datatxt, "TicketReceipt.txt");
 
-            string[] Customer = File.ReadAllLines(filePathCustomer);
             string[] flight = File.ReadAllLines(filePathFlight);
             string[] TicketReceipt = File.ReadAllLines(filePathTR);
 
@@ -484,7 +482,7 @@ namespace ThucTapCoSo
             foreach (string line in TicketReceipt)
             {
                 string[] data = line.Split(';');
-                string key = $"{data[1]}_{data[3]}_{data[4]}_{data[5]}";  //  ma hoa don_userID_flightNum_ticketType_birth
+                string key = $"{data[1]}_{data[3]}_{data[4]}_{data[5]}";  //  ma hoa don_userID_flightNum_ticketType
 
                 if (user_receipt.ContainsKey(key))
                 {
@@ -495,6 +493,7 @@ namespace ThucTapCoSo
                     user_receipt[key] = 1;
                 }
             }
+
             int stt = 1;
             bool isFound = false;
             bool shouldDisplayHeader = true;
@@ -502,10 +501,11 @@ namespace ThucTapCoSo
             {
                 string[] dataTR = key.Key.Split('_');   //   ma hoa don_userID_flightNum_ticketType
 
-				for (int j = 0; j < Customer.Length; j++)
+                for(int h=0; h<TicketReceipt.Length; h++)
                 {
-                    string[] dataCustomer = Customer[j].Split(';');
-                    if ((userID.Equals(dataTR[1]) && dataTR[1].Equals(dataCustomer[1])))
+                    string[] dataPS = TicketReceipt[h].Split(';');
+
+                    if (dataTR[1].Equals(dataPS[3]) && userID.Equals(dataTR[1]))
                     {
                         for (int i = 0; i < flight.Length; i++)
                         {
@@ -522,18 +522,18 @@ namespace ThucTapCoSo
                                     Console.Write("\t+------+-------------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+--------------+----------------+-----------------+\n");
                                     shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
                                 }
-                                /*DateTime birth = DateTime.ParseExact(dataTR[4],"dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                                DateTime birth = DateTime.ParseExact(dataPS[7],"dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                                 int age = DateTime.Now.Year - birth.Year;
-								if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
-								{
-									age--;
-								}*/
-								Console.Write($"\t| {stt,-4} | {dataTR[0],-11} | {dataFlight[1],-11} | {dataFlight[4],-25} | {dataFlight[5],-22} | {dataFlight[6],-21} | {dataFlight[7],-8}  Hrs | {dataFlight[8],-6} | {key.Value} {dataTR[3],-10} | {TotalPrice(key.Value, fl.CalculatePrice(dataTR[3],dataFlight[9],18)),-14} | {FlightStatus(dataFlight[0], dataFlight[4]),-15} |\n");
+                                if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
+                                {
+                                    age--;
+                                }
+                                Console.Write($"\t| {stt,-4} | {dataTR[0],-11} | {dataFlight[1],-11} | {dataFlight[4],-25} | {dataFlight[5],-22} | {dataFlight[6],-21} | {dataFlight[7],-8}  Hrs | {dataFlight[8],-6} | {key.Value} {dataTR[3],-10} | {TotalPrice(key.Value, fl.CalculatePrice(dataTR[3], dataFlight[9], age)),-14} | {FlightStatus(dataFlight[0], dataFlight[4]),-15} |\n");
                                 Console.Write("\t+------+-------------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+--------------+----------------+-----------------+\n");
-                                stt++; 
+                                stt++;
                             }
-
                         }
                         break;
                     }
