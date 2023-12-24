@@ -260,7 +260,7 @@ namespace ThucTapCoSo
             }
         }
         //Hàm tìm kiếm người dùng
-        public void SearchUser(string ID, string name, string address, string phone)
+        public void SearchUser(string ID, string name, string address, string phone, string email)
         {
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
@@ -270,19 +270,21 @@ namespace ThucTapCoSo
             string filePath = Path.Combine(datatxt, "Customer.txt");
 
             string[] Customers = File.ReadAllLines(filePath);
-            if (name == "") name = "123912hd12beqsưqnd";
-            if (address == "") address = "123912hd12beqsưqnd";
+            if (name == "") name = "1q2w3e4r5t6y7u8i9o0pppppppp";
+            if (address == "") address = "1q2w3e4r5t6y7u8i9o0pppppppp";
 
             bool isFound = false;
             DisplayHeader();
+            int stt=1;
             for (int i=0; i<Customers.Length; i++)
             {
                 string[] data = Customers[i].Split(';');
-                if ((ID.Equals(data[1]) || RemoveDiacritics(data[2]).Contains(RemoveDiacritics(name)) || RemoveDiacritics(data[6]).Contains(RemoveDiacritics(address)) || phone.Equals(data[5]) ) && data[0] == "1")
+                if ((ID.Equals(data[1]) || RemoveDiacritics(data[2]).Contains(RemoveDiacritics(name)) || RemoveDiacritics(data[6]).Contains(RemoveDiacritics(address)) || phone.Equals(data[5]) || email.Equals(data[3]) ) && data[0] == "1")
                 {
                     isFound = true;
-                    Console.WriteLine($"{new string(' ', 10)}| {i + 1,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
+                    Console.WriteLine($"{new string(' ', 10)}| {stt,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
                     Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
+                    stt++;
                 }
             }
             if(!isFound)

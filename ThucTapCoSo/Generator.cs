@@ -43,7 +43,7 @@ namespace ThucTapCoSo
         //Tạo ID ngẫu nhiên cho khách hàng
         public void RandomIDGen()
         {            
-            string randomID = rand.Next(20000, 1000000).ToString();
+            string randomID = rand.Next(10000000, 99999999).ToString();
             SetRandomNum(randomID);
         }
         //Hàm chọn điểm đi và điểm đến để tạo chuyến bay

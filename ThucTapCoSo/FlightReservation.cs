@@ -61,7 +61,7 @@ namespace ThucTapCoSo
             string flightToBeBooked;
 
             if(SearchFlight() == true)
-            { 
+            {
                 Console.Write("\nNhập mã chuyến bay mong muốn để đặt chỗ :\t ");
                 flightToBeBooked = Console.ReadLine().ToUpper();
                 string ticketType;
@@ -84,20 +84,18 @@ namespace ThucTapCoSo
                 {
                     Console.Write("LỖI!! Vui lòng nhập số lượng vé hợp lệ (ít hơn 10, nhiều hơn 0): ");
                 }
-
-
                 for (int i = 0; i < flight.Length; i++)
                 {
                     string[] dataFlight = flight[i].Split(';');
 
                     if (dataFlight[1].Equals(flightToBeBooked) && dataFlight[0] == "1")
                     {
+                        int rtID = rand.Next(10000000, 99999999);
                         isFound = true;
                         for (int count = 1; count <= numOfTickets; count++)
                         {
                             string name, email, phone, address;
                             DateTime birth;
-                            int rtID = rand.Next(10000000, 99999999);
                             if (ticketType == "ECO")
                             {
                                 int availableECOSeats = int.Parse(dataFlight[3]);
@@ -450,7 +448,7 @@ namespace ThucTapCoSo
             }
         }
         //Hàm xét trạng thái chuyến bay (đã xóa, đang theo lịch trình, đã cất cánh)
-        string FlightStatus(string flag, string date)
+        private string FlightStatus(string flag, string date)
         {
             if (flag == "0") return "ĐÃ XÓA";
             DateTime datefile = DateTime.ParseExact(date, "ddd, dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
@@ -486,7 +484,7 @@ namespace ThucTapCoSo
             foreach (string line in TicketReceipt)
             {
                 string[] data = line.Split(';');
-                string key = $"{data[1]}_{data[3]}_{data[4]}_{data[5]}_{data[7]}";  //  ma hoa don_userID_flightNum_ticketType_birth
+                string key = $"{data[1]}_{data[3]}_{data[4]}_{data[5]}";  //  ma hoa don_userID_flightNum_ticketType_birth
 
                 if (user_receipt.ContainsKey(key))
                 {
@@ -502,12 +500,12 @@ namespace ThucTapCoSo
             bool shouldDisplayHeader = true;
             foreach (var key in user_receipt)
             {
-                string[] dataTR = key.Key.Split('_');   //   ma hoa don_userID_flightNum_ticketType_birth
+                string[] dataTR = key.Key.Split('_');   //   ma hoa don_userID_flightNum_ticketType
 
 				for (int j = 0; j < Customer.Length; j++)
                 {
                     string[] dataCustomer = Customer[j].Split(';');
-                    if (userID.Equals(dataTR[1]) && dataTR[1].Equals(dataCustomer[1]))
+                    if ((userID.Equals(dataTR[1]) && dataTR[1].Equals(dataCustomer[1])))
                     {
                         for (int i = 0; i < flight.Length; i++)
                         {
@@ -524,14 +522,14 @@ namespace ThucTapCoSo
                                     Console.Write("\t+------+-------------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+--------------+----------------+-----------------+\n");
                                     shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
                                 }
-                                DateTime birth = DateTime.ParseExact(dataTR[4],"dd/MM/yyyy", CultureInfo.InvariantCulture);
+                                /*DateTime birth = DateTime.ParseExact(dataTR[4],"dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                                 int age = DateTime.Now.Year - birth.Year;
 								if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
 								{
 									age--;
-								}
-								Console.Write($"\t| {stt,-4} | {dataTR[0],-11} | {dataFlight[1],-11} | {dataFlight[4],-25} | {dataFlight[5],-22} | {dataFlight[6],-21} | {dataFlight[7],-8}  Hrs | {dataFlight[8],-6} | {key.Value} {dataTR[3],-10} | {fl.CalculatePrice(dataTR[3],dataFlight[9],age),-14} | {FlightStatus(dataFlight[0], dataFlight[4]),-15} |\n");
+								}*/
+								Console.Write($"\t| {stt,-4} | {dataTR[0],-11} | {dataFlight[1],-11} | {dataFlight[4],-25} | {dataFlight[5],-22} | {dataFlight[6],-21} | {dataFlight[7],-8}  Hrs | {dataFlight[8],-6} | {key.Value} {dataTR[3],-10} | {TotalPrice(key.Value, fl.CalculatePrice(dataTR[3],dataFlight[9],18)),-14} | {FlightStatus(dataFlight[0], dataFlight[4]),-15} |\n");
                                 Console.Write("\t+------+-------------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+--------------+----------------+-----------------+\n");
                                 stt++; 
                             }

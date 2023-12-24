@@ -98,8 +98,11 @@ namespace ThucTapCoSo
                                     string address;
                                     string phone;
                                     string customerID;
+                                    string email;
                                     c1.DisplayArtWork(2);
                                     c1.DisplayCustomersData(false);
+                                    Console.WriteLine("\tNhập thông tin khách hàng muốn tìm kiếm.");
+                                    Console.WriteLine("\tBấm enter đê bỏ qua không nhập.");
                                     Console.Write("\tNhập mã khách hàng  :\t");
                                     customerID = Console.ReadLine();
                                     Console.Write("\tNhập tên khách hàng :\t");
@@ -108,8 +111,10 @@ namespace ThucTapCoSo
                                     address = Console.ReadLine();
                                     Console.Write("\tNhập số điện thoại  :\t");
                                     phone = Console.ReadLine();
+                                    Console.Write("\tNhập email          :\t");
+                                    email = Console.ReadLine();
                                     Console.WriteLine();
-                                    c1.SearchUser(customerID,name,address,phone);
+                                    c1.SearchUser(customerID,name,address,phone,email);
                                 }
                                 else if (desiredOption == 3)
                                 {
