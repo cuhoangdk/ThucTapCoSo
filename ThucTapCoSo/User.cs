@@ -25,6 +25,8 @@ namespace ThucTapCoSo
 
             Customer c1 = new Customer();
 
+
+
             Console.WriteLine();
             WelcomeScreen(1);
             Console.WriteLine("\n\t\t\t\t\t+++++++++++++ CHÀO MỪNG BẠN ĐẾN VỚI STAR AIRLINES +++++++++++++\n\n");
@@ -146,6 +148,14 @@ namespace ThucTapCoSo
                                     Console.Write("\n\n\tTẤT CẢ CÁC CHUYẾN BAY ĐƯỢC ĐẶT CHỖ BỞI NGƯỜI DÙNG CÓ ID : ");
                                     string id = Console.ReadLine();
                                     bookingAndReserving.DisplayFlightsRegisteredByOneUser(id);
+                                    Console.WriteLine("\tNhập N/n để quay lại!");
+                                    while (true)
+                                    {
+                                        Console.Write("\tNhập mã hóa đơn vé muốn xem chi tiết:");
+                                        string trID = Console.ReadLine();
+                                        bookingAndReserving.DisplayTicketRecept(id, trID);
+                                        if (trID == "n" || trID == "N") break;
+                                    }
                                 }
                                 else if (desiredOption == 7)
                                 {
@@ -320,6 +330,15 @@ namespace ThucTapCoSo
                                 {
                                     bookingAndReserving.DisplayArtWork(6);
                                     bookingAndReserving.DisplayFlightsRegisteredByOneUser(dataC[1]);
+                                    Console.WriteLine("\tNhập N/n để quay lại!");
+                                    while (true)
+                                    {
+                                        Console.Write("\tNhập mã hóa đơn vé muốn xem chi tiết:");
+                                        string trID = Console.ReadLine();
+                                        bookingAndReserving.DisplayTicketRecept(dataC[1], trID);
+                                        if (trID == "n" || trID == "N") break;
+                                    }
+
                                 }
                                 else
                                 {

@@ -758,6 +758,115 @@ namespace ThucTapCoSo
             }
             return true;
         }
+        public bool DisplayTicketRecept(string userID, string trID)
+        {
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePathTR = Path.Combine(datatxt, "TicketReceipt.txt");
+            string filePathFlight = Path.Combine(datatxt, "FlightScheduler.txt");
+            string filePathC = Path.Combine(datatxt, "Customer.txt");
+
+
+
+            string[] Flight = File.ReadAllLines(filePathFlight);
+            string[] TicketReceipt = File.ReadAllLines(filePathTR);
+            string[] Customer = File.ReadAllLines(filePathC);
+
+
+            string datebook = "";
+            string nameCustomer = "";
+            string emailCustomer = "";
+            string phoneCustomer = "";
+
+            string idFlight = "";
+            string typeTicket = "";
+            string fromWhich = "";
+            DateTime timefromWich = DateTime.Now;
+            string toWhich = "";
+            DateTime timetoWich = DateTime.Now;
+            TimeSpan timeFlight = TimeSpan.Zero;
+            float totalPrice = 0;
+            
+            
+            bool isFound = false;
+
+            for (int i = 0; i < Customer.Length; i++)
+            {
+                string[] data = Customer[i].Split(';');
+                if (data[0] == "1" && data[1] == userID)
+                {
+                    nameCustomer = data[2];
+                    emailCustomer = data[3];
+                    phoneCustomer = data[5];
+                }
+            }
+            Console.WriteLine($"+-------------------------------------------------------------------------------------------------+");
+            Console.WriteLine($"|   STAR AIRLINES                                                           Hotline: 0999999999   |");
+            Console.WriteLine($"+-------------------------------------------------------------------------------------------------+");
+            Console.WriteLine($"|                                           VÉ ĐIỆN TỬ                                            |");
+            Console.WriteLine($"+-------------------------------------------------------------------------------------------------+");
+            Console.WriteLine($"| Mã đặt chỗ (số vé): {trID,-8}                                                                    |");
+            Console.WriteLine($"+-------------------------------------------------------------------------------------------------+");
+            Console.WriteLine($"| 1. THÔNG TIN NGƯỜI ĐẶT CHỖ                                                                      |");
+            Console.WriteLine($"+-------------------------------------------------------------------------------------------------+");
+            Console.WriteLine($"| Mã khách hàng: {userID,-10}                   Liên lạc  : {phoneCustomer,-10}                              |");
+            Console.WriteLine($"| Họ tên       : {nameCustomer,-20}         Email     : {emailCustomer,-20}                    |");
+            Console.WriteLine($"+-------------------------------------------------------------------------------------------------+");
+            Console.WriteLine($"| 2. THÔNG TIN HÀNH KHÁCH                                                                         |");
+            Console.WriteLine($"+---------------------------------------------------------------------+-------------+-------------+");
+            Console.WriteLine($"| Tên hành khách                                                      | Số ghế      | Mã chuyến   |");
+            Console.WriteLine($"+---------------------------------------------------------------------+-------------+-------------+");
+            //
+
+
+            for (int i = 0; i < TicketReceipt.Length; i++)
+            {
+                string[] dataTR = TicketReceipt[i].Split(';');
+
+                //
+                for (int j = 0; j < Flight.Length; j++)
+                {
+                    string[] dataF = Flight[j].Split(';');
+
+                    if (userID.Equals(dataTR[3]) && dataF[1].Equals(dataTR[4]) && dataF[0] == "1" && trID.Equals(dataTR[1]))
+                    {
+                        isFound = true;
+                        //
+                        Flight fl = new Flight();
+
+                        Console.WriteLine($"| {dataTR[6],-20}                                                | {dataTR[2],-6}     | {dataTR[4],-6}      |");
+                        idFlight = dataF[1];
+                        timefromWich = DateTime.ParseExact(dataF[4], "ddd, dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                        fromWhich = dataF[5];
+                        toWhich= dataF[6];
+                        timeFlight = TimeSpan.Parse(dataF[7]);
+                        typeTicket = dataTR[5];
+                        datebook = dataTR[0];
+                        float price = fl.CalculatePrice(typeTicket, dataF[9], 18);
+                        totalPrice += price;
+                    } 
+                }
+            }
+            if (!isFound)
+            {
+                Console.WriteLine($"\n\tKHÔNG TÌM THẤY VÉ");
+                return isFound;
+            }
+            Console.WriteLine($"+---------------------------------------------------------------------+-------------+-------------+");
+            Console.WriteLine($"| 3. THÔNG TIN CHUYẾN BAY                                                                         |");
+            Console.WriteLine($"+------------+------+--------------------------------------+--------------------------------------+");
+            Console.WriteLine($"| Chuyến bay | Loại | Khởi hành                            | Đến                                  |");
+            Console.WriteLine($"+------------+------+--------------------------------------+--------------------------------------+");
+            Console.WriteLine($"| {idFlight,-10} | {typeTicket,-4} | {fromWhich,-19} {timefromWich.ToString("HH:mm dd/MM/yyyy"),-10} | {toWhich,-19} {timefromWich.Add(timeFlight).ToString("HH:mm dd/MM/yyyy"),-10} |");
+            Console.WriteLine($"+------------+------+--------------------------------------+--------------------------------------+");
+            Console.WriteLine($"| TỔNG TIỀN    : {totalPrice,-10} $                              | Ngày đặt   :     {datebook,-13} |");
+            Console.WriteLine($"+----------------------------------------------------------+--------------------------------------+");
+
+            return true;
+        }
         //Hàm hiển thị các banner
         public void DisplayArtWork(int option)
         {
