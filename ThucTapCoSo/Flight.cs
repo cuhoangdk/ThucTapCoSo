@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace ThucTapCoSo
@@ -74,7 +75,8 @@ namespace ThucTapCoSo
             for (int i = 0; i < lines.Count; i++)
             {
                 string[] data = lines[i].Split(';');
-                if (data[0] == "0")
+				DateTime flightTime = DateTime.ParseExact(data[4], "ddd, dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+				if (data[0] == "0" || flightTime<DateTime.Now)
                 {
                     continue;
                 }
@@ -354,14 +356,18 @@ namespace ThucTapCoSo
             int hours = (int)Math.Round(time);
             int minutes = (int)((time - hours) * 60 + 20);
 
-            // Làm tròn đến đơn vị thời gian gần nhất chia hết cho 5
-            int remainder = minutes % 5;
-            if (remainder > 0)
-            {
-                minutes += 5 - remainder;
-            }
+			// Làm tròn đến đơn vị thời gian gần nhất chia hết cho 5
+			int modulus = minutes % 5;
+			if (modulus < 3)
+			{
+				minutes -= modulus;
+			}
+			else
+			{
+				minutes += 5 - modulus;
+			}
 
-            if (minutes >= 60)
+			if (minutes >= 60)
             {
                 minutes -= 60;
                 hours++;
