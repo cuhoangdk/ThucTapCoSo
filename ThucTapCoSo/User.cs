@@ -405,37 +405,37 @@ namespace ThucTapCoSo
 			}
 			if (choice == 1)
 			{
-                Console.WriteLine("\n\n(1) Quản trị viên có quyền truy cập vào dữ liệu của tất cả người dùng... Quản trị viên có thể xóa, cập nhật, thêm và thực hiện tìm kiếm cho bất kỳ khách hàng nào...\n");
-                Console.WriteLine("(2) Để truy cập vào mô-đun quản trị, bạn phải đăng ký bằng cách nhấn 2, khi menu chính hiển thị...\n");
-                Console.WriteLine("(3) Cung cấp các thông tin cần thiết như tên, email, id... Sau khi bạn đã đăng ký, nhấn 1 để đăng nhập như một quản trị viên... \n");
-                Console.WriteLine("(4) Khi bạn đã đăng nhập, menu lớp 2 sẽ được hiển thị trên màn hình... Từ đây, bạn có thể chọn từ nhiều tùy chọn...\n");
-                Console.WriteLine("(5) Nhấn \"1\" sẽ thêm một hành khách mới, cung cấp chi tiết cần thiết để thêm hành khách...\n");
-                Console.WriteLine("(6) Nhấn \"2\" sẽ tìm kiếm bất kỳ hành khách nào, miễn là quản trị viên (bạn) cung cấp ID từ bảng in ở trên....  \n");
-                Console.WriteLine("(7) Nhấn \"3\" sẽ cho phép bạn cập nhật bất kỳ dữ liệu hành khách nào, miễn là ID người dùng được cung cấp cho chương trình...\n");
-                Console.WriteLine("(8) Nhấn \"4\" sẽ cho phép bạn xóa bất kỳ hành khách nào, miễn là ID được cung cấp...\n");
-                Console.WriteLine("(9) Nhấn \"5\" sẽ cho phép bạn hiển thị tất cả hành khách đã đăng ký...\n");
-				Console.WriteLine("(10) Nhấn \"6\" sẽ cho phép bạn hiển thị tất cả các chuyến bay đã đăng ký bởi hành khách, cung cấp ID hành khách để xem chi tiết...\n");
-				Console.WriteLine("(10) Nhấn \"7\" sẽ cho phép bạn hiển thị tất cả hành khách đã đăng ký... Sau khi chọn, chương trình sẽ hỏi bạn có muốn hiển thị hành khách cho tất cả các chuyến bay (Y/y) hay một chuyến bay cụ thể (N/n)\n");
-                Console.WriteLine("(11) Nhấn \"8\" sẽ cho phép bạn xóa bất kỳ chuyến bay nào, miễn là số hiệu chuyến bay được cung cấp...\n");
-				Console.WriteLine("(12) Nhấn \"9\" sẽ thêm một chuyến bay mới, cung cấp chi tiết cần thiết để thêm chuyến bay...\n");
-				Console.WriteLine("(13) Nhấn \"10\" sẽ cho phép bạn cập nhật bất kỳ dữ liệu chuyến bay nào, miễn là số hiệu chuyến bay được cung cấp cho chương trình...\n");
-				Console.WriteLine("(14) Nhấn \"11\" sẽ hiển thị lịch trình chuyến bay...\n");
-				Console.WriteLine("() Nhấn \"0\" sẽ khiến bạn đăng xuất khỏi chương trình... Bạn có thể đăng nhập lại bất cứ lúc nào trong quá trình thực hiện chương trình....\n");
+                Console.WriteLine("\n\n(1) Quản trị viên có quyền truy cập vào dữ liệu của tất cả người dùng. Quản trị viên có thể xóa, cập nhật, thêm và thực hiện tìm kiếm cho bất kỳ khách hàng nào.\n");
+                Console.WriteLine("(2) Để truy cập vào mô-đun quản trị, bạn phải đăng ký bằng cách nhấn 2, khi menu chính hiển thị.\n");
+                Console.WriteLine("(3) Cung cấp các thông tin cần thiết như tên, email, id. Sau khi bạn đã đăng ký, nhấn 1 để đăng nhập như một quản trị viên. \n");
+                Console.WriteLine("(4) Khi bạn đã đăng nhập, menu lớp 2 sẽ được hiển thị trên màn hình. Từ đây, bạn có thể chọn từ nhiều tùy chọn.\n");
+                Console.WriteLine("(5) Nhấn \"1\" sẽ thêm một hành khách mới, cung cấp chi tiết cần thiết để thêm hành khách.\n");
+                Console.WriteLine("(6) Nhấn \"2\" sẽ tìm kiếm bất kỳ hành khách nào, miễn là quản trị viên (bạn) cung cấp ID từ bảng in ở trên.  \n");
+                Console.WriteLine("(7) Nhấn \"3\" sẽ cho phép bạn cập nhật bất kỳ dữ liệu hành khách nào, miễn là ID người dùng được cung cấp cho chương trình.\n");
+                Console.WriteLine("(8) Nhấn \"4\" sẽ cho phép bạn xóa bất kỳ hành khách nào, miễn là ID được cung cấp.\n");
+                Console.WriteLine("(9) Nhấn \"5\" sẽ cho phép bạn hiển thị tất cả hành khách đã đăng ký.\n");
+				Console.WriteLine("(10) Nhấn \"6\" sẽ cho phép bạn hiển thị tất cả các chuyến bay đã đăng ký bởi hành khách, cung cấp ID hành khách để xem chi tiết.\n");
+				Console.WriteLine("(10) Nhấn \"7\" sẽ cho phép bạn hiển thị tất cả hành khách đã đăng ký. Sau khi chọn, chương trình sẽ hỏi bạn có muốn hiển thị hành khách cho tất cả các chuyến bay (1) hay một chuyến bay cụ thể (2)\n");
+                Console.WriteLine("(11) Nhấn \"8\" sẽ cho phép bạn xóa bất kỳ chuyến bay nào, miễn là số hiệu chuyến bay được cung cấp.\n");
+				Console.WriteLine("(12) Nhấn \"9\" sẽ thêm một chuyến bay mới, cung cấp chi tiết cần thiết để thêm chuyến bay.\n");
+				Console.WriteLine("(13) Nhấn \"10\" sẽ cho phép bạn cập nhật bất kỳ dữ liệu chuyến bay nào, miễn là số hiệu chuyến bay được cung cấp cho chương trình.\n");
+				Console.WriteLine("(14) Nhấn \"11\" sẽ hiển thị lịch trình chuyến bay.\n");
+				Console.WriteLine("(15) Nhấn \"0\" sẽ khiến bạn đăng xuất khỏi chương trình... Bạn có thể đăng nhập lại bất cứ lúc nào trong quá trình thực hiện chương trình.\n");
 
             }
             else
 			{
-                Console.WriteLine("\n\n(1) Người dùng cục bộ chỉ có quyền truy cập vào dữ liệu của mình... Anh/Chị sẽ không thể thay đổi/cập nhật dữ liệu của người dùng khác...\n");
-                Console.WriteLine("(2) Để truy cập vào các ưu đãi của người dùng cục bộ, bạn phải đăng ký bằng cách nhấn 4 khi menu chính hiển thị...\n");
-                Console.WriteLine("(3) Cung cấp thông tin được yêu cầu bởi chương trình để thêm bạn vào danh sách người dùng... Sau khi bạn đã đăng ký, nhấn \"3\" để đăng nhập như một hành khách...\n");
-                Console.WriteLine("(4) Sau khi bạn đã đăng nhập, menu lớp 3 sẽ được hiển thị... Từ đây, bạn bắt đầu cuộc hành trình để bay với chúng tôi...\n");
-                Console.WriteLine("(5) Nhấn \"1\" sẽ hiển thị danh sách các chuyến bay có sẵn/lên lịch... Để đặt chỗ cho mình trên một chuyến bay, nhập số hiệu chuyến bay và số vé cho chuyến bay... Số vé tối đa mỗi lần là 10 ...\n");
-                Console.WriteLine("(7) Nhấn \"2\" sẽ cho phép bạn cập nhật dữ liệu của chính bạn... Bạn sẽ không thể cập nhật dữ liệu của người khác... \n");
-                Console.WriteLine("(8) Nhấn \"3\" sẽ xóa tài khoản của bạn... \n");
-                Console.WriteLine("(9) Nhấn \"4\" sẽ hiển thị lịch trình chuyến bay...\n");
-                Console.WriteLine("(10) Nhấn \"5\" sẽ cho phép bạn hủy bỏ bất kỳ chuyến bay nào đã đăng ký bởi bạn...\n");
-                Console.WriteLine("(11) Nhấn \"6\" sẽ hiển thị tất cả chuyến bay đã đăng ký bởi bạn...\n");
-                Console.WriteLine("(12) Nhấn \"0\" sẽ khiến bạn đăng xuất khỏi chương trình... Bạn có thể đăng nhập lại bất cứ lúc nào với thông tin đăng nhập của mình... cho chạy này cụ thể... \n");
+                Console.WriteLine("\n\n(1) Người dùng cục bộ chỉ có quyền truy cập vào dữ liệu của mình. Anh/Chị sẽ không thể thay đổi/cập nhật dữ liệu của người dùng khác.\n");
+                Console.WriteLine("(2) Để truy cập vào các ưu đãi của người dùng cục bộ, bạn phải đăng ký bằng cách nhấn 4 khi menu chính hiển thị.\n");
+                Console.WriteLine("(3) Cung cấp thông tin được yêu cầu bởi chương trình để thêm bạn vào danh sách người dùng. Sau khi bạn đã đăng ký, nhấn \"3\" để đăng nhập như một hành khách.\n");
+                Console.WriteLine("(4) Sau khi bạn đã đăng nhập, menu lớp 3 sẽ được hiển thị. Từ đây, bạn bắt đầu cuộc hành trình để bay với chúng tôi.\n");
+                Console.WriteLine("(5) Nhấn \"1\" sẽ hiển thị danh sách các chuyến bay có sẵn/lên lịch. Để đặt chỗ cho mình trên một chuyến bay, nhập số hiệu chuyến bay và số vé cho chuyến bay. Số vé tối đa mỗi lần là 10.\n");
+                Console.WriteLine("(7) Nhấn \"2\" sẽ cho phép bạn cập nhật dữ liệu của chính bạn. Bạn sẽ không thể cập nhật dữ liệu của người khác. \n");
+                Console.WriteLine("(8) Nhấn \"3\" sẽ xóa tài khoản của bạn. \n");
+                Console.WriteLine("(9) Nhấn \"4\" sẽ hiển thị lịch trình chuyến bay.\n");
+                Console.WriteLine("(10) Nhấn \"5\" sẽ cho phép bạn hủy bỏ bất kỳ chuyến bay nào đã đăng ký bởi bạn.\n");
+                Console.WriteLine("(11) Nhấn \"6\" sẽ hiển thị tất cả chuyến bay đã đăng ký bởi bạn.\n");
+                Console.WriteLine("(12) Nhấn \"0\" sẽ khiến bạn đăng xuất khỏi chương trình. Bạn có thể đăng nhập lại bất cứ lúc nào với thông tin đăng nhập của mình.\n");
 
             }
 
