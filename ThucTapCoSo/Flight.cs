@@ -300,23 +300,34 @@ namespace ThucTapCoSo
 				return price;
 			}
 		}
-        //Hàm tính khoảng cách giữa 2 địa điểm của chuyến bay, dựa vào kinh độ và vĩ độ của 2 địa điểm
-        public override string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2)
-        {
-            double theta = lon1 - lon2;
-            double distance = Math.Sin(DegreeToRadian(lat1)) * Math.Sin(DegreeToRadian(lat2)) + Math.Cos(DegreeToRadian(lat1)) * Math.Cos(DegreeToRadian(lat2)) * Math.Cos(DegreeToRadian(theta));
-            distance = Math.Acos(distance);
-            distance = RadianToDegree(distance);
-            distance = distance * 60 * 1.1515;
+		//Hàm tính khoảng cách giữa 2 địa điểm của chuyến bay, dựa vào kinh độ và vĩ độ của 2 địa điểm
+		public override string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+		{
+			// Tính chênh lệch giữa kinh độ của hai điểm
+			double theta = lon1 - lon2;
+			// Sử dụng công thức Haversine để tính khoảng cách trên đường tròn lớn giữa hai điểm trên một hình cầu
+			double distance = Math.Sin(DegreeToRadian(lat1)) * Math.Sin(DegreeToRadian(lat2)) +
+							  Math.Cos(DegreeToRadian(lat1)) * Math.Cos(DegreeToRadian(lat2)) * Math.Cos(DegreeToRadian(theta));
+			// Sử dụng hàm ngược của hàm lượng giác (arc cosine) để lấy góc (tính bằng radian) giữa hai điểm
+			distance = Math.Acos(distance);
+			// Chuyển đổi góc từ radian sang độ
+			distance = RadianToDegree(distance);
+			// Chuyển đổi khoảng cách từ độ sang dặm hải lý (1 độ = 60 dặm hải lý, 1 dặm hải lý ≈ 1.1515 dặm đất liền)
+			distance = distance * 60 * 1.1515;
+			// Tạo một mảng để lưu trữ khoảng cách ở các đơn vị khác nhau
+			string[] distanceString = new string[3];
+			// Chuyển đổi khoảng cách sang dặm hải lý và định dạng chuỗi kết quả
+			distanceString[0] = $"{distance * 0.8684:F2}";
+            // Chuyển đổi khoảng cách sang kilômét và định dạng chuỗi kết quả
+			distanceString[1] = $"{distance * 1.609344:F2}";
+			// Làm tròn khoảng cách đến hai chữ số thập phân và định dạng chuỗi kết quả
+			distanceString[2] = $"{Math.Round(distance * 100.0) / 100.0:F2}";
+			// Trả về mảng chứa khoảng cách ở các đơn vị khác nhau
+			return distanceString;
+		}
 
-            string[] distanceString = new string[3];
-            distanceString[0] = $"{distance * 0.8684:F2}";
-            distanceString[1] = $"{distance * 1.609344:F2}";
-            distanceString[2] = $"{Math.Round(distance * 100.0) / 100.0:F2}";
-            return distanceString;
-        }
-        //Hàm chuyển độ thành radian (dùng để tính cho hàm khoảng cách)
-        private double DegreeToRadian(double deg)
+		//Hàm chuyển độ thành radian (dùng để tính cho hàm khoảng cách)
+		private double DegreeToRadian(double deg)
         {
             return (deg * Math.PI / 180.0);
         }
