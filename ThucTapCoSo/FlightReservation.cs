@@ -17,23 +17,34 @@ namespace ThucTapCoSo
     internal class FlightReservation : Generator,IDisplayClass
     {
         //Hàm tạo số ghế (mã ghế)
-        public string SeatID(string plane, string seatsEmpty, string ticketType)
+        static string SeatID(string flightNum, string ticketType)
         {
-            string[][] planeType = Flight.PlaneTypes;
-            int id;
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
 
-            for( int i = 0; i<planeType.Length; i++)
+            string filePathTicketReceipt = Path.Combine(datatxt, "TicketReceipt.txt");
+            string[] TicketReceipt = File.ReadAllLines(filePathTicketReceipt);
+
+            var matchingTickets = TicketReceipt
+                .Where(line => line.Contains(flightNum) && line.Contains(ticketType))
+                .ToList();
+
+            if (matchingTickets.Count > 0)
             {
-                if (planeType[i][0].Equals(plane) && ticketType == "BSN")
+                var usedSeatNumbers = matchingTickets
+                    .Select(line => int.Parse(line.Split(';')[2].Split('-')[1]))
+                    .ToList();
+
+                // Tìm số vé chưa được sử dụng
+                int newSeatNumber = 1;
+                while (usedSeatNumbers.Contains(newSeatNumber))
                 {
-                    id = int.Parse(planeType[i][1]) - int.Parse(seatsEmpty) + 1;
-                    return $"{ticketType}-{id.ToString().PadLeft(3, '0')}";
+                    newSeatNumber++;
                 }
-                else if(planeType[i][0].Equals(plane) && ticketType == "ECO")
-                {
-                    id = int.Parse(planeType[i][2]) - int.Parse(seatsEmpty) + 1;
-                    return $"{ticketType}-{id.ToString().PadLeft(3, '0')}";
-                }
+
+                // Tạo mã chỗ ngồi mới
+                string newSeatID = $"{ticketType}-{newSeatNumber:000}";
+                return newSeatID;
             }
             return "";
         }
@@ -103,7 +114,7 @@ namespace ThucTapCoSo
 
                                 if (availableECOSeats >= numOfTickets)
                                 {
-                                    string tiketID = SeatID(dataFlight[11], dataFlight[3], ticketType);
+                                    string tiketID = SeatID(dataFlight[1], ticketType);
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
@@ -168,7 +179,7 @@ namespace ThucTapCoSo
 
                                 if (availableBSNSeats >= numOfTickets)
                                 {
-                                    string tiketID = SeatID(dataFlight[11], dataFlight[2], ticketType);
+                                    string tiketID = SeatID(dataFlight[1], ticketType);
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
