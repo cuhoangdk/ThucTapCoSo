@@ -88,22 +88,20 @@ namespace ThucTapCoSo
         //Hàm thêm chuyến bay
         public void AddFlight(string idAdmin, DateTime date)
         {
-            Generator r1 = new Generator();
-
-            string[][] chosenDestinations = r1.SpecificallyDestinations();
-            int flag = 1;
-            string flightType;
-            string ecoSlots;
-            string bsnSlots;
-
-            //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
 
             string fileHistory = Path.Combine(datatxt, "FlightHistory.txt");
             string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
 
+            Generator r1 = new Generator();
+
+            string[][] chosenDestinations = r1.SpecificallyDestinations();
+
+            int flag = 1;
+            string flightType;
+            string ecoSlots;
+            string bsnSlots;
 
             if (double.TryParse(chosenDestinations[0][1], out double latitude1) &&
                double.TryParse(chosenDestinations[0][2], out double longitude1) &&
@@ -112,10 +110,10 @@ namespace ThucTapCoSo
             {
                 string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
 
+                string flightNumber = r1.NewID("FlightScheduler.txt");
                 string flightSchedule = CreateNewFlightsAndTime();
-                string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
-                int columns = 3;
 
+                int columns = 3;
                 Console.WriteLine("\tCHỌN LOẠI MÁY BAY:");
                 for (int i = 0; i < planeTypes.Length; i++)
                 {
@@ -126,6 +124,7 @@ namespace ThucTapCoSo
                         Console.WriteLine(); // Xuống dòng sau mỗi số cột
                     }
                 }
+
                 int choose;
                 while (!int.TryParse(Console.ReadLine(), out choose) || choose < 0 || choose > planeTypes.Length)
                 {
@@ -134,6 +133,7 @@ namespace ThucTapCoSo
 				flightType = planeTypes[choose - 1][0];
 				bsnSlots = planeTypes[choose - 1][1];
 				ecoSlots = planeTypes[choose - 1][2];
+
 				string gate = r1.RandomFlightNumbGen(1, 30);
                 double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
                 double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
