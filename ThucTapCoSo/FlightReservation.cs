@@ -29,6 +29,7 @@ namespace ThucTapCoSo
                 .Where(line => line.Contains(flightNum) && line.Contains(ticketType))
                 .ToList();
 
+            int newSeatNumber;
             if (matchingTickets.Count > 0)
             {
                 var usedSeatNumbers = matchingTickets
@@ -36,15 +37,18 @@ namespace ThucTapCoSo
                     .ToList();
 
                 // Tìm số vé chưa được sử dụng
-                int newSeatNumber = 1;
+                newSeatNumber = 1;
                 while (usedSeatNumbers.Contains(newSeatNumber))
                 {
                     newSeatNumber++;
                 }
-
-                // Tạo mã chỗ ngồi mới
                 string newSeatID = $"{ticketType}-{newSeatNumber:000}";
                 return newSeatID;
+            }
+            else
+            {
+                // Nếu chuyến bay không có trong TicketReceipt, bắt đầu từ số 1
+                newSeatNumber = 1;
             }
             return "";
         }
@@ -90,6 +94,8 @@ namespace ThucTapCoSo
                         Console.Write("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
                     }
                 }
+                string tiketID = SeatID(flightToBeBooked, ticketType);
+
                 Console.Write($"Nhập số lượng vé cho chuyến bay {flightToBeBooked} :   ");
                 while (!int.TryParse(Console.ReadLine(), out numOfTickets) || numOfTickets > 10 || numOfTickets < 1)
                 {
@@ -114,7 +120,6 @@ namespace ThucTapCoSo
 
                                 if (availableECOSeats >= numOfTickets)
                                 {
-                                    string tiketID = SeatID(dataFlight[1], ticketType);
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
@@ -179,7 +184,6 @@ namespace ThucTapCoSo
 
                                 if (availableBSNSeats >= numOfTickets)
                                 {
-                                    string tiketID = SeatID(dataFlight[1], ticketType);
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
