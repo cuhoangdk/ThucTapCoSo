@@ -153,8 +153,8 @@ namespace ThucTapCoSo
                                     {
                                         Console.Write("\tNhập mã hóa đơn vé muốn xem chi tiết:");
                                         string trID = Console.ReadLine();
-                                        bookingAndReserving.DisplayTicketRecept(id, trID);
                                         if (trID == "n" || trID == "N") break;
+                                        bookingAndReserving.DisplayTicketRecept(id, trID);
                                     }
                                 }
                                 else if (desiredOption == 7)
@@ -335,8 +335,8 @@ namespace ThucTapCoSo
                                     {
                                         Console.Write("\tNhập mã hóa đơn vé muốn xem chi tiết:");
                                         string trID = Console.ReadLine();
-                                        bookingAndReserving.DisplayTicketRecept(dataC[1], trID);
                                         if (trID == "n" || trID == "N") break;
+                                        bookingAndReserving.DisplayTicketRecept(dataC[1], trID);
                                     }
 
                                 }

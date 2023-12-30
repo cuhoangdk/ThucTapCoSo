@@ -786,7 +786,6 @@ namespace ThucTapCoSo
             string fromWhich = "";
             DateTime timefromWich = DateTime.Now;
             string toWhich = "";
-            DateTime timetoWich = DateTime.Now;
             TimeSpan timeFlight = TimeSpan.Zero;
             float totalPrice = 0;
             
@@ -798,11 +797,33 @@ namespace ThucTapCoSo
                 string[] data = Customer[i].Split(';');
                 if (data[0] == "1" && data[1] == userID)
                 {
+                    isFound = true;
                     nameCustomer = data[2];
                     emailCustomer = data[3];
                     phoneCustomer = data[5];
                 }
             }
+            if (!isFound)
+            {
+                return isFound;
+            }
+
+            isFound = false;
+            for (int i = 0; i < TicketReceipt.Length; i++)
+            {
+                string[] dataTR = TicketReceipt[i].Split(';');
+                if (dataTR[1] == trID)
+                {
+                    isFound = true;
+                }
+            }
+
+            if (!isFound)
+            {
+                return isFound;
+            }
+
+
             Console.WriteLine($"+-------------------------------------------------------------------------------------------------+");
             Console.WriteLine($"|   STAR AIRLINES                                                           Hotline: 0999999999   |");
             Console.WriteLine($"+-------------------------------------------------------------------------------------------------+");
