@@ -48,18 +48,16 @@ namespace ThucTapCoSo
         //Hàm tạo một người dùng mới
         public void AddNewCustomer()
         {
-            Generator random = new Generator();
-            random.RandomIDGen();
-            string userID = random.GetRandomNumber();
-
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
 
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
             string datatxt = Path.Combine(current, "datatxt");
-
             string filePath = Path.Combine(datatxt, "Customer.txt");
+
+            Generator G = new Generator();
+            string userID = G.NewID("Customer.txt");
 
             Console.WriteLine($"\n\n\n{new string(' ', 30)} ++++++++++++++ CHÀO MỪNG BẠN ĐẾN VỚI CỔNG ĐĂNG KÍ CỦA KHÁCH HÀNG ++++++++++++++");
             Console.Write("\tHỌ VÀ TÊN:\t");

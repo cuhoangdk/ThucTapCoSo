@@ -88,22 +88,20 @@ namespace ThucTapCoSo
         //Hàm thêm chuyến bay
         public void AddFlight(string idAdmin, DateTime date)
         {
-            Generator r1 = new Generator();
-
-            string[][] chosenDestinations = r1.SpecificallyDestinations();
-            int flag = 1;
-            string flightType;
-            string ecoSlots;
-            string bsnSlots;
-
-            //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
-            //tìm folder datatxt: nơi lưu dữ liệu
             string datatxt = Path.Combine(current, "datatxt");
 
             string fileHistory = Path.Combine(datatxt, "FlightHistory.txt");
             string filePath = Path.Combine(datatxt, "FlightScheduler.txt");
 
+            Generator r1 = new Generator();
+
+            string[][] chosenDestinations = r1.SpecificallyDestinations();
+
+            int flag = 1;
+            string flightType;
+            string ecoSlots;
+            string bsnSlots;
 
             if (double.TryParse(chosenDestinations[0][1], out double latitude1) &&
                double.TryParse(chosenDestinations[0][2], out double longitude1) &&
@@ -112,10 +110,10 @@ namespace ThucTapCoSo
             {
                 string[] distanceBetweenTheCities = CalculateDistance(latitude1, longitude1, latitude2, longitude2);
 
+                string flightNumber = r1.NewID("FlightScheduler.txt");
                 string flightSchedule = CreateNewFlightsAndTime();
-                string flightNumber = r1.RandomFlightNumbGen(2, 1).ToUpper();
-                int columns = 3;
 
+                int columns = 3;
                 Console.WriteLine("\tCHỌN LOẠI MÁY BAY:");
                 for (int i = 0; i < planeTypes.Length; i++)
                 {
@@ -126,6 +124,7 @@ namespace ThucTapCoSo
                         Console.WriteLine(); // Xuống dòng sau mỗi số cột
                     }
                 }
+
                 int choose;
                 while (!int.TryParse(Console.ReadLine(), out choose) || choose < 0 || choose > planeTypes.Length)
                 {
@@ -134,6 +133,7 @@ namespace ThucTapCoSo
 				flightType = planeTypes[choose - 1][0];
 				bsnSlots = planeTypes[choose - 1][1];
 				ecoSlots = planeTypes[choose - 1][2];
+
 				string gate = r1.RandomFlightNumbGen(1, 30);
                 double distanceInMiles = double.Parse(distanceBetweenTheCities[0]);
                 double distanceInKm = double.Parse(distanceBetweenTheCities[1]);
@@ -300,23 +300,34 @@ namespace ThucTapCoSo
 				return price;
 			}
 		}
-        //Hàm tính khoảng cách giữa 2 địa điểm của chuyến bay, dựa vào kinh độ và vĩ độ của 2 địa điểm
-        public override string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2)
-        {
-            double theta = lon1 - lon2;
-            double distance = Math.Sin(DegreeToRadian(lat1)) * Math.Sin(DegreeToRadian(lat2)) + Math.Cos(DegreeToRadian(lat1)) * Math.Cos(DegreeToRadian(lat2)) * Math.Cos(DegreeToRadian(theta));
-            distance = Math.Acos(distance);
-            distance = RadianToDegree(distance);
-            distance = distance * 60 * 1.1515;
+		//Hàm tính khoảng cách giữa 2 địa điểm của chuyến bay, dựa vào kinh độ và vĩ độ của 2 địa điểm
+		public override string[] CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+		{
+			// Tính chênh lệch giữa kinh độ của hai điểm
+			double theta = lon1 - lon2;
+			// Sử dụng công thức Haversine để tính khoảng cách trên đường tròn lớn giữa hai điểm trên một hình cầu
+			double distance = Math.Sin(DegreeToRadian(lat1)) * Math.Sin(DegreeToRadian(lat2)) +
+							  Math.Cos(DegreeToRadian(lat1)) * Math.Cos(DegreeToRadian(lat2)) * Math.Cos(DegreeToRadian(theta));
+			// Sử dụng hàm ngược của hàm lượng giác (arc cosine) để lấy góc (tính bằng radian) giữa hai điểm
+			distance = Math.Acos(distance);
+			// Chuyển đổi góc từ radian sang độ
+			distance = RadianToDegree(distance);
+			// Chuyển đổi khoảng cách từ độ sang dặm hải lý (1 độ = 60 dặm hải lý, 1 dặm hải lý ≈ 1.1515 dặm đất liền)
+			distance = distance * 60 * 1.1515;
+			// Tạo một mảng để lưu trữ khoảng cách ở các đơn vị khác nhau
+			string[] distanceString = new string[3];
+			// Chuyển đổi khoảng cách sang dặm hải lý và định dạng chuỗi kết quả
+			distanceString[0] = $"{distance * 0.8684:F2}";
+            // Chuyển đổi khoảng cách sang kilômét và định dạng chuỗi kết quả
+			distanceString[1] = $"{distance * 1.609344:F2}";
+			// Làm tròn khoảng cách đến hai chữ số thập phân và định dạng chuỗi kết quả
+			distanceString[2] = $"{Math.Round(distance * 100.0) / 100.0:F2}";
+			// Trả về mảng chứa khoảng cách ở các đơn vị khác nhau
+			return distanceString;
+		}
 
-            string[] distanceString = new string[3];
-            distanceString[0] = $"{distance * 0.8684:F2}";
-            distanceString[1] = $"{distance * 1.609344:F2}";
-            distanceString[2] = $"{Math.Round(distance * 100.0) / 100.0:F2}";
-            return distanceString;
-        }
-        //Hàm chuyển độ thành radian (dùng để tính cho hàm khoảng cách)
-        private double DegreeToRadian(double deg)
+		//Hàm chuyển độ thành radian (dùng để tính cho hàm khoảng cách)
+		private double DegreeToRadian(double deg)
         {
             return (deg * Math.PI / 180.0);
         }

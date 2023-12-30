@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,11 +41,30 @@ namespace ThucTapCoSo
     };
         // ************************************************************ Behaviours/Methods ************************************************************
 
-        //Tạo ID ngẫu nhiên cho khách hàng
-        public void RandomIDGen()
-        {            
-            string randomID = rand.Next(10000000, 99999999).ToString();
-            SetRandomNum(randomID);
+        //Tạo ID 
+        public string NewID(string fileName)
+        {
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePath = Path.Combine(datatxt, fileName);
+            string[] lines = File.ReadAllLines(filePath);
+
+            if(fileName == "Customer.txt")
+            {
+                int id = lines.Length + 1;
+                string newIdC = $"{id:000000}";
+
+                return newIdC;
+            }
+            else
+            {
+                int id = lines.Length + 1;
+                string newIdF = $"SA-{id:0000}";
+
+                return newIdF;
+            }
         }
         //Hàm chọn điểm đi và điểm đến để tạo chuyến bay
         public string[][] SpecificallyDestinations()
@@ -123,7 +143,7 @@ namespace ThucTapCoSo
 
             return chosenDestinations;
         }
-        //Hàm tạo mã cho chuyến bay
+        //Hàm tạo cổng
         public string RandomFlightNumbGen(int uptoHowManyLettersRequired, int divisible)
         {            
             string randomAlphabets = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", uptoHowManyLettersRequired)

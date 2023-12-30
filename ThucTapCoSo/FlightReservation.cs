@@ -17,25 +17,40 @@ namespace ThucTapCoSo
     internal class FlightReservation : Generator,IDisplayClass
     {
         //Hàm tạo số ghế (mã ghế)
-        public string SeatID(string plane, string seatsEmpty, string ticketType)
+        static string SeatID(string flightNum, string ticketType)
         {
-            string[][] planeType = Flight.PlaneTypes;
-            int id;
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            string datatxt = Path.Combine(current, "datatxt");
 
-            for( int i = 0; i<planeType.Length; i++)
+            string filePathTicketReceipt = Path.Combine(datatxt, "TicketReceipt.txt");
+            string[] TicketReceipt = File.ReadAllLines(filePathTicketReceipt);
+
+            var matchingTickets = TicketReceipt
+                .Where(line => line.Contains(flightNum) && line.Contains(ticketType))
+                .ToList();
+
+            int newSeatNumber;
+            if (matchingTickets.Count > 0)
             {
-                if (planeType[i][0].Equals(plane) && ticketType == "BSN")
+                var usedSeatNumbers = matchingTickets
+                    .Select(line => int.Parse(line.Split(';')[2].Split('-')[1]))
+                    .ToList();
+
+                // Tìm số vé chưa được sử dụng
+                newSeatNumber = 1;
+                while (usedSeatNumbers.Contains(newSeatNumber))
                 {
-                    id = int.Parse(planeType[i][1]) - int.Parse(seatsEmpty) + 1;
-                    return $"{ticketType}-{id.ToString().PadLeft(3, '0')}";
+                    newSeatNumber++;
                 }
-                else if(planeType[i][0].Equals(plane) && ticketType == "ECO")
-                {
-                    id = int.Parse(planeType[i][2]) - int.Parse(seatsEmpty) + 1;
-                    return $"{ticketType}-{id.ToString().PadLeft(3, '0')}";
-                }
+                string newSeatID = $"{ticketType}-{newSeatNumber:000}";
+                return newSeatID;
             }
-            return "";
+            else
+            {
+                // Nếu chuyến bay không có trong TicketReceipt, bắt đầu từ số 1
+                newSeatNumber = 1;
+            }
+            return $"{ticketType}-{newSeatNumber:000}";
         }
         //Hàm đặt chỗ ngồi cho chuyến bay, mỗi chỗ ngồi là một hành khách
         public void BookFlight(string userID)
@@ -78,7 +93,8 @@ namespace ThucTapCoSo
                     {
                         Console.Write("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
                     }
-                }
+                }                
+
                 Console.Write($"Nhập số lượng vé cho chuyến bay {flightToBeBooked} :   ");
                 while (!int.TryParse(Console.ReadLine(), out numOfTickets) || numOfTickets > 10 || numOfTickets < 1)
                 {
@@ -100,11 +116,10 @@ namespace ThucTapCoSo
                             DateTime birth;
                             if (ticketType == "ECO")
                             {
-
-                                if (availableECOSeats >= numOfTickets)
-                                {
-                                    string tiketID = SeatID(dataFlight[11], dataFlight[3], ticketType);
-                                    checkTicket = true;
+								string ticketID = SeatID(flightToBeBooked, ticketType);
+								if (availableECOSeats >= numOfTickets)
+                                {									
+									checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
 									Console.Write("\tHỌ VÀ TÊN:\t");
@@ -145,7 +160,7 @@ namespace ThucTapCoSo
 									}
 									using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
                                     {
-                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
+                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{ticketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
                                     }
                                     dataFlight[3] = Convert.ToString((int.Parse(dataFlight[3])-1)); 
                                 }
@@ -165,10 +180,9 @@ namespace ThucTapCoSo
                             }
                             else if( ticketType == "BSN")
                             {
-
-                                if (availableBSNSeats >= numOfTickets)
+								string ticketID = SeatID(flightToBeBooked, ticketType);
+								if (availableBSNSeats >= numOfTickets)
                                 {
-                                    string tiketID = SeatID(dataFlight[11], dataFlight[2], ticketType);
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
@@ -211,7 +225,7 @@ namespace ThucTapCoSo
 
 									using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
                                     {
-                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
+                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{ticketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
                                     }
 
                                     dataFlight[2] = Convert.ToString((int.Parse(dataFlight[2]) - 1));
@@ -933,18 +947,11 @@ namespace ThucTapCoSo
             else if (option == 4)
             {
                 artWork = @"
-                    ██████   █████  ███    ██ ██████   ██████  ███    ███     ███████ ██      ██  ██████  ██   ██ ████████ 
-                    ██   ██ ██   ██ ████   ██ ██   ██ ██    ██ ████  ████     ██      ██      ██ ██       ██   ██    ██    
-                    ██████  ███████ ██ ██  ██ ██   ██ ██    ██ ██ ████ ██     █████   ██      ██ ██   ███ ███████    ██    
-                    ██   ██ ██   ██ ██  ██ ██ ██   ██ ██    ██ ██  ██  ██     ██      ██      ██ ██    ██ ██   ██    ██    
-                    ██   ██ ██   ██ ██   ████ ██████   ██████  ██      ██     ██      ███████ ██  ██████  ██   ██    ██    
-                                                                                                       
-                                                                                                       
-                    ███████  ██████ ██   ██ ███████ ██████  ██    ██ ██      ███████                                       
-                    ██      ██      ██   ██ ██      ██   ██ ██    ██ ██      ██                                            
-                    ███████ ██      ███████ █████   ██   ██ ██    ██ ██      █████                                         
-                         ██ ██      ██   ██ ██      ██   ██ ██    ██ ██      ██                                            
-                    ███████  ██████ ██   ██ ███████ ██████   ██████  ███████ ███████                                       
+                    ███████ ██      ██  ██████  ██   ██ ████████         ███████  ██████ ██   ██ ███████ ██████  ██    ██ ██      ███████  
+                    ██      ██      ██ ██       ██   ██    ██            ██      ██      ██   ██ ██      ██   ██ ██    ██ ██      ██       
+                    █████   ██      ██ ██   ███ ███████    ██            ███████ ██      ███████ █████   ██   ██ ██    ██ ██      █████  
+                    ██      ██      ██ ██    ██ ██   ██    ██                 ██ ██      ██   ██ ██      ██   ██ ██    ██ ██      ██        
+                    ██      ███████ ██  ██████  ██   ██    ██            ███████  ██████ ██   ██ ███████ ██████   ██████  ███████ ███████         
                                                                                                        
                                                                                                        
                     ";
