@@ -50,7 +50,7 @@ namespace ThucTapCoSo
                 // Nếu chuyến bay không có trong TicketReceipt, bắt đầu từ số 1
                 newSeatNumber = 1;
             }
-            return "";
+            return $"{ticketType}-{newSeatNumber:000}";
         }
         //Hàm đặt chỗ ngồi cho chuyến bay, mỗi chỗ ngồi là một hành khách
         public void BookFlight(string userID)
@@ -93,8 +93,7 @@ namespace ThucTapCoSo
                     {
                         Console.Write("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
                     }
-                }
-                string tiketID = SeatID(flightToBeBooked, ticketType);
+                }                
 
                 Console.Write($"Nhập số lượng vé cho chuyến bay {flightToBeBooked} :   ");
                 while (!int.TryParse(Console.ReadLine(), out numOfTickets) || numOfTickets > 10 || numOfTickets < 1)
@@ -117,10 +116,10 @@ namespace ThucTapCoSo
                             DateTime birth;
                             if (ticketType == "ECO")
                             {
-
-                                if (availableECOSeats >= numOfTickets)
-                                {
-                                    checkTicket = true;
+								string ticketID = SeatID(flightToBeBooked, ticketType);
+								if (availableECOSeats >= numOfTickets)
+                                {									
+									checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
 
 									Console.Write("\tHỌ VÀ TÊN:\t");
@@ -161,7 +160,7 @@ namespace ThucTapCoSo
 									}
 									using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
                                     {
-                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
+                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{ticketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
                                     }
                                     dataFlight[3] = Convert.ToString((int.Parse(dataFlight[3])-1)); 
                                 }
@@ -181,8 +180,8 @@ namespace ThucTapCoSo
                             }
                             else if( ticketType == "BSN")
                             {
-
-                                if (availableBSNSeats >= numOfTickets)
+								string ticketID = SeatID(flightToBeBooked, ticketType);
+								if (availableBSNSeats >= numOfTickets)
                                 {
                                     checkTicket = true;
                                     Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
@@ -226,7 +225,7 @@ namespace ThucTapCoSo
 
 									using (StreamWriter write = new StreamWriter(filePathTicketReceipt, true))
                                     {
-                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{tiketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
+                                        write.WriteLine($"{now.ToString("dd/MM/yyyy HH:mm:ss")};{rtID};{ticketID};{userID};{flightToBeBooked};{ticketType};{name};{birth:dd/MM/yyyy};{email};{phone};{address}");
                                     }
 
                                     dataFlight[2] = Convert.ToString((int.Parse(dataFlight[2]) - 1));
