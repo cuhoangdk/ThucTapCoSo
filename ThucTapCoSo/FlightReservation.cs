@@ -377,9 +377,7 @@ namespace ThucTapCoSo
             List<string> lines = File.ReadAllLines(filePath).ToList();
             Flight fl = new Flight();
 
-            //test
-            fl.DisplayFlightSchedule();
-
+            
             int columns = 3;
             for (int i = 0; i < destinations.Length; i++)
             {
