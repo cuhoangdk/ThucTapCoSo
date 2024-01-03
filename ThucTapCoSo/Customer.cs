@@ -285,23 +285,23 @@ namespace ThucTapCoSo
                     Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
                     stt++;
                 }
-                else if (string.IsNullOrWhiteSpace(ID))
+                else if (string.IsNullOrWhiteSpace(ID) && data[0] == "1")
                 {
-                    if (string.IsNullOrWhiteSpace(email) && phone.Equals(data[5]) && data[0] == "1") 
+                    if (string.IsNullOrWhiteSpace(email) && phone.Equals(data[5])) 
                     { 
                     isFound = true;
                     Console.WriteLine($"{new string(' ', 10)}| {stt,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
                     Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
                     stt++;
                     }
-                    else if (string.IsNullOrWhiteSpace(phone) && email.Equals(data[3]) && data[0] == "1")
+                    else if (string.IsNullOrWhiteSpace(phone) && email.Equals(data[3]))
                     {
                     isFound = true;
                     Console.WriteLine($"{new string(' ', 10)}| {stt,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
                     Console.WriteLine($"{new string(' ', 10)}+-------+---------------+----------------------------------+------------+-----------------------------+--------------------------------+----------------+");
                     stt++;
                     }
-					else if (phone.Equals(data[5]) && email.Equals(data[3]) && data[0] == "1")
+					else if (phone.Equals(data[5]) && email.Equals(data[3]))
 					{
 						isFound = true;
 						Console.WriteLine($"{new string(' ', 10)}| {stt,-5} | {data[1],-13} | {data[2],-32} | {data[7],-7} | {data[3],-27} | {data[6],-30} | {data[5],-14} |");
