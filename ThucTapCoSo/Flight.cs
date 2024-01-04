@@ -114,7 +114,7 @@ namespace ThucTapCoSo
                 string flightSchedule = CreateNewFlightsAndTime();
 
                 int columns = 3;
-                Console.WriteLine("\tCHỌN LOẠI MÁY BAY:");
+                Console.WriteLine("\tCHỌN LOẠI MÁY BAY: ");
                 for (int i = 0; i < planeTypes.Length; i++)
                 {
                     Console.Write($"\t{i + 1,-3} {planeTypes[i][0],-20}");
@@ -128,7 +128,7 @@ namespace ThucTapCoSo
                 int choose;
                 while (!int.TryParse(Console.ReadLine(), out choose) || choose < 0 || choose > planeTypes.Length)
                 {
-					Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");					
+					Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại: ");					
                 }
 				flightType = planeTypes[choose - 1][0];
 				bsnSlots = planeTypes[choose - 1][1];
@@ -203,8 +203,8 @@ namespace ThucTapCoSo
                         data[9] = distanceBetweenTheCities[0];
                         data[10] = distanceBetweenTheCities[1];
                         
-                        Console.Write("Nhập cổng mới cho chuyến bay:\t");
-                        data[8] = Console.ReadLine();
+                        Console.Write("Nhập cổng mới cho chuyến bay: \t");
+                        data[8] = Console.ReadLine().ToUpper();
                         data[7] = CalculateFlightTime(double.Parse(data[9]));
                     }
                     line[i] = string.Join(";", data);
@@ -212,7 +212,7 @@ namespace ThucTapCoSo
             }
             if (!isFound)
             {
-                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy chuyến bay với ID {ID} ...!!!"); //FIX
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy chuyến bay với ID {ID}!!!");
             }
             else
             {
@@ -336,13 +336,14 @@ namespace ThucTapCoSo
         {
             return (rad * 180.0 / Math.PI);
         }
+		
 		public string CreateNewFlightsAndTime()
         {
-            Random random = new Random();
-            DateTime currentDate = DateTime.Now;
+			DateTime currentDate = DateTime.Now;
+			Random random = new Random();
 
-            // Tăng giá trị của nextFlightDay, để chuyến bay được lên lịch tiếp theo sẽ ở tương lai, không phải trong hiện tại
-            nextFlightDay += (int)(random.NextDouble()*7);
+			// Tăng giá trị của nextFlightDay, để chuyến bay được lên lịch tiếp theo sẽ ở tương lai, không phải trong hiện tại
+			nextFlightDay += (int)(random.NextDouble()*7);
             DateTime newDate = currentDate.AddDays(nextFlightDay).AddHours((int)nextFlightDay).AddMinutes(random.Next(0, 45));
 
             // Làm tròn số phút đến phút gần nhất của một phần tư

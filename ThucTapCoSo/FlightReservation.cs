@@ -77,12 +77,12 @@ namespace ThucTapCoSo
 
             if(SearchFlight() == true)
             {
-                Console.Write("\nNhập mã chuyến bay mong muốn để đặt chỗ :\t ");
+                Console.Write("\nNhập mã chuyến bay mong muốn để đặt chỗ:  ");
                 flightToBeBooked = Console.ReadLine().ToUpper();
                 string ticketType;
                 while (true)
                 {
-                    Console.Write("\nNhập loại vé bạn muốn đặt (1. Business  / 2. Economy ):\t");
+                    Console.Write("\nNhập loại vé bạn muốn đặt (1. Business/2. Economy ):\t");
 
                     if (int.TryParse(Console.ReadLine(), out int choose) && (choose == 1 || choose == 2))
                     {
@@ -95,7 +95,7 @@ namespace ThucTapCoSo
                     }
                 }                
 
-                Console.Write($"Nhập số lượng vé cho chuyến bay {flightToBeBooked} :   ");
+                Console.Write($"Nhập số lượng vé cho chuyến bay {flightToBeBooked}: ");
                 while (!int.TryParse(Console.ReadLine(), out numOfTickets) || numOfTickets > 10 || numOfTickets < 1)
                 {
                     Console.Write("LỖI!! Vui lòng nhập số lượng vé hợp lệ (ít hơn 10, nhiều hơn 0): ");
@@ -120,7 +120,7 @@ namespace ThucTapCoSo
 								if (availableECOSeats >= numOfTickets)
                                 {									
 									checkTicket = true;
-                                    Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
+                                    Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}\n");
 
 									Console.Write("\tHỌ VÀ TÊN:\t");
 									name = Console.ReadLine();
@@ -129,29 +129,13 @@ namespace ThucTapCoSo
 										Console.Write("VUI LÒNG NHẬP HỌ VÀ TÊN: ");
 										name = Console.ReadLine();
 									}
-									Console.Write("\tEMAIL :\t");
+									Console.Write("\tEMAIL:\t");
                                     email = Console.ReadLine();
-                                    Customer c = new Customer();
-                                    while (!c.IsValidEmail(email))
-                                    {
-                                        Console.WriteLine("ĐỊA CHỈ EMAIL KHÔNG HỢP LỆ");
-                                        Console.Write("EMAIL :\t");
-                                        email = Console.ReadLine();
-                                    }
+                                    Customer c = new Customer();                                    
                                     Console.Write("\tSỐ ĐIỆN THOẠI:\t");
-                                    phone = Console.ReadLine();
-									while (string.IsNullOrWhiteSpace(phone))
-									{
-										Console.Write("VUI LÒNG NHẬP SỐ ĐIỆN THOẠI: ");
-										phone = Console.ReadLine();
-									}
+                                    phone = Console.ReadLine();									
 									Console.Write("\tĐỊA CHỈ:\t");
-                                    address = Console.ReadLine();
-									while (string.IsNullOrWhiteSpace(address))
-									{
-										Console.Write("VUI LÒNG NHẬP ĐỊA CHỈ: ");
-										address = Console.ReadLine();
-									}
+                                    address = Console.ReadLine();									
 									Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
 									DateTime currentDate = DateTime.Now;
 									while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth) || birth > currentDate)
@@ -184,9 +168,9 @@ namespace ThucTapCoSo
 								if (availableBSNSeats >= numOfTickets)
                                 {
                                     checkTicket = true;
-                                    Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}:\t");
+                                    Console.WriteLine($"\n\tNHẬP THÔNG TIN CỦA HÀNH KHÁCH THỨ {count}\n");
 
-									Console.Write("\tHỌ VÀ TÊN:\t");
+									Console.Write("\tHỌ VÀ TÊN: ");
 									name = Console.ReadLine();
 									while (string.IsNullOrWhiteSpace(name))
 									{
@@ -195,27 +179,11 @@ namespace ThucTapCoSo
 									}
 									Console.Write("\tEMAIL :\t");
 									email = Console.ReadLine();
-									Customer c = new Customer();
-									while (!c.IsValidEmail(email))
-									{
-										Console.WriteLine("ĐỊA CHỈ EMAIL KHÔNG HỢP LỆ");
-										Console.Write("EMAIL :\t");
-										email = Console.ReadLine();
-									}
+									Customer c = new Customer();									
 									Console.Write("\tSỐ ĐIỆN THOẠI:\t");
-									phone = Console.ReadLine();
-									while (string.IsNullOrWhiteSpace(phone))
-									{
-										Console.Write("VUI LÒNG NHẬP SỐ ĐIỆN THOẠI: ");
-										phone = Console.ReadLine();
-									}
+									phone = Console.ReadLine();									
 									Console.Write("\tĐỊA CHỈ:\t");
-									address = Console.ReadLine();
-									while (string.IsNullOrWhiteSpace(address))
-									{
-										Console.Write("VUI LÒNG NHẬP ĐỊA CHỈ: ");
-										address = Console.ReadLine();
-									}
+									address = Console.ReadLine();									
 									Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
 									DateTime currentDate = DateTime.Now;
 									while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out birth) || birth > currentDate)
@@ -251,12 +219,12 @@ namespace ThucTapCoSo
                 }
                 if (!isFound)
                 {
-                    Console.WriteLine($"Số hiệu không hợp lệ...! Không tìm thấy chuyến bay với ID \"{flightToBeBooked}\"...");
+                    Console.WriteLine($"Số hiệu không hợp lệ! Không tìm thấy chuyến bay với ID \"{flightToBeBooked}\"");
                 }
                 if (checkTicket)
                 {
                     File.WriteAllLines(filePathFl, flight);
-                    Console.WriteLine($"\n {new string(' ', 30)} Bạn đã đặt {numOfTickets} vé {ticketType} cho Chuyến bay \"{flightToBeBooked.ToUpper()}\"...");
+                    Console.WriteLine($"\n {new string(' ', 30)} Bạn đã đặt {numOfTickets} vé {ticketType} cho Chuyến bay \"{flightToBeBooked.ToUpper()}\"");
                 }
             }
         }
@@ -277,7 +245,7 @@ namespace ThucTapCoSo
             Console.WriteLine($"{new string(' ', 30)}++++++++++++++ Đây là danh sách tất cả các chuyến bay bạn đã đăng ký ++++++++++++++");
             DisplayFlightsRegisteredByOneUser(userID);
 
-            Console.WriteLine("Chọn mã vé muốn hủy:");
+            Console.WriteLine("Chọn mã vé muốn hủy: ");
             string trID = Console.ReadLine().ToUpper();
 
             if(DisplayTicketNumberBookedByOneCustomer(userID, trID))
@@ -287,7 +255,7 @@ namespace ThucTapCoSo
                 bool ticketCheck = false;
                 int countBSN = 0, countECO = 0;
 
-                Console.Write("Nhập mã ghế muốn hủy \n(chọn n/N để thoát):\t");
+                Console.Write("Nhập mã ghế muốn hủy \n(chọn n/N để thoát): ");
                 string SeatIDCancel = Console.ReadLine().ToUpper();
 
                 while (SeatIDCancel.ToLower() != "n")
@@ -354,7 +322,7 @@ namespace ThucTapCoSo
                 }
                 if (!isFound)
                 {
-                    Console.WriteLine($"\nKHÔNG TÌM THẤY VÉ \"{trID.ToUpper()}\".....");
+                    Console.WriteLine($"\nKHÔNG TÌM THẤY VÉ \"{trID.ToUpper()}\"");
                 }
                 else
                 {
@@ -389,10 +357,10 @@ namespace ThucTapCoSo
                 }
             }
 
-            Console.Write("\n\n\tNHẬP ĐIỂM ĐI   :  ");
+            Console.Write("\n\n\tNHẬP ĐIỂM ĐI   : ");
             string from = Console.ReadLine();
             string normalFrom = RemoveDiacritics(from);
-            Console.Write("\tNHẬP ĐIỂM ĐẾN  :  ");
+            Console.Write("\tNHẬP ĐIỂM ĐẾN  : ");
             string to = Console.ReadLine();
             string normalTo = RemoveDiacritics(to);
             Console.Write("\tNGÀY KHỞI HÀNH : ");
@@ -765,7 +733,7 @@ namespace ThucTapCoSo
             }
             if (!isFound)
             {
-                Console.WriteLine($"\n\tCHƯA CÓ VÉ NÀO ĐƯỢC ĐĂNG KÍ");
+                Console.WriteLine($"\n\tCHƯA CÓ VÉ NÀO ĐƯỢC ĐẶT");
                 return isFound;
             }
             return true;
