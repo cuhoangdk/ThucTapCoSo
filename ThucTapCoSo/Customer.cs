@@ -138,21 +138,21 @@ namespace ThucTapCoSo
                     Console.WriteLine("\tNHẬP THÔNG TIN MỚI CỦA KHÁCH HÀNG!");
                     Console.WriteLine("\tBẤM ENTER ĐỂ BỎ QUA KHÔNG CHỈNH SỬA!");
 
-                    Console.Write("\tHỌ VÀ TÊN:\t");
+                    Console.Write("\tHỌ VÀ TÊN: \t");
                     string name = Console.ReadLine();
-                    Console.Write("\tEMAIL :\t");
+                    Console.Write("\tEMAIL: \t");
                     string email = Console.ReadLine();
                     while (email != "" && (IsUniqueEmail(email) || !IsValidEmail(email)))
                     {
                         Console.WriteLine("\tĐỊA CHỈ EMAIL ĐÃ TỒN TẠI HOẶC KHÔNG HỢP LỆ");
-                        Console.Write("\tEMAIL :\t");
+                        Console.Write("\tEMAIL: \t");
                         email = Console.ReadLine();
                     }
-                    Console.Write("\tSỐ ĐIỆN THOẠI:\t");
+                    Console.Write("\tSỐ ĐIỆN THOẠI: \t");
                     string phone = Console.ReadLine();
-                    Console.Write("\tĐỊA CHỈ:\t");
+                    Console.Write("\tĐỊA CHỈ: \t");
                     string address = Console.ReadLine();
-                    Console.Write("\tNGÀY THÁNG NĂM SINH:\t");
+                    Console.Write("\tNGÀY THÁNG NĂM SINH: \t");
                     string input = Console.ReadLine();
                     DateTime birth = DateTime.Now;
 					DateTime currentDate = DateTime.Now;
@@ -210,7 +210,7 @@ namespace ThucTapCoSo
             }
             if (!isFound)
             {
-                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID  {ID} ...!!!"); //FIX
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}!!!");
             }
             else
             {
@@ -254,7 +254,7 @@ namespace ThucTapCoSo
             }
             else
             {
-                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}...!!!"); // FIX
+                Console.WriteLine($"{new string(' ', 10)}Không tìm thấy Khách hàng với ID {ID}!!!"); // FIX
             }
         }
         //Hàm tìm kiếm người dùng

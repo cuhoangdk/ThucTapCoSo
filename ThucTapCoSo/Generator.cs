@@ -16,28 +16,28 @@ namespace ThucTapCoSo
         /* Tên thành phố nằm ở chỉ số 0, vĩ độ của thành phố ở chỉ số 1 và kinh độ ở chỉ số 2 */
         public static readonly string[][] destinations =
         {
-        new[] {"TP Hồ Chí Minh"   , "10.816332", "106.664067", "Vietnam", "International"},
-        new[] {"Hà Nội"           , "21.217854", "105.792948", "Vietnam", "International"},
-        new[] {"Đà Nẵng"          , "16.055667", "108.202380", "Vietnam", "International"},
-        new[] {"Quảng Ninh"       , "21.123035", "107.415795", "Vietnam", "International"},
-        new[] {"Phú Quốc"         , "10.162943", "103.998084", "Vietnam", "International"},
-        new[] {"Hải Phòng"        , "20.822658", "106.724718", "Vietnam", "International"},
-        new[] {"Vinh"             , "18.727710", "105.668708", "Vietnam", "International"},
-        new[] {"Thừa Thiên Huế"   , "16.397890", "107.700093", "Vietnam", "International"},
-        new[] {"Cam Ranh"         , "11.998309", "109.219019", "Vietnam", "International"},
-        new[] {"Đà Lạt"           , "11.748914", "108.368293", "Vietnam", "International"},
-        new[] {"Bình Định"        , "13.953898", "109.048440", "Vietnam", "International"},
-        new[] {"Cần Thơ"          , "10.080652", "105.712188", "Vietnam", "International" },
-        new[] {"Điện Biên"        , "21.403374", "103.061597", "Vietnam", "Domestic" },
-        new[] {"Thanh Hóa"        , "19.892754", "105.476546", "Vietnam", "Domestic" },
-        new[] {"Quảng Bình"       , "17.513173", "106.589771", "Vietnam", "Domestic" },
-        new[] {"Quảng Nam"        , "15.412313", "108.709657", "Vietnam", "Domestic" },
-        new[] {"Phú Yên"          , "13.050594", "109.345897", "Vietnam", "Domestic" },
-        new[] {"Pleiku"           , "14.006461", "108.006028", "Vietnam", "Domestic" },
-        new[] {"Buôn Mê Thuật"    , "12.664323", "108.117821", "Vietnam", "Domestic" },
-        new[] {"Kiên Giang"       , "9.959967",  "105.134935", "Vietnam", "Domestic" },
-        new[] {"Cà Mau"           , "9.175938",  "105.175963", "Vietnam", "Domestic" },
-        new[] {"Côn Đảo"          , "8.731477",  "106.629832", "Vietnam", "Domestic" },
+        new[] {"TP Hồ Chí Minh"   , "10.816332", "106.664067", "Vietnam"},
+        new[] {"Hà Nội"           , "21.217854", "105.792948", "Vietnam"},
+        new[] {"Đà Nẵng"          , "16.055667", "108.202380", "Vietnam"},
+        new[] {"Quảng Ninh"       , "21.123035", "107.415795", "Vietnam"},
+        new[] {"Phú Quốc"         , "10.162943", "103.998084", "Vietnam"},
+        new[] {"Hải Phòng"        , "20.822658", "106.724718", "Vietnam"},
+        new[] {"Vinh"             , "18.727710", "105.668708", "Vietnam"},
+        new[] {"Thừa Thiên Huế"   , "16.397890", "107.700093", "Vietnam"},
+        new[] {"Cam Ranh"         , "11.998309", "109.219019", "Vietnam"},
+        new[] {"Đà Lạt"           , "11.748914", "108.368293", "Vietnam"},
+        new[] {"Bình Định"        , "13.953898", "109.048440", "Vietnam"},
+        new[] {"Cần Thơ"          , "10.080652", "105.712188", "Vietnam"},
+        new[] {"Điện Biên"        , "21.403374", "103.061597", "Vietnam"},
+        new[] {"Thanh Hóa"        , "19.892754", "105.476546", "Vietnam"},
+        new[] {"Quảng Bình"       , "17.513173", "106.589771", "Vietnam"},
+        new[] {"Quảng Nam"        , "15.412313", "108.709657", "Vietnam"},
+        new[] {"Phú Yên"          , "13.050594", "109.345897", "Vietnam"},
+        new[] {"Pleiku"           , "14.006461", "108.006028", "Vietnam"},
+        new[] {"Buôn Mê Thuật"    , "12.664323", "108.117821", "Vietnam"},
+        new[] {"Kiên Giang"       , "9.959967",  "105.134935", "Vietnam"},
+        new[] {"Cà Mau"           , "9.175938",  "105.175963", "Vietnam"},
+        new[] {"Côn Đảo"          , "8.731477",  "106.629832", "Vietnam"},
     };
         // ************************************************************ Behaviours/Methods ************************************************************
 
@@ -61,7 +61,9 @@ namespace ThucTapCoSo
             else
             {
                 int id = lines.Length + 1;
-                string newIdF = $"SA-{id:0000}";
+				string randomAlphabets = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 2)
+				.Select(s => s[rand.Next(s.Length)]).ToArray());
+				string newIdF = randomAlphabets.ToUpper() + $"-{id:000}";
 
                 return newIdF;
             }
@@ -92,13 +94,13 @@ namespace ThucTapCoSo
             Console.Write("\nNhập tên thành phố xuất phát: ");
             while (!int.TryParse(Console.ReadLine(), out specCity1) || specCity1 < 0 || specCity1 > destinations.Length - 1)
             {
-                Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length - 1}. Nhập giá trị lại :\t");
+                Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length - 1}. Nhập giá trị lại: ");
             }
 
             Console.Write("Nhập tên thành phố bay đến: ");
             while (!int.TryParse(Console.ReadLine(), out specCity2) || specCity2 < 0 || specCity2 > destinations.Length - 1)
             {
-                Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length - 1}. Nhập giá trị lại :\t");
+                Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length - 1}. Nhập giá trị lại: ");
             }
 
             while (specCity2 == specCity1)
@@ -107,24 +109,9 @@ namespace ThucTapCoSo
                 Console.Write("Nhập lại tên thành phố bay đến: ");
                 while (!int.TryParse(Console.ReadLine(), out specCity2) || specCity2 < 0 || specCity2 > destinations.Length - 1)
                 {
-                    Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length - 1}. Nhập giá trị lại :\t");
+                    Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length - 1}. Nhập giá trị lại: ");
                 }
-            }
-
-            while (destinations[specCity1][3] != destinations[specCity2][3] && destinations[specCity1][4] != destinations[specCity2][4])
-            {
-                Console.Write("Các thành phố phải ở trong cùng 1 nước hoặc đều có các cảng hàng không quốc tế!");
-                Console.Write("Nhập lại tên thành phố bay đi: ");
-                while (!int.TryParse(Console.ReadLine(), out specCity1) || specCity1 < 0 || specCity1 > destinations.Length - 1)
-                {
-                    Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length-1}. Nhập giá trị lại :\t");
-                }
-                Console.Write("Nhập lại tên thành phố bay đến: ");
-                while (!int.TryParse(Console.ReadLine(), out specCity2) || specCity2 < 0 || specCity2 > destinations.Length - 1)
-                {
-                    Console.Write($"LỖI!! Vui lòng nhập giá trị giữa 0 - {destinations.Length-1}. Nhập giá trị lại :\t");
-                }
-            }
+            }                        
 
             // gán tên thành phố đi, kinh độ, vĩ độ
             fromWhichCity = destinations[specCity1][0];
