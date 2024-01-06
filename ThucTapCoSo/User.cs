@@ -440,8 +440,56 @@ namespace ThucTapCoSo
             }
 
         }
+        //Hàm thống kê
+        static void Statistics()
+        {
+            //Lấy vị trí hiện tại
+            string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
+            //tìm folder datatxt: nơi lưu dữ liệu
+            string datatxt = Path.Combine(current, "datatxt");
+
+            string filePathTR = Path.Combine(datatxt, "TicketReceipt.txt");
+            string filePathFlight = Path.Combine(datatxt, "FlightScheduler.txt");
+            string filePathC = Path.Combine(datatxt, "Customer.txt");
+
+            string[] Flight = File.ReadAllLines(filePathFlight);
+            string[] TicketReceipt = File.ReadAllLines(filePathTR);
+            string[] Customer = File.ReadAllLines(filePathC);
+
+            int countUser = 0;
+            int countPsg = 0;
+            int countF = 0;
+            int countDeleteF = 0;
+            for (int i = 0; i < Customer.Length; i++)
+            {
+                string[] data = Customer[i].Split(';');
+                if (data[0] == "1")
+                {
+                    countUser++;
+                }
+            }
+
+            for (int i = 0; i < TicketReceipt.Length; i++)
+            {
+                string[] dataTR = TicketReceipt[i].Split(';');
+                countPsg++;
+            }
+
+            for (int j = 0; j < Flight.Length; j++)
+            {
+                string[] dataF = Flight[j].Split(';');
+                if (dataF[0] == "1")
+                {
+                    countF++;
+                }
+                else
+                {
+                    countDeleteF++;
+                }
+            }
+        }
         //Hàm hiển thị banner chào mừng
-		static void WelcomeScreen(int option)
+        static void WelcomeScreen(int option)
         {
 			Console.OutputEncoding = Encoding.Unicode;
 			string artWork;
