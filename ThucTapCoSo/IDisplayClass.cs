@@ -8,11 +8,11 @@ namespace ThucTapCoSo
 {
     public interface IDisplayClass
     {
-        void DisplayRegisteredUsersForAllFlight();
+        void DisplayRegisteredPassengersForAllFlight();
 
-        void DisplayRegisteredUsersForASpecificFlight(string flightNum);
+        void DisplayRegisteredPassengersForASpecificFlight(string flightNum);
 
-        void DisplayFlightsRegisteredByOneUser(string userID);
+        void DisplayReceptTicketsRegisteredByOneUser(string userID);
 
         void DisplayArtWork(int options);
     }

@@ -147,7 +147,7 @@ namespace ThucTapCoSo
                                     c1.DisplayCustomersData(false);
                                     Console.Write("\n\n\tTẤT CẢ CÁC CHUYẾN BAY ĐƯỢC ĐẶT CHỖ BỞI NGƯỜI DÙNG CÓ ID: ");
                                     string id = Console.ReadLine();
-                                    bookingAndReserving.DisplayFlightsRegisteredByOneUser(id);
+                                    bookingAndReserving.DisplayReceptTicketsRegisteredByOneUser(id);
                                     Console.WriteLine("\tNhập N/n để quay lại!");
                                     while (true)
                                     {
@@ -170,14 +170,14 @@ namespace ThucTapCoSo
 									}									
                                     if (choice==1)
                                     {
-                                        bookingAndReserving.DisplayRegisteredUsersForAllFlight();
+                                        bookingAndReserving.DisplayRegisteredPassengersForAllFlight();
                                     }
                                     else if (choice==2)
                                     {
                                         f1.DisplayFlightSchedule();
                                         Console.Write("\tNHẬP MÃ CHUYẾN BAY MUỐN XEM TOÀN BỘ HÀNH KHÁCH: ");
                                         string flightNum = Console.ReadLine().ToUpper();
-                                        bookingAndReserving.DisplayRegisteredUsersForASpecificFlight(flightNum);
+                                        bookingAndReserving.DisplayRegisteredPassengersForASpecificFlight(flightNum);
                                     }                                    
                                 }
                                 else if (desiredOption == 8)
@@ -330,7 +330,7 @@ namespace ThucTapCoSo
                                 else if (desiredChoice == 6)
                                 {
                                     bookingAndReserving.DisplayArtWork(6);
-                                    bookingAndReserving.DisplayFlightsRegisteredByOneUser(dataC[1]);
+                                    bookingAndReserving.DisplayReceptTicketsRegisteredByOneUser(dataC[1]);
                                     Console.WriteLine("\tNhập N/n để quay lại!");
                                     while (true)
                                     {

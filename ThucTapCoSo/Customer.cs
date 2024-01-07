@@ -420,7 +420,7 @@ namespace ThucTapCoSo
             }
             if (!isFound)
             {
-                Console.WriteLine("CHUYẾN BAY KHÔNG TỒN TẠI KHÁCH HÀNG!");
+                Console.WriteLine("KHÔNG TỒN TẠI KHÁCH HÀNG!");
 
             }
         }

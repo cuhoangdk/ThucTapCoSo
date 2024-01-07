@@ -131,7 +131,6 @@ namespace ThucTapCoSo
 									}
 									Console.Write("\tEMAIL:\t");
                                     email = Console.ReadLine();
-                                    Customer c = new Customer();                                    
                                     Console.Write("\tSỐ ĐIỆN THOẠI:\t");
                                     phone = Console.ReadLine();									
 									Console.Write("\tĐỊA CHỈ:\t");
@@ -179,7 +178,6 @@ namespace ThucTapCoSo
 									}
 									Console.Write("\tEMAIL :\t");
 									email = Console.ReadLine();
-									Customer c = new Customer();									
 									Console.Write("\tSỐ ĐIỆN THOẠI:\t");
 									phone = Console.ReadLine();									
 									Console.Write("\tĐỊA CHỈ:\t");
@@ -243,12 +241,12 @@ namespace ThucTapCoSo
             List<string> TicketReceipt = File.ReadAllLines(filePathTR).ToList();
 
             Console.WriteLine($"{new string(' ', 30)}++++++++++++++ Đây là danh sách tất cả các chuyến bay bạn đã đăng ký ++++++++++++++");
-            DisplayFlightsRegisteredByOneUser(userID);
+            DisplayReceptTicketsRegisteredByOneUser(userID);
 
             Console.WriteLine("Chọn mã vé muốn hủy: ");
             string trID = Console.ReadLine().ToUpper();
 
-            if(DisplayTicketNumberBookedByOneCustomer(userID, trID))
+            if(DisplayPassengersBookedInOneReceptTicket(userID, trID))
             {
 
                 bool isFound = false;
@@ -316,7 +314,7 @@ namespace ThucTapCoSo
                             }
                         }
                     }
-                    DisplayTicketNumberBookedByOneCustomer(userID, trID);
+                    DisplayPassengersBookedInOneReceptTicket(userID, trID);
                     Console.Write("Nhập mã vé muốn hủy (chọn n/N để thoát):\t");
                     SeatIDCancel = Console.ReadLine().ToUpper();
                 }
@@ -446,8 +444,8 @@ namespace ThucTapCoSo
             float tolal = (float)Math.Round(price * numOfTicket ,2);
             return tolal; 
         }
-        //Hàm hiển thị tất cả các chuyến bay được đăng kí bởi một người dùng
-        public void DisplayFlightsRegisteredByOneUser(string userID)
+        //Hàm hiển thị tất cả các vé bay được đăng kí bởi một người dùng
+        public void DisplayReceptTicketsRegisteredByOneUser(string userID)
         {
             Console.OutputEncoding = Encoding.Unicode;
 
@@ -530,7 +528,7 @@ namespace ThucTapCoSo
             }
         }
         //Hàm hiển thị tất cả hành khách của tất cả chuyến bay
-        public void DisplayRegisteredUsersForAllFlight()
+        public void DisplayRegisteredPassengersForAllFlight()
         {
             Console.WriteLine();
             Console.WriteLine($"\n{new string('+', 30)} TẤT CẢ CÁC CHUYẾN BAY ĐÃ ĐƯỢC ĐĂNG KÍ\" {new string('+', 30)}\n");
@@ -607,7 +605,7 @@ namespace ThucTapCoSo
             }
         }
         //Hàm hiển thị tất cả hành khách của một chuyến bay cụ thể
-        public void DisplayRegisteredUsersForASpecificFlight(string flightNum)
+        public void DisplayRegisteredPassengersForASpecificFlight(string flightNum)
         {
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
@@ -683,7 +681,7 @@ namespace ThucTapCoSo
 
         }
         //Hàm hiển thị tất cả hành khách được đăng kí ở trong một vé cụ thể (sử dụng ở trong hàm hủy vé)
-        public bool DisplayTicketNumberBookedByOneCustomer(string userID, string trID)
+        public bool DisplayPassengersBookedInOneReceptTicket(string userID, string trID)
         {
             //Lấy vị trí hiện tại
             string current = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\.."));
