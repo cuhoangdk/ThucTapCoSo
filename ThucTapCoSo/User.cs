@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -79,6 +81,7 @@ namespace ThucTapCoSo
                                 Console.WriteLine("\t\t9  : THÊM CHUYẾN BAY");
                                 Console.WriteLine("\t\t10 : CHỈNH SỬA CHUYẾN BAY");
                                 Console.WriteLine("\t\t11 : HIỂN THỊ TOÀN BỘ CHUYẾN BAY");
+                                Console.WriteLine("\t\t12 : THỐNG KÊ");
                                 Console.WriteLine("\t\t0  : ĐĂNG XUẤT");
 
 
@@ -204,6 +207,10 @@ namespace ThucTapCoSo
                                 else if (desiredOption == 11)
                                 {
                                     f1.DisplayFlightSchedule();
+                                }
+                                else if (desiredOption == 12)
+                                {
+                                    Statistics();
                                 }
                                 else if (desiredOption == 0)
                                 {
@@ -450,42 +457,138 @@ namespace ThucTapCoSo
             string filePathTR = Path.Combine(datatxt, "TicketReceipt.txt");
             string filePathFlight = Path.Combine(datatxt, "FlightScheduler.txt");
             string filePathC = Path.Combine(datatxt, "Customer.txt");
+            //string filePathS = Path.Combine(datatxt, "Statistics.txt");
 
-            string[] Flight = File.ReadAllLines(filePathFlight);
+            string[] flight = File.ReadAllLines(filePathFlight);
             string[] TicketReceipt = File.ReadAllLines(filePathTR);
             string[] Customer = File.ReadAllLines(filePathC);
 
-            int countUser = 0;
-            int countPsg = 0;
-            int countF = 0;
-            int countDeleteF = 0;
-            for (int i = 0; i < Customer.Length; i++)
-            {
-                string[] data = Customer[i].Split(';');
-                if (data[0] == "1")
-                {
-                    countUser++;
-                }
-            }
+            Dictionary<string, int> user_receipt = new Dictionary<string, int>();
 
-            for (int i = 0; i < TicketReceipt.Length; i++)
+            foreach (string line in TicketReceipt)
             {
-                string[] dataTR = TicketReceipt[i].Split(';');
-                countPsg++;
-            }
+                string[] data = line.Split(';');
+                string date = data[0].Split(' ')[0];
 
-            for (int j = 0; j < Flight.Length; j++)
-            {
-                string[] dataF = Flight[j].Split(';');
-                if (dataF[0] == "1")
+                string key = $"{date}_{data[4]}_{data[5]}";  //  date_flight_type
+
+                if (user_receipt.ContainsKey(key))
                 {
-                    countF++;
+                    user_receipt[key]++;
                 }
                 else
                 {
-                    countDeleteF++;
+                    user_receipt[key] = 1;
                 }
             }
+
+            Flight fl = new Flight();
+            int choose;
+            float totalBSN = 0, totalECO = 0;
+
+            do
+            {
+                Console.WriteLine("\n XEM THỐNG KÊ (1. NGÀY / 2. THÁNG / 3. NĂM): \t");
+
+                while (!int.TryParse(Console.ReadLine(), out choose))
+                {
+                    Console.Write("LỰA CHỌN KHÔNG HỢP LỆ VUI LÒNG NHẬP LẠI: ");
+                }
+                if (choose == 0)
+                {
+                    break;
+                }
+                if (choose == 1)
+                {
+                    DateTime datesearch;
+
+                    Console.Write("\nNHẬP NGÀY MUỐN XEM THỐNG KÊ: \t");
+
+                    while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out datesearch))
+                    {
+                        Console.Write("\nVUI LÒNG NHẬP NGÀY HỢP LỆ: \t");
+                    }
+
+                    Console.Write($"\nTHỐNG KÊ CỦA NGÀY {datesearch.ToString("dd/MM/yyyy")}: \t");
+
+                    foreach (var item in user_receipt)
+                    {
+                        string[] data = item.Key.Split('_');
+                        //lấy ngày không lấy giờ
+                        string date = data[0].Split(' ')[0];
+
+                        if (datesearch.ToString("dd/MM/yyyy").Equals(date))
+                        {
+                            for (int i = 0; i < flight.Length; i++)
+                            {
+                                string[] dataF = flight[i].Split(';');
+
+                                if (dataF[1].Equals(data[1]))
+                                {
+                                    Console.Write($"\n\t - CHUYẾN BAY {dataF[1]} CÓ: \t");
+                                    if (data[2] == "BSN")
+                                    {
+                                        Console.Write($"{item.Value} VÉ BSN\t");
+                                    }
+                                    else
+                                    {
+                                        Console.Write($"{item.Value} VÉ ECO\t");
+                                    }
+
+                                    for (int j = 0; j < TicketReceipt.Length; j++)
+                                    {
+                                        string[] dataTR = TicketReceipt[j].Split(';');
+
+                                        DateTime birth = DateTime.ParseExact(dataTR[7], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                                        int age = DateTime.Now.Year - birth.Year;
+                                        if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
+                                        {
+                                            age--;
+                                        }
+
+                                        if (dataTR[5] == "BSN")
+                                        {
+                                            totalBSN += fl.CalculatePrice("BSN", dataF[9], age);
+                                        }
+                                        else
+                                        {
+                                            totalECO += fl.CalculatePrice("ECO", dataF[9], age);
+                                        }
+
+                                    }
+                                    break;
+                                }
+                            }
+                        }                        
+                    }
+                    if (totalBSN + totalECO != 0)
+                    {
+                        Console.WriteLine($"\n\nTỔNG DOANH THU CỦA NGÀY {datesearch.ToString("dd/MM/yyyy")}:\t {totalBSN + totalECO} $.");
+                    }
+                    else
+                    {
+                        Console.Write($"\nNGÀY {datesearch.ToString("dd/MM/yyyy")} KHÔNG CÓ DOANH THU.");
+                    }
+                    Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
+                }
+                else if (choose == 2)
+                {
+                    Console.Write("Chợn 2 ");
+                    Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
+                }
+                else if (choose == 3)
+                {
+                    Console.Write("Chợn 3 ");
+                    Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
+                }
+
+                string continueChoice = Console.ReadLine();
+                if (continueChoice.ToLower() != "y")
+                {
+                    break;
+                }
+            } while (true);
         }
         //Hàm hiển thị banner chào mừng
         static void WelcomeScreen(int option)
