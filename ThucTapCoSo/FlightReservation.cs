@@ -844,7 +844,13 @@ namespace ThucTapCoSo
                         timeFlight = TimeSpan.Parse(dataF[7]);
                         typeTicket = dataTR[5];
                         datebook = dataTR[0];
-                        float price = fl.CalculatePrice(typeTicket, dataF[9], 18);
+						DateTime birth = DateTime.ParseExact(dataTR[7], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+						int age = DateTime.Now.Year - birth.Year;
+						if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
+						{
+							age--;
+						}
+						float price = fl.CalculatePrice(typeTicket, dataF[9], age);						
                         totalPrice += price;
                     } 
                 }
