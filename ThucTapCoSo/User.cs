@@ -483,8 +483,7 @@ namespace ThucTapCoSo
             }
 
             Flight fl = new Flight();
-            int choose;
-            float totalBSN = 0, totalECO = 0;
+            int choose;            
 
             do
             {
@@ -500,7 +499,8 @@ namespace ThucTapCoSo
                 }
                 if (choose == 1)
                 {
-                    DateTime datesearch;
+					double totalBSN = 0, totalECO = 0;
+					DateTime datesearch;
 
                     Console.Write("\nNHẬP NGÀY MUỐN XEM THỐNG KÊ: \t");
 
@@ -510,33 +510,44 @@ namespace ThucTapCoSo
                     }
 
                     Console.Write($"\nTHỐNG KÊ CỦA NGÀY {datesearch.ToString("dd/MM/yyyy")}: \t");
-
-                    foreach (var item in user_receipt)
+					bool shouldDisplayHeader = true;
+					int stt = 1;
+					foreach (var item in user_receipt)
                     {
                         string[] data = item.Key.Split('_');
                         //lấy ngày không lấy giờ
-                        string date = data[0].Split(' ')[0];
-
-                        if (datesearch.ToString("dd/MM/yyyy").Equals(date))
-                        {
-                            for (int i = 0; i < flight.Length; i++)
-                            {
-                                string[] dataF = flight[i].Split(';');
-
+                        string date = data[0].Split(' ')[0];												
+						if (datesearch.ToString("dd/MM/yyyy").Equals(date))
+                        {							
+							for (int i = 0; i < flight.Length; i++)
+                            {							
+    							string[] dataF = flight[i].Split(';');                                
                                 if (dataF[1].Equals(data[1]))
-                                {
-                                    Console.Write($"\n\t - CHUYẾN BAY {dataF[1]} CÓ: \t");
-                                    if (data[2] == "BSN")
-                                    {
-                                        Console.Write($"{item.Value} VÉ BSN\t");
-                                    }
-                                    else
-                                    {
-                                        Console.Write($"{item.Value} VÉ ECO\t");
-                                    }
-
-                                    for (int j = 0; j < TicketReceipt.Length; j++)
-                                    {
+                                {																								
+                                    if (shouldDisplayHeader)
+									{
+										Console.WriteLine();
+										Console.Write("\t+------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+---------------+\n");
+										Console.Write("\t| STT  | MÃ CHUYẾN   | THỜI GIAN CẤT CÁNH        | KHỞI HÀNH              | ĐIẾM ĐẾN              | THỜI GIAN BAY |  CỔNG  | TỔNG SỐ VÉ    |\n");
+										Console.Write("\t+------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+---------------+\n");
+										shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
+									}
+                                    int BSNcount=0;
+                                    int ECOcount=0;
+									if (data[2] == "BSN")
+									{
+										BSNcount = item.Value;
+									}
+									else
+                                    { 									
+                                        ECOcount = item.Value;
+									}
+									Console.Write($"\t| {stt,-4} | {dataF[1],-11} | {dataF[4],-25} | {dataF[5],-22} | {dataF[6],-21} | {dataF[7],-8}  Hrs | {dataF[8],-6} | {BSNcount} BSN | {ECOcount} ECO |\n");
+									Console.Write("\t+------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+---------------+\n");
+									stt++;
+                                    
+									for (int j = 0; j < TicketReceipt.Length; j++)
+                                    {                                        
                                         string[] dataTR = TicketReceipt[j].Split(';');
 
                                         DateTime birth = DateTime.ParseExact(dataTR[7], "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -554,17 +565,16 @@ namespace ThucTapCoSo
                                         else
                                         {
                                             totalECO += fl.CalculatePrice("ECO", dataF[9], age);
-                                        }
-
-                                    }
-                                    break;
-                                }
-                            }
+                                        }                                        
+                                    }									
+									break;
+                                }								
+							}	
                         }                        
                     }
                     if (totalBSN + totalECO != 0)
                     {
-                        Console.WriteLine($"\n\nTỔNG DOANH THU CỦA NGÀY {datesearch.ToString("dd/MM/yyyy")}:\t {totalBSN + totalECO} $.");
+                        Console.WriteLine($"\n\nTỔNG DOANH THU CỦA NGÀY {datesearch.ToString("dd/MM/yyyy")}:\t {totalBSN / (TicketReceipt.Length-1) + totalECO / (TicketReceipt.Length - 1)} $.");
                     }
                     else
                     {
@@ -574,13 +584,182 @@ namespace ThucTapCoSo
                 }
                 else if (choose == 2)
                 {
-                    Console.Write("Chợn 2 ");
-                    Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
+					float totalBSN = 0, totalECO = 0;
+					DateTime datesearch;
+
+					Console.Write("\nNHẬP THÁNG/NĂM MUỐN XEM THỐNG KÊ: \t");
+
+					while (!DateTime.TryParseExact(Console.ReadLine(), "M/yyyy", null, System.Globalization.DateTimeStyles.None, out datesearch))
+					{
+						Console.Write("\nVUI LÒNG NHẬP THÁNG/NĂM HỢP LỆ: \t");
+					}
+
+					Console.Write($"\nTHỐNG KÊ CỦA THÁNG {datesearch.ToString("MM/yyyy")}: \t");
+					bool shouldDisplayHeader = true;
+					int stt = 1;
+					foreach (var item in user_receipt)
+					{
+						string[] data = item.Key.Split('_');												
+						//lấy ngày không lấy giờ
+						string date = data[0].Split(' ')[0];
+						//lấy tháng
+						int Month = int.Parse(date.Split('/')[1]);
+						//lấy năm
+						int Year = int.Parse(date.Split('/')[2]);
+
+						if (datesearch.Month == Month && datesearch.Year == Year)
+						{
+							for (int i = 0; i < flight.Length; i++)
+							{
+								string[] dataF = flight[i].Split(';');
+								if (dataF[1].Equals(data[1]))
+								{
+									if (shouldDisplayHeader)
+									{
+										Console.WriteLine();
+										Console.Write("\t+------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+---------------+\n");
+										Console.Write("\t| STT  | MÃ CHUYẾN   | THỜI GIAN CẤT CÁNH        | KHỞI HÀNH              | ĐIẾM ĐẾN              | THỜI GIAN BAY |  CỔNG  | TỔNG SỐ VÉ    |\n");
+										Console.Write("\t+------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+---------------+\n");
+										shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
+									}
+									int BSNcount = 0;
+									int ECOcount = 0;
+									if (data[2] == "BSN")
+									{
+										BSNcount = item.Value;
+									}
+									else
+									{
+										ECOcount = item.Value;
+									}
+									Console.Write($"\t| {stt,-4} | {dataF[1],-11} | {dataF[4],-25} | {dataF[5],-22} | {dataF[6],-21} | {dataF[7],-8}  Hrs | {dataF[8],-6} | {BSNcount} BSN | {ECOcount} ECO |\n");
+									Console.Write("\t+------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+---------------+\n");
+									stt++;
+
+									for (int j = 0; j < TicketReceipt.Length; j++)
+									{
+										string[] dataTR = TicketReceipt[j].Split(';');
+
+										DateTime birth = DateTime.ParseExact(dataTR[7], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+										int age = DateTime.Now.Year - birth.Year;
+										if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
+										{
+											age--;
+										}
+
+										if (dataTR[5] == "BSN")
+										{
+											totalBSN += fl.CalculatePrice("BSN", dataF[9], age);
+										}
+										else
+										{
+											totalECO += fl.CalculatePrice("ECO", dataF[9], age);
+										}
+									}
+									break;
+								}
+							}
+						}
+					}
+					if (totalBSN + totalECO != 0)
+					{
+						Console.WriteLine($"\n\nTỔNG DOANH THU CỦA THÁNG {datesearch.ToString("MM/yyyy")}:\t {totalBSN / (TicketReceipt.Length - 1) + totalECO / (TicketReceipt.Length - 1)} $.");
+					}
+					else
+					{
+						Console.Write($"\nTHÁNG {datesearch.ToString("MM/yyyy")} KHÔNG CÓ DOANH THU.");
+					}
+					Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
                 }
                 else if (choose == 3)
                 {
-                    Console.Write("Chợn 3 ");
-                    Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
+					float totalBSN = 0, totalECO = 0;
+					DateTime datesearch;
+
+					Console.Write("\nNHẬP NĂM MUỐN XEM THỐNG KÊ: \t");
+
+					while (!DateTime.TryParseExact(Console.ReadLine(), "yyyy", null, System.Globalization.DateTimeStyles.None, out datesearch))
+					{
+						Console.Write("\nVUI LÒNG NHẬP NĂM HỢP LỆ: \t");
+					}
+
+					Console.Write($"\nTHỐNG KÊ CỦA NĂM {datesearch.ToString("yyyy")}: \t");
+					bool shouldDisplayHeader = true;
+					int stt = 1;
+
+					foreach (var item in user_receipt)
+					{
+						string[] data = item.Key.Split('_');
+						//lấy ngày không lấy giờ
+						string date = data[0].Split(' ')[0];						
+						//lấy năm
+						int Year = int.Parse(date.Split('/')[2]);
+
+						if (datesearch.Year == Year)
+						{
+							for (int i = 0; i < flight.Length; i++)
+							{
+								string[] dataF = flight[i].Split(';');
+								if (dataF[1].Equals(data[1]))
+								{
+									if (shouldDisplayHeader)
+									{
+										Console.WriteLine();
+										Console.Write("\t+------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+---------------+\n");
+										Console.Write("\t| STT  | MÃ CHUYẾN   | THỜI GIAN CẤT CÁNH        | KHỞI HÀNH              | ĐIẾM ĐẾN              | THỜI GIAN BAY |  CỔNG  | TỔNG SỐ VÉ    |\n");
+										Console.Write("\t+------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+---------------+\n");
+										shouldDisplayHeader = false; // Đặt flag để không hiển thị header nữa
+									}
+									int BSNcount = 0;
+									int ECOcount = 0;
+									if (data[2] == "BSN")
+									{
+										BSNcount = item.Value;
+									}
+									else
+									{
+										ECOcount = item.Value;
+									}
+									Console.Write($"\t| {stt,-4} | {dataF[1],-11} | {dataF[4],-25} | {dataF[5],-22} | {dataF[6],-21} | {dataF[7],-8}  Hrs | {dataF[8],-6} | {BSNcount} BSN | {ECOcount} ECO |\n");
+									Console.Write("\t+------+-------------+---------------------------+------------------------+-----------------------+---------------+--------+---------------+\n");
+									stt++;
+
+									for (int j = 0; j < TicketReceipt.Length; j++)
+									{
+										string[] dataTR = TicketReceipt[j].Split(';');
+
+										DateTime birth = DateTime.ParseExact(dataTR[7], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+										int age = DateTime.Now.Year - birth.Year;
+										if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
+										{
+											age--;
+										}
+
+										if (dataTR[5] == "BSN")
+										{
+											totalBSN += fl.CalculatePrice("BSN", dataF[9], age);
+										}
+										else
+										{
+											totalECO += fl.CalculatePrice("ECO", dataF[9], age);
+										}
+									}
+									break;
+								}
+							}
+						}
+					}
+					if (totalBSN + totalECO != 0)
+					{
+						Console.WriteLine($"\n\nTỔNG DOANH THU CỦA NĂM {datesearch.ToString("yyyy")}:\t {totalBSN / (TicketReceipt.Length - 1) + totalECO / (TicketReceipt.Length - 1)} $.");
+					}
+					else
+					{
+						Console.Write($"\nNĂM {datesearch.ToString("yyyy")} KHÔNG CÓ DOANH THU.");
+					}
+					Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
                 }
 
                 string continueChoice = Console.ReadLine();
