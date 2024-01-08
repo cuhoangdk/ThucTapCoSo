@@ -36,9 +36,9 @@ namespace ThucTapCoSo
             int desiredOption;
             //fix code
             while (!int.TryParse(Console.ReadLine(), out desiredOption) || desiredOption < 0 || desiredOption > 5)
-			{
+            {
                 Console.Write("LỖI!! Vui lòng nhập giá trị giữa 0 - 5. Nhập giá trị lại :\t");
-            }            
+            }
 
             do
             {
@@ -58,11 +58,11 @@ namespace ThucTapCoSo
                     string password = Console.ReadLine();
                     Console.WriteLine();
                     bool isFound = false;
-                    for(int i = 0; i<Admin.Length; i++)
+                    for (int i = 0; i < Admin.Length; i++)
                     {
                         string[] dataAdmin = Admin[i].Split(';');
 
-                        if(dataAdmin[0].Equals(username) && dataAdmin[1].Equals(password))
+                        if (dataAdmin[0].Equals(username) && dataAdmin[1].Equals(password))
                         {
                             Console.WriteLine($"{"",-20}Đăng nhập thành công với tên người dùng \"{username}\"");
                             isFound = true;
@@ -119,7 +119,7 @@ namespace ThucTapCoSo
                                     Console.Write("\tNhập email          :\t");
                                     email = Console.ReadLine();
                                     Console.WriteLine();
-                                    c1.SearchUser(customerID,name,address,phone,email);
+                                    c1.SearchUser(customerID, name, address, phone, email);
                                 }
                                 else if (desiredOption == 3)
                                 {
@@ -166,22 +166,22 @@ namespace ThucTapCoSo
                                     Console.WriteLine("\t1  HIỂN THỊ HÀNH KHÁCH TẤT CẢ CHUYẾN BAY");
                                     Console.WriteLine("\t2  HIỂN THỊ HÀNH KHÁCH MỘT CHUYẾN BAY CỤ THỂ");
                                     Console.Write("\tNhập lựa chọn của bạn: ");
-									int choice;
-									while (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 2)
-									{
-										Console.Write("LỖI!! Vui lòng nhập giá trị giữa 1 - 2. Nhập giá trị lại :\t");
-									}									
-                                    if (choice==1)
+                                    int choice;
+                                    while (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 2)
+                                    {
+                                        Console.Write("LỖI!! Vui lòng nhập giá trị giữa 1 - 2. Nhập giá trị lại :\t");
+                                    }
+                                    if (choice == 1)
                                     {
                                         bookingAndReserving.DisplayRegisteredPassengersForAllFlight();
                                     }
-                                    else if (choice==2)
+                                    else if (choice == 2)
                                     {
                                         f1.DisplayFlightSchedule();
                                         Console.Write("\tNHẬP MÃ CHUYẾN BAY MUỐN XEM TOÀN BỘ HÀNH KHÁCH: ");
                                         string flightNum = Console.ReadLine().ToUpper();
                                         bookingAndReserving.DisplayRegisteredPassengersForASpecificFlight(flightNum);
-                                    }                                    
+                                    }
                                 }
                                 else if (desiredOption == 8)
                                 {
@@ -243,20 +243,20 @@ namespace ThucTapCoSo
                     string username = Console.ReadLine();
                     Console.Write("\n\tPASSWORD: ");
                     string password = Console.ReadLine();
-                    for(int i=0; i<Admin.Length; i++)
+                    for (int i = 0; i < Admin.Length; i++)
                     {
                         string[] dataAdmin = Admin[i].Split(';');
 
-                        while ( dataAdmin[0].Equals(username) )
+                        while (dataAdmin[0].Equals(username))
                         {
                             Console.Write("LỖI!!! Quản trị viên với cùng tên người dùng đã tồn tại. Hãy tạo tài khoản mới.");
                             Console.Write("\tUSERNAME: ");
                             username = Console.ReadLine();
                             Console.Write("\tPASSWORD: ");
                             password = Console.ReadLine();
-                        }                
+                        }
                     }
-                    using( StreamWriter writer = new StreamWriter(filePathAdmin, true))
+                    using (StreamWriter writer = new StreamWriter(filePathAdmin, true))
                     {
                         writer.WriteLine($"{username};{password}");
                     }
@@ -274,7 +274,7 @@ namespace ThucTapCoSo
 
                     bool isFound = false;
 
-                    for(int i=0; i<Customer.Length; i++)
+                    for (int i = 0; i < Customer.Length; i++)
                     {
                         string[] dataC = Customer[i].Split(';');
                         if (dataC[3].Equals(userName) && dataC[4].Equals(password) && dataC[0] == "1")
@@ -360,7 +360,7 @@ namespace ThucTapCoSo
                             } while (desiredChoice != 0);
                         }
                     }
-                    if(!isFound)
+                    if (!isFound)
                     {
                         Console.WriteLine($"\n{" ",20}LỖI!!! Không thể đăng nhập. Không thể tìm thấy người dùng với thông tin đăng nhập đã nhập. Hãy Tạo Thông Tin Mới hoặc đăng ký bằng cách nhấn 4", "");
                     }
@@ -376,10 +376,10 @@ namespace ThucTapCoSo
                 }
 
                 DisplayMainMenu();
-				while (!int.TryParse(Console.ReadLine(), out desiredOption)|| desiredOption < 0 || desiredOption > 5)
-				{
+                while (!int.TryParse(Console.ReadLine(), out desiredOption) || desiredOption < 0 || desiredOption > 5)
+                {
                     Console.Write("LỖI!! Vui lòng nhập giá trị từ 0 - 5. Nhập lại giá trị: ");
-                }                
+                }
             } while (desiredOption != 0);
 
             WelcomeScreen(-1);
@@ -387,7 +387,7 @@ namespace ThucTapCoSo
         //Hàm hiển thị menu chính
         static void DisplayMainMenu()
         {
-			Console.OutputEncoding = Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine("\n\n\t\t1: ĐĂNG NHẬP QUẢN TRỊ VIÊN");
             Console.WriteLine("\t\t2: ĐĂNG KÍ QUẢN TRỊ VIÊN");
             Console.WriteLine("\t\t3: ĐĂNG NHẬP NGƯỜI DÙNG");
@@ -400,19 +400,19 @@ namespace ThucTapCoSo
         //Hàm hiển thị hướng dẫn sử dụng
         static void ManualInstructions()
         {
-			Console.OutputEncoding = Encoding.Unicode;
-			Console.WriteLine($"\n\n{new string(' ', 50)} +++++++++++++++++ Chào mừng bạn đến với Hướng dẫn sử dụng của Star Airlines +++++++++++++++++");
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.WriteLine($"\n\n{new string(' ', 50)} +++++++++++++++++ Chào mừng bạn đến với Hướng dẫn sử dụng của Star Airlines +++++++++++++++++");
             Console.WriteLine("\n\t\t1: Hướng dẫn quản trị.");
             Console.WriteLine("\t\t2: Hướng dẫn khách hàng.");
             Console.Write("\nNhập tùy chọn mong muốn: ");
             //fix code
             int choice;
-			while (!int.TryParse(Console.ReadLine(), out choice)|| choice < 1 || choice > 2)
-			{
-				Console.Write("LỖI!!! Mục nhập không hợp lệ...Vui lòng nhập giá trị 1 hoặc 2....Nhập lại....  ");
-			}
-			if (choice == 1)
-			{
+            while (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 2)
+            {
+                Console.Write("LỖI!!! Mục nhập không hợp lệ...Vui lòng nhập giá trị 1 hoặc 2....Nhập lại....  ");
+            }
+            if (choice == 1)
+            {
                 Console.WriteLine("\n\n(1) Quản trị viên có quyền truy cập vào dữ liệu của tất cả người dùng. Quản trị viên có thể xóa, cập nhật, thêm và thực hiện tìm kiếm cho bất kỳ khách hàng nào.\n");
                 Console.WriteLine("(2) Để truy cập vào mô-đun quản trị, bạn phải đăng ký bằng cách nhấn 2, khi menu chính hiển thị.\n");
                 Console.WriteLine("(3) Cung cấp các thông tin cần thiết như tên, email, id. Sau khi bạn đã đăng ký, nhấn 1 để đăng nhập như một quản trị viên. \n");
@@ -422,17 +422,17 @@ namespace ThucTapCoSo
                 Console.WriteLine("(7) Nhấn \"3\" sẽ cho phép bạn cập nhật bất kỳ dữ liệu hành khách nào, miễn là ID người dùng được cung cấp cho chương trình.\n");
                 Console.WriteLine("(8) Nhấn \"4\" sẽ cho phép bạn xóa bất kỳ hành khách nào, miễn là ID được cung cấp.\n");
                 Console.WriteLine("(9) Nhấn \"5\" sẽ cho phép bạn hiển thị tất cả hành khách đã đăng ký.\n");
-				Console.WriteLine("(10) Nhấn \"6\" sẽ cho phép bạn hiển thị tất cả các chuyến bay đã đăng ký bởi hành khách, cung cấp ID hành khách để xem chi tiết.\n");
-				Console.WriteLine("(10) Nhấn \"7\" sẽ cho phép bạn hiển thị tất cả hành khách đã đăng ký. Sau khi chọn, chương trình sẽ hỏi bạn có muốn hiển thị hành khách cho tất cả các chuyến bay (1) hay một chuyến bay cụ thể (2)\n");
+                Console.WriteLine("(10) Nhấn \"6\" sẽ cho phép bạn hiển thị tất cả các chuyến bay đã đăng ký bởi hành khách, cung cấp ID hành khách để xem chi tiết.\n");
+                Console.WriteLine("(10) Nhấn \"7\" sẽ cho phép bạn hiển thị tất cả hành khách đã đăng ký. Sau khi chọn, chương trình sẽ hỏi bạn có muốn hiển thị hành khách cho tất cả các chuyến bay (1) hay một chuyến bay cụ thể (2)\n");
                 Console.WriteLine("(11) Nhấn \"8\" sẽ cho phép bạn xóa bất kỳ chuyến bay nào, miễn là số hiệu chuyến bay được cung cấp.\n");
-				Console.WriteLine("(12) Nhấn \"9\" sẽ thêm một chuyến bay mới, cung cấp chi tiết cần thiết để thêm chuyến bay.\n");
-				Console.WriteLine("(13) Nhấn \"10\" sẽ cho phép bạn cập nhật bất kỳ dữ liệu chuyến bay nào, miễn là số hiệu chuyến bay được cung cấp cho chương trình.\n");
-				Console.WriteLine("(14) Nhấn \"11\" sẽ hiển thị lịch trình chuyến bay.\n");
-				Console.WriteLine("(15) Nhấn \"0\" sẽ khiến bạn đăng xuất khỏi chương trình. Bạn có thể đăng nhập lại bất cứ lúc nào trong quá trình thực hiện chương trình.\n");
+                Console.WriteLine("(12) Nhấn \"9\" sẽ thêm một chuyến bay mới, cung cấp chi tiết cần thiết để thêm chuyến bay.\n");
+                Console.WriteLine("(13) Nhấn \"10\" sẽ cho phép bạn cập nhật bất kỳ dữ liệu chuyến bay nào, miễn là số hiệu chuyến bay được cung cấp cho chương trình.\n");
+                Console.WriteLine("(14) Nhấn \"11\" sẽ hiển thị lịch trình chuyến bay.\n");
+                Console.WriteLine("(15) Nhấn \"0\" sẽ khiến bạn đăng xuất khỏi chương trình. Bạn có thể đăng nhập lại bất cứ lúc nào trong quá trình thực hiện chương trình.\n");
 
             }
             else
-			{
+            {
                 Console.WriteLine("\n\n(1) Người dùng cục bộ chỉ có quyền truy cập vào dữ liệu của mình. Anh/Chị sẽ không thể thay đổi/cập nhật dữ liệu của người dùng khác.\n");
                 Console.WriteLine("(2) Để truy cập vào các ưu đãi của người dùng cục bộ, bạn phải đăng ký bằng cách nhấn 4 khi menu chính hiển thị.\n");
                 Console.WriteLine("(3) Cung cấp thông tin được yêu cầu bởi chương trình để thêm bạn vào danh sách người dùng. Sau khi bạn đã đăng ký, nhấn \"3\" để đăng nhập như một hành khách.\n");
@@ -462,133 +462,104 @@ namespace ThucTapCoSo
             string[] flight = File.ReadAllLines(filePathFlight);
             string[] TicketReceipt = File.ReadAllLines(filePathTR);
             string[] Customer = File.ReadAllLines(filePathC);
+            Flight fl = new Flight();
 
-            Dictionary<string, int> user_receipt = new Dictionary<string, int>();
-
-            foreach (string line in TicketReceipt)
+            Console.WriteLine("Thống kê theo:\n\t1:  Ngày\n\t2:  Tháng\n\t3:  Năm");
+            Console.Write("Lựa chọn:\t");
+            int choose = int.Parse(Console.ReadLine());
+            DateTime dateSearch = DateTime.Now;
+            Console.WriteLine("Nhập thời gian muốn xem:\t");
+            if (choose == 1)
             {
-                string[] data = line.Split(';');
-                string date = data[0].Split(' ')[0];
-
-                string key = $"{date}_{data[4]}_{data[5]}";  //  date_flight_type
-
-                if (user_receipt.ContainsKey(key))
+                while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out dateSearch))
                 {
-                    user_receipt[key]++;
+                    Console.Write("\tVUI LÒNG NHẬP THỜI GIAN HỢP LỆ: \t");
+
                 }
-                else
+            }
+            if (choose == 2)
+            {
+                while (!DateTime.TryParseExact(Console.ReadLine(), "M/yyyy", null, System.Globalization.DateTimeStyles.None, out dateSearch))
                 {
-                    user_receipt[key] = 1;
+                    Console.Write("\tVUI LÒNG NHẬP THỜI GIAN HỢP LỆ: \t");
+
+                }
+            }
+            if (choose == 3)
+            {
+                while (!DateTime.TryParseExact(Console.ReadLine(), "yyyy", null, System.Globalization.DateTimeStyles.None, out dateSearch))
+                {
+                    Console.Write("\tVUI LÒNG NHẬP THỜI GIAN HỢP LỆ: \t");
                 }
             }
 
-            Flight fl = new Flight();
-            int choose;
-            float totalBSN = 0, totalECO = 0;
-
-            do
+            float totalBSN = 0;
+            float totalECO = 0;
+            int BSNcount = 0;
+            int ECOcount = 0;
+            for (int j = 0; j < TicketReceipt.Length; j++)
             {
-                Console.WriteLine("\n XEM THỐNG KÊ (1. NGÀY / 2. THÁNG / 3. NĂM): \t");
-
-                while (!int.TryParse(Console.ReadLine(), out choose))
+                string[] dataTR = TicketReceipt[j].Split(';');
+                for (int i = 0; i < flight.Length; i++)
                 {
-                    Console.Write("LỰA CHỌN KHÔNG HỢP LỆ VUI LÒNG NHẬP LẠI: ");
-                }
-                if (choose == 0)
-                {
-                    break;
-                }
-                if (choose == 1)
-                {
-                    DateTime datesearch;
+                    string[] dataF = flight[i].Split(';');
 
-                    Console.Write("\nNHẬP NGÀY MUỐN XEM THỐNG KÊ: \t");
-
-                    while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out datesearch))
+                    DateTime birth = DateTime.ParseExact(dataTR[7], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    int age = DateTime.Now.Year - birth.Year;
+                    if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
                     {
-                        Console.Write("\nVUI LÒNG NHẬP NGÀY HỢP LỆ: \t");
+                        age--;
                     }
 
-                    Console.Write($"\nTHỐNG KÊ CỦA NGÀY {datesearch.ToString("dd/MM/yyyy")}: \t");
-
-                    foreach (var item in user_receipt)
+                    DateTime dataDate = DateTime.ParseExact(dataTR[0], "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    if (choose == 1)
                     {
-                        string[] data = item.Key.Split('_');
-                        //lấy ngày không lấy giờ
-                        string date = data[0].Split(' ')[0];
-
-                        if (datesearch.ToString("dd/MM/yyyy").Equals(date))
+                        if (dataTR[5] == "BSN" && dataF[1] == dataTR[4] && dateSearch.ToString("dd/MM/yyyy") == dataDate.ToString("dd/MM/yyyy"))
                         {
-                            for (int i = 0; i < flight.Length; i++)
-                            {
-                                string[] dataF = flight[i].Split(';');
-
-                                if (dataF[1].Equals(data[1]))
-                                {
-                                    Console.Write($"\n\t - CHUYẾN BAY {dataF[1]} CÓ: \t");
-                                    if (data[2] == "BSN")
-                                    {
-                                        Console.Write($"{item.Value} VÉ BSN\t");
-                                    }
-                                    else
-                                    {
-                                        Console.Write($"{item.Value} VÉ ECO\t");
-                                    }
-
-                                    for (int j = 0; j < TicketReceipt.Length; j++)
-                                    {
-                                        string[] dataTR = TicketReceipt[j].Split(';');
-
-                                        DateTime birth = DateTime.ParseExact(dataTR[7], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-
-                                        int age = DateTime.Now.Year - birth.Year;
-                                        if (DateTime.Now.Month < birth.Month || (DateTime.Now.Month == birth.Month && DateTime.Now.Day < birth.Day))
-                                        {
-                                            age--;
-                                        }
-
-                                        if (dataTR[5] == "BSN")
-                                        {
-                                            totalBSN += fl.CalculatePrice("BSN", dataF[9], age);
-                                        }
-                                        else
-                                        {
-                                            totalECO += fl.CalculatePrice("ECO", dataF[9], age);
-                                        }
-
-                                    }
-                                    break;
-                                }
-                            }
-                        }                        
+                            totalBSN += fl.CalculatePrice("BSN", dataF[9], age);
+                            BSNcount ++;
+                        }
+                        if (dataTR[5] == "ECO" && dataF[1] == dataTR[4] && dateSearch.ToString("dd/MM/yyyy") == dataDate.ToString("dd/MM/yyyy"))
+                        {
+                            totalECO += fl.CalculatePrice("ECO", dataF[9], age);
+                            ECOcount ++;
+                        }
                     }
-                    if (totalBSN + totalECO != 0)
+                    if (choose == 2)
                     {
-                        Console.WriteLine($"\n\nTỔNG DOANH THU CỦA NGÀY {datesearch.ToString("dd/MM/yyyy")}:\t {totalBSN + totalECO} $.");
+                        if (dataTR[5] == "BSN" && dataF[1] == dataTR[4] && dateSearch.ToString("MM/yyyy") == dataDate.ToString("MM/yyyy"))
+                        {
+                            totalBSN += fl.CalculatePrice("BSN", dataF[9], age);
+                            BSNcount++;
+                        }
+                        if (dataTR[5] == "ECO" && dataF[1] == dataTR[4] && dateSearch.ToString("MM/yyyy") == dataDate.ToString("MM/yyyy"))
+                        {
+                            totalECO += fl.CalculatePrice("ECO", dataF[9], age);
+                            ECOcount++;
+                        }
                     }
-                    else
+                    if (choose == 3)
                     {
-                        Console.Write($"\nNGÀY {datesearch.ToString("dd/MM/yyyy")} KHÔNG CÓ DOANH THU.");
+                        if (dataTR[5] == "BSN" && dataF[1] == dataTR[4] && dateSearch.ToString("yyyy") == dataDate.ToString("yyyy"))
+                        {
+                            totalBSN += fl.CalculatePrice("BSN", dataF[9], age);
+                            BSNcount++;
+                        }
+                        if (dataTR[5] == "ECO" && dataF[1] == dataTR[4] && dateSearch.ToString("yyyy") == dataDate.ToString("yyyy"))
+                        {
+                            totalECO += fl.CalculatePrice("ECO", dataF[9], age);
+                            ECOcount++;
+                        }
                     }
-                    Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
-                }
-                else if (choose == 2)
-                {
-                    Console.Write("Chợn 2 ");
-                    Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
-                }
-                else if (choose == 3)
-                {
-                    Console.Write("Chợn 3 ");
-                    Console.WriteLine("\nBạn muốn tiếp tục xem thống kê? (y/n): ");
-                }
 
-                string continueChoice = Console.ReadLine();
-                if (continueChoice.ToLower() != "y")
-                {
-                    break;
                 }
-            } while (true);
+            }
+            Console.WriteLine($"\n\tTỔNG DOANH THU LÀ:\t {totalBSN + totalECO} $.");
+            Console.WriteLine($"\n\tTỔNG SỐ VÉ ECO LÀ:\t {ECOcount} vé.");
+            Console.WriteLine($"\n\tTỔNG SỐ VÉ BSN LÀ:\t {BSNcount} vé.");
+
+
+
         }
         //Hàm hiển thị banner chào mừng
         static void WelcomeScreen(int option)
