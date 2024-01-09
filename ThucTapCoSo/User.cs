@@ -466,9 +466,13 @@ namespace ThucTapCoSo
 
             Console.WriteLine("Thống kê theo:\n\t1:  Ngày\n\t2:  Tháng\n\t3:  Năm");
             Console.Write("Lựa chọn:\t");
-            int choose = int.Parse(Console.ReadLine());
-            DateTime dateSearch = DateTime.Now;
-            Console.WriteLine("Nhập thời gian muốn xem:\t");
+			int choose;
+			while (!int.TryParse(Console.ReadLine(), out choose) || choose < 1 || choose > 3)
+			{
+				Console.Write("LỖI!! Vui lòng nhập giá trị giữa 1 - 3. Nhập giá trị lại: \t");
+			}
+			DateTime dateSearch = DateTime.Now;
+            Console.Write("Nhập thời gian muốn xem:\t");
             if (choose == 1)
             {
                 while (!DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy", null, System.Globalization.DateTimeStyles.None, out dateSearch))
@@ -551,15 +555,11 @@ namespace ThucTapCoSo
                             ECOcount++;
                         }
                     }
-
                 }
             }
             Console.WriteLine($"\n\tTỔNG DOANH THU LÀ:\t {totalBSN + totalECO} $.");
             Console.WriteLine($"\n\tTỔNG SỐ VÉ ECO LÀ:\t {ECOcount} vé.");
             Console.WriteLine($"\n\tTỔNG SỐ VÉ BSN LÀ:\t {BSNcount} vé.");
-
-
-
         }
         //Hàm hiển thị banner chào mừng
         static void WelcomeScreen(int option)
